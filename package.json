@@ -1,0 +1,46 @@
+{
+  "name": "react-core",
+  "version": "1.0.0",
+  "author": "Mohanraj K",
+  "license": "ISC",
+  "description": "",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
+  "type": "module",
+  "files": [
+    "/lib"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c --watch"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "node-sass": "^9.0.0",
+    "postcss": "^8.4.26",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.26.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "sass": "^1.63.6",
+    "tslib": "^2.6.0",
+    "typescript": "^5.1.6"
+  },
+  "keywords": [
+    "react-template",
+    "react-library",
+    "typescript",
+    "react",
+    "template"
+  ],
+  "peerDependencies": {
+    "react": "^16 || ^17 || ^18",
+    "react-dom": "^16 || ^17 || ^18"
+  }
+}
