@@ -1,0 +1,87 @@
+@use "../../style/fonts";
+@use "../../style/colors";
+
+.table-wrapper {
+  .table {
+    border-color: colors.$border-color;
+    border: 1px solid colors.$border-color;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    tr {
+      td {
+        cursor: pointer;
+      }
+      // &:nth-child(even) {
+      //   background-color: colors.$off-white;
+      // }
+      &:hover {
+        td {
+          background: colors.$neutral_1;
+          font-weight: fonts.$font-bold;
+          color: colors.$text-primary-color;
+        }
+      }
+      &.active {
+        td {
+          background: colors.$btn-secondary-color;
+          color: colors.$white-color;
+        }
+      }
+    }
+    tr,
+    td,
+    tr,
+    th {
+      border-color: colors.$border-color;
+      border: 1px solid colors.$border-color;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    .actions {
+      width: 80px;
+      span {
+        padding: 0 5px;
+      }
+    }
+  }
+  .pagination {
+    padding: 20px 2px;
+    &.right {
+      float: right;
+    }
+  }
+  thead {
+    background-color: colors.$btn-secondary-color;
+    font-size: 14px;
+    tr,
+    th {
+      text-align: justify;
+      padding: 19px 20px 19px 24px;
+      &:last-child {
+        cursor: default;
+      }
+      img {
+        cursor: pointer;
+      }
+    }
+  }
+  tbody {
+    td {
+      padding: 14px 20px;
+    }
+  }
+  th {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: Inter;
+
+    .sorting {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@import url("https://cdn.fonts.net/kit/62ee8ca4-c29c-43ec-9465-04b0232e8c19/62ee8ca4-c29c-43ec-9465-04b0232e8c19.css");
+
+$font-light: var(--font-light, "HelveticaNowTextLight");
+$font-regular: var(--font-regular, "HelveticaNowTextRegular");
+$font-medium: var(--font-medium, "HelveticaNowTextMedium");
+$font-bold: var(--font-bold, "HelveticaNowTextBold");
+
+:root {
+  --font-regular: $font-light;
+  --font-medium: $font-regular;
+  --font-bold: $font-medium;
+  --font-light: $font-bold;
+}

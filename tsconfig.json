@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-    "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
-    "strict": true,                                      /* Enable all strict type-checking options. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */,
-    "jsx": "react", 
-    "module": "ESNext",  
+    "target": "es5" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "strict": true /* Enable all strict type-checking options. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "jsx": "react",
+    "module": "ESNext",
     "declaration": true,
     "declarationDir": "lib",
     "sourceMap": true,
@@ -14,5 +14,10 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "emitDeclarationOnly": true,
-  }
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+    }
+  },
+  "include": ["src", "src/assets/icons/svg.d.ts"]
 }

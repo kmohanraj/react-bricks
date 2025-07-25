@@ -1,0 +1,110 @@
+@use '../../style/fonts';
+@use '../../style/colors';
+
+.checkbox {
+  position: relative;
+
+  &__wrapper {
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    padding-right: 40px;
+    padding-left: inherit;
+    display: flex;
+    align-items: center;
+    
+
+    input {
+      position: absolute;
+      height: 0;
+      width: 0;
+      opacity: 0;
+    }
+
+    /* ---- Radio style ---- */
+    .checkCircle {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      height: 24px;
+      width: 24px;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      border: 2px solid colors.$btn-primary-color;
+    }
+
+    input:disabled ~ .checkCircle {
+      cursor: not-allowed;
+    }
+
+    input:checked ~ .checkCircle {
+      background-color: colors.$white-color;
+    }
+
+    .checkCircle::after {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      height: 14px;
+      width: 14px;
+      border-radius: 50%;
+      background-color: colors.$btn-primary-color;
+      display: none;
+    }
+
+    input:checked ~ .checkCircle::after {
+      display: block;
+    }
+
+    /* ---- Checkbox style ---- */
+    .checkMark {
+      position: absolute;
+      right: 0;
+      height: 25px;
+      width: 25px;
+      border-radius: 4px;
+      border: 1px solid colors.$btn-primary-color;
+    }
+
+    &.left .checkMark {
+      left: 0;
+    }
+
+    input:disabled ~ .checkMark {
+      cursor: not-allowed;
+    }
+
+    input:checked ~ .checkMark {
+      background-color: colors.$btn-primary-color;
+    }
+
+    .checkMark::after {
+      content: "";
+      position: absolute;
+      top: 2.5px;
+      left: 8.5px;
+      height: 12px;
+      width: 6px;
+      border: solid colors.$white-color;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+      border-radius: 2px;
+      display: none;
+    }
+
+    input:checked ~ .checkMark::after {
+      display: block;
+    }
+    &.left {
+      display: flex;
+      flex-direction: row-reverse;
+      padding-left: 40px;
+      padding-right: inherit;
+      .checkCircle {
+        right: auto;
+        left: 0;
+      }
+    }
+  }
+}

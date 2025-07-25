@@ -1,0 +1,122 @@
+@use "../../style/fonts";
+@use "../../style/colors";
+
+.input-field {
+  display: inline-block;
+  width: 100%;
+
+  &__input-wrapper {
+    position: relative;
+    display: inline-block;
+    letter-spacing: -0.0437rem;
+    width: inherit;
+
+    input {
+      width: inherit;
+      height: 3.75rem;
+      border: 0.0938rem solid colors.$border-color;
+      border-radius: 0.25rem;
+      font-size: 1.125rem;
+      color: colors.$text-primary-color;
+      font-family: fonts.$font-regular;
+      padding: 0.9375rem 15px 0 15px;
+      box-sizing: border-box;
+
+      &.has-prefix {
+        padding-left: 3.125rem;
+      }
+      &.has-suffix {
+        padding-right: 3.125rem;
+      }
+      &:focus {
+        outline: none;
+        border: 0.0938rem solid colors.$btn-primary-color;
+        & + label {
+          top: 0.3125rem;
+          transform: none;
+          font-size: 0.75rem;
+          letter-spacing: -0.0219rem;
+        }
+      }
+      &.error {
+        border-color: colors.$error-color;
+      }
+      &.underlined {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-radius: inherit;
+        border-bottom: 0.0938rem solid colors.$border-color;
+        padding-left: 0;
+        padding-right: 0;
+        &.error {
+          border-color: colors.$error-color;
+        }
+      }
+    }
+
+    .underlined + label {
+      left: 0;
+    }
+
+    label {
+      position: absolute;
+      left: 0.9375rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: fonts.$font-regular;
+      color: colors.$text-secondary-color;
+      font-size: 1.125rem;
+      transition: all 0.2s ease-out;
+      cursor: inherit;
+      letter-spacing: -0.0437rem;
+      &.has-value {
+        top: 0.3125rem;
+        transform: none !important;
+        -webkit-transform: none !important;
+        letter-spacing: -0.0219rem;
+        transform: scale(0.66);
+        font-size: 0.75rem;
+      }
+      &.has-prefix {
+        left: 3.125rem;
+      }
+      &.error {
+        color: colors.$error-color;
+      }
+    }
+  }
+
+  .message {
+    font-size: 0.875rem;
+    color: colors.$text-secondary-color;
+    font-family: fonts.$font-regular;
+    display: block;
+    margin-top: 0.3125rem;
+    letter-spacing: -0.0406rem;
+    &.error {
+      color: colors.$error-color;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .prefix-icon {
+    position: absolute;
+    left: 0.9375rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.125rem;
+    height: 1.125rem;
+    object-fit: contain;
+  }
+
+  .suffix-icon {
+    position: absolute;
+    right: 0.9375rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.125rem;
+    height: 1.125rem;
+    object-fit: contain;
+  }
+}

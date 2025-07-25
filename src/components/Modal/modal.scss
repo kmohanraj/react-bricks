@@ -1,0 +1,126 @@
+
+@use '../../style/breakpoints';
+@use '../../style/fonts';
+@use '../../style/colors';
+
+
+.modal-popup {
+  background-color: rgb(0,0,0,0.50);
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+
+  .close-button-holder {
+    text-align: right;
+    height: 20px;
+  }
+
+  .close-button {
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+    border: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-block;
+
+    img {
+      margin-left: 0;
+    }
+
+    .close-button {
+      cursor: pointer;
+      background: none;
+      padding: 0;
+      border: none;
+
+      &:hover {
+        background: none;
+      }
+    }
+  }
+
+  &-content {
+    padding: 3rem;
+    border-radius: 0.5rem;
+    color: colors.$text-primary-color;
+    position: relative;
+    background-color: colors.$white-color;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 80vh;
+    font-family: fonts.$font-regular;
+
+    @include breakpoints.md {
+      padding: 2.5rem;
+    }
+  }
+  &-body {
+    width: 100%;
+    padding-top: 1.5rem;
+
+    @include breakpoints.sm {
+      padding-top: 2rem;
+    }
+
+    @include breakpoints.xs {
+      padding-top: 2.5rem;
+    }
+  }
+  &.show-modal-popup {
+    display: flex;
+  }
+
+  .sticky-bottom {
+    position: sticky;
+    bottom: 1.5rem;
+    transform: translateY(3rem);
+    background: colors.$white-color;
+    padding: 1.5rem 3rem;
+    margin: auto -3rem;
+    border-radius: 0 0 0.5rem 0.5rem;
+    z-index: 9;
+  }
+}
+
+@include breakpoints.sm {
+  .modal-popup {
+    .modal-popup-content {
+      margin-top: 3.3125rem;
+      position: relative;
+      background-color: colors.$white-color;
+      padding: 2.75rem;
+      width: 100%;
+      max-height: none;
+      height: calc(100svh - 3.3125rem);
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      border-radius: 0.5rem 0.5rem 0rem 0rem;
+    }
+    .close-button {
+      right: 2.8125rem;
+    }
+  }
+}
+
+@include breakpoints.xs {
+  .modal-popup {
+    .modal-popup-content {
+      padding: 1.875rem;
+      margin-top: 3.9375rem;
+      border-radius: 0.5rem 0.5rem 0rem 0rem;
+      max-height: none;
+      height: calc(100svh - 3.9375rem);
+    }
+    .close-button {
+      right: 1.875rem;
+    }
+  }
+}
