@@ -6,6 +6,7 @@ import {
   ReactNode,
   SyntheticEvent,
   SetStateAction,
+  ComponentType
 } from "react";
 
 export type TButton = {
@@ -35,16 +36,16 @@ export type TButton = {
 };
 
 export type TCheckBox = {
-  inputType: "checkbox" | "radio";
-  position: "left" | "right";
+  testId?: string;
+  type: "checkbox" | "radio";
+  position?: "left" | "right";
   customClass?: string;
-  inputName?: string;
+  name?: string;
   label?: string;
   onChecked?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
   isChecked?: boolean;
   selected?: string;
   value?: string;
-  testId?: string;
   isDisabled?: boolean;
 };
 
@@ -128,6 +129,8 @@ export type TDataTable<T> = {
   isPagination?: boolean;
   isAction?: boolean;
   isPaginationRight?: boolean;
+  sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
+  sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
 };
 
 export type TTableHeaderProps<T> = {

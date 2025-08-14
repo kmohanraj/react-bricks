@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import cx from "classnames";
-import { TInputField } from "@/type/type";
+import { TInputField } from "../../type/type";
 import "./input.scss";
 
 export const Input: FC<TInputField> = ({

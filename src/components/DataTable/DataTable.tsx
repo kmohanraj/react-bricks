@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TDataTable} from "@/type/type";
+import { TDataTable} from "../../type/type";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
@@ -30,13 +30,15 @@ const getPaginatedData = <T,>(
 
 export const DataTable = <T extends Record<string, any>>({
   data,
-  columns,
+  columns = [],
   rowsPerPage = 5,
   isSorting = false,
   isPagination = false,
   isAction = false,
   isPaginationRight = false,
-}: TDataTable<T>) => {
+  sortingAscIcon = Icons.sortingAsc,
+  sortingDesIcon = Icons.sortingDes
+}: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
     direction: "asc" | "desc";
@@ -67,7 +69,7 @@ export const DataTable = <T extends Record<string, any>>({
 
   const checkIsSorting = (key: keyof T) => {
     const isAsc = sortConfig.key === key && sortConfig.direction === "asc";
-    const iconSrc = isAsc ? Icons.sortingAsc : Icons.sortingDes;
+    const iconSrc = isAsc ? sortingAscIcon : sortingDesIcon;
     const altText = isAsc ? "Sort descending" : "Sort ascending";
     return (
       <Image

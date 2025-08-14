@@ -1,5 +1,4 @@
-@use '../../style/fonts';
-@use '../../style/colors';
+@use '../../assets/styles/_variables' as var;
 
 .checkbox {
   position: relative;
@@ -30,7 +29,7 @@
       width: 24px;
       transform: translateY(-50%);
       border-radius: 50%;
-      border: 2px solid colors.$btn-primary-color;
+      border: 2px solid var.$btn-primary;
     }
 
     input:disabled ~ .checkCircle {
@@ -38,7 +37,7 @@
     }
 
     input:checked ~ .checkCircle {
-      background-color: colors.$white-color;
+      background-color: var.$white;
     }
 
     .checkCircle::after {
@@ -49,7 +48,7 @@
       height: 14px;
       width: 14px;
       border-radius: 50%;
-      background-color: colors.$btn-primary-color;
+      background-color: var.$btn-primary;
       display: none;
     }
 
@@ -64,7 +63,7 @@
       height: 25px;
       width: 25px;
       border-radius: 4px;
-      border: 1px solid colors.$btn-primary-color;
+      border: 2px solid var.$btn-primary;
     }
 
     &.left .checkMark {
@@ -76,7 +75,7 @@
     }
 
     input:checked ~ .checkMark {
-      background-color: colors.$btn-primary-color;
+      background-color: var.$btn-primary;
     }
 
     .checkMark::after {
@@ -86,7 +85,7 @@
       left: 8.5px;
       height: 12px;
       width: 6px;
-      border: solid colors.$white-color;
+      border: solid var.$white;
       border-width: 0 3px 3px 0;
       transform: rotate(45deg);
       border-radius: 2px;

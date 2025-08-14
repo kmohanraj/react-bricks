@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from "react";
 import cx from "classnames";
-import { TModal } from "@/type/type";
+import { TModal } from "../../type/type";
 import { preventBodyScroll } from "../../helper/helper";
 import * as Icon from "../../assets/icons/icon";
 import "./modal.scss";

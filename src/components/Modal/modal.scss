@@ -1,8 +1,4 @@
-
-@use '../../style/breakpoints';
-@use '../../style/fonts';
-@use '../../style/colors';
-
+@use '../../assets/styles/_variables' as var;
 
 .modal-popup {
   background-color: rgb(0,0,0,0.50);
@@ -49,15 +45,15 @@
   &-content {
     padding: 3rem;
     border-radius: 0.5rem;
-    color: colors.$text-primary-color;
+    color: var.$text-primary;
     position: relative;
-    background-color: colors.$white-color;
+    background-color: var.$white;
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 80vh;
-    font-family: fonts.$font-regular;
+    font-family: var.$font-regular;
 
-    @include breakpoints.md {
+    @include var.breakpoint(md) {
       padding: 2.5rem;
     }
   }
@@ -65,11 +61,11 @@
     width: 100%;
     padding-top: 1.5rem;
 
-    @include breakpoints.sm {
+    @include var.breakpoint(sm) {
       padding-top: 2rem;
     }
 
-    @include breakpoints.xs {
+    @include var.breakpoint(xs) {
       padding-top: 2.5rem;
     }
   }
@@ -81,7 +77,7 @@
     position: sticky;
     bottom: 1.5rem;
     transform: translateY(3rem);
-    background: colors.$white-color;
+    background: var.$white;
     padding: 1.5rem 3rem;
     margin: auto -3rem;
     border-radius: 0 0 0.5rem 0.5rem;
@@ -89,12 +85,12 @@
   }
 }
 
-@include breakpoints.sm {
+@include var.breakpoint(sm) {
   .modal-popup {
     .modal-popup-content {
       margin-top: 3.3125rem;
       position: relative;
-      background-color: colors.$white-color;
+      background-color: var.$white;
       padding: 2.75rem;
       width: 100%;
       max-height: none;
@@ -110,7 +106,7 @@
   }
 }
 
-@include breakpoints.xs {
+@include var.breakpoint(xs) {
   .modal-popup {
     .modal-popup-content {
       padding: 1.875rem;

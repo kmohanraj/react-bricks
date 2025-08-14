@@ -1,6 +1,5 @@
-import React from "react";
 import clsx from "classnames";
-import { TPaginationProps } from "@/type/type";
+import { TPaginationProps } from "../../type/type";
 import { Button } from "../Button/Button";
 
 const Pagination = ({
@@ -13,6 +12,7 @@ const Pagination = ({
     <Button
       label="Prev"
       onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+      variant={currentPage === 1 ? "secondary" : "primary"}
       isDisabled={currentPage === 1}
     />
     <span style={{ padding: "10px" }}>
@@ -21,6 +21,7 @@ const Pagination = ({
     <Button
       label="Next"
       onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+      variant={currentPage === totalPages ? "secondary" : "primary"}
       isDisabled={currentPage === totalPages}
     />
   </div>
