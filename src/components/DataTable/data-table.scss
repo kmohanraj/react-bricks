@@ -1,10 +1,10 @@
-@use "../../style/fonts";
-@use "../../style/colors";
+@use '../../assets/styles/_variables' as var;
+
 
 .table-wrapper {
   .table {
-    border-color: colors.$border-color;
-    border: 1px solid colors.$border-color;
+    border-color: var.$border;
+    border: 1px solid var.$border;
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
@@ -18,15 +18,15 @@
       // }
       &:hover {
         td {
-          background: colors.$neutral_1;
-          font-weight: fonts.$font-bold;
-          color: colors.$text-primary-color;
+          background: var.$neutral;
+          font-weight: var.$font-bold;
+          color: var.$text-primary;
         }
       }
       &.active {
         td {
-          background: colors.$btn-secondary-color;
-          color: colors.$white-color;
+          background: var.$btn-secondary;
+          color: var.$white;
         }
       }
     }
@@ -34,8 +34,8 @@
     td,
     tr,
     th {
-      border-color: colors.$border-color;
-      border: 1px solid colors.$border-color;
+      border-color: var.$border;
+      border: 1px solid var.$border;
       border-collapse: collapse;
       border-spacing: 0;
     }
@@ -53,7 +53,7 @@
     }
   }
   thead {
-    background-color: colors.$btn-secondary-color;
+    background-color: var.$btn-secondary;
     font-size: 14px;
     tr,
     th {

@@ -1,12 +1,12 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState, KeyboardEvent } from "react";
 import cx from "classnames";
+import { TOption, TSelect } from "../../type/type";
 import * as Icons from "../../assets/icons/icon";
 import { EllipsisLoader } from "../EllipsisLoader/EllipsisLoader";
-import { TOption, TSelect } from "@/type/type";
 import "./select.scss";
 
 export const Select: FC<TSelect> = ({
-  value,
+  value = '',
   inputId,
   placeholder,
   isRequired = false,
@@ -20,12 +20,13 @@ export const Select: FC<TSelect> = ({
   onClear,
 }) => {
   const initialState = isMulti ? ([] as any) : {};
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const removeRef = useRef<HTMLDivElement>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(initialState);
-  const inputRef = useRef<HTMLInputElement>(null);
+
   const selectClass = cx(
     "select_control",
     { "is-focused": isMenuOpen },
@@ -52,8 +53,8 @@ export const Select: FC<TSelect> = ({
   );
   const suffixIConClass = cx("suffix-icon", { "is-open": isMenuOpen });
 
-  const handleOnChange = (e: any) => {
-    setSearchValue(e.target.value);
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e?.target.value);
     setIsMenuOpen(true);
   };
 
@@ -64,19 +65,19 @@ export const Select: FC<TSelect> = ({
   }, [value]);
 
   useEffect(() => {
-    const handler = (e: any) => {
-      if (selectRef.current && !selectRef.current.contains(e.target)) {
-        setIsMenuOpen(false);
-        setSearchValue("");
-      }
-    };
-    window.addEventListener("click", handler);
-    return () => {
-      window.removeEventListener("click", handler);
-    };
+      const handler = (e: MouseEvent) => {
+          if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
+              setIsMenuOpen(false);
+              setSearchValue("");
+          }
+      };
+      window.addEventListener("click", handler);
+      return () => {
+          window.removeEventListener("click", handler);
+      };
   }, []);
 
-  const handleOnKeyDown = (e: any) => {
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     const keyCode = e.keyCode;
     const checkKeyCode = searchValue.length < 1 && keyCode === 8 && !isMulti;
     if (checkKeyCode) {
@@ -103,7 +104,7 @@ export const Select: FC<TSelect> = ({
 
     if (isMulti) {
       if (
-        selectedValue.findIndex((opt: any) => opt.label === option.label) >= 0
+        selectedValue.findIndex((opt: TOption) => opt.label === option.label) >= 0
       ) {
         newValue = removeOption(option);
       } else {
@@ -123,7 +124,7 @@ export const Select: FC<TSelect> = ({
     return (
       options &&
       options.filter(
-        (option: any) =>
+        (option) =>
           option.label.toLowerCase().indexOf(searchValue.toLocaleLowerCase()) >=
           0
       )
@@ -242,7 +243,7 @@ export const Select: FC<TSelect> = ({
             {selectedValue?.length === filterOptions().length ? (
               <div className="no-options">No Options</div>
             ) : (
-              filterOptions()?.map((option: any, index: number) =>
+              filterOptions()?.map((option: TOption, index: number) =>
                 checkSelectedItem(option, index)
               )
             )}

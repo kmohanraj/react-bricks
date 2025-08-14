@@ -1,5 +1,5 @@
-import React from "react";
-import { TTableHeaderProps } from "@/type/type";
+import { Key } from "react";
+import { TTableHeaderProps } from "../../type/type";
 
 const TableHeader = <T,>({
   columns,
@@ -10,7 +10,7 @@ const TableHeader = <T,>({
   <thead>
     <tr>
       {columns.map((col) => (
-        <th key={col.key as React.Key}>
+        <th key={col.key as Key}>
           <div className="sorting">
             <span>{col.label}</span>
             {isSorting && checkIsSorting(col.key)}

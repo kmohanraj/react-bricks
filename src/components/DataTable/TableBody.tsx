@@ -1,5 +1,5 @@
-import React from "react";
-import { TTableBodyProps } from "@/type/type";
+import { Key } from "react";
+import { TTableBodyProps } from "../../type/type";
 import { Image } from "../Image/Image";
 import * as Icons from "../../assets/icons/icon";
 
@@ -12,7 +12,7 @@ const TableBody = <T extends Record<string, any>>({
     {paginatedData.map((row, idx) => (
       <tr key={idx}>
         {columns.map((col) => (
-          <td className="" key={col.key as React.Key}>
+          <td className="" key={col.key as Key}>
             {row[col.key]}
           </td>
         ))}

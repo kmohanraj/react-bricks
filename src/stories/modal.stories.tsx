@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Modal } from "../components";
 import * as Icon from "../assets/icons/icon";
 

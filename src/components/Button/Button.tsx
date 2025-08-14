@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import cx from "classnames";
-import { TButton } from "@/type/type";
+import { TButton } from "../../type/type";
 import { EllipsisLoader } from "../EllipsisLoader/EllipsisLoader";
 import "./button.scss";
 

@@ -1,0 +1,61 @@
+@use 'sass:map';
+@import url("https://cdn.fonts.net/kit/62ee8ca4-c29c-43ec-9465-04b0232e8c19/62ee8ca4-c29c-43ec-9465-04b0232e8c19.css");
+
+// Fonts
+$font-light: var(--font-light, "HelveticaNowTextLight");
+$font-regular: var(--font-regular, "HelveticaNowTextRegular");
+$font-medium: var(--font-medium, "HelveticaNowTextMedium");
+$font-bold: var(--font-bold, "HelveticaNowTextBold");
+
+// $primary: #28A9C3;
+// $secondary: #D6EBEF;
+// $neutral: #E8F0F2;
+// $hover: #308090;
+// $white: #FFFFFF;
+// $bg: #EFF7F9;
+// $text-primary: #000000;
+// $text-secondary: #666666;
+// $link: #4259E0;
+// $success: #5DBC4A;
+// $warning: #E09E42;
+// $error: #E22C1C;
+// $btn-primary: #28A9C3;
+// $btn-disable: #CCCCCC;
+// $border: #CCCCCC;
+
+// Colors Variable
+$primary: var(--primary, #28a9c3);
+$secondary: var(--secondary, #d6ebef);
+$btn-primary: var(--btn-primary, #28a9c3);
+$btn-secondary: var(--btn-secondary, #d6ebef);
+$btn-disable: var(--btn-disable, #cccccc);
+$border: var(--border, #cccccc);
+$hover: var(--hover, #308090);
+$white: var(--white, #ffffff);
+$black: var(--black, #000000);
+$bg: var(--bg, #eff7f9);
+$text-primary: var(--text-primary, #000000);
+$text-secondary: var(--text-secondary, #666666);
+$link-primary: var(--link-primary, #4259e0);
+$link-secondary: var(--link-secondary, #212121);
+$success: var(--success, #5dbc4a);
+$warning: var(--warning, #e09e42);
+$error: var(--error, #e22c1c);
+$neutral: var(--neutral, #e8f0f2);
+
+
+// Breakpoints for responsive
+$breakpoints: (
+  xs: 480px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1280px,
+  xl: 1440px,
+  xxl: 1920px
+);
+
+@mixin breakpoint($breakpoint) {
+  @media (min-width: map.get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}

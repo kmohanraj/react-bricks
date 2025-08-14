@@ -1,5 +1,4 @@
-@use "../../style/fonts";
-@use "../../style/colors";
+@use '../../assets/styles/_variables' as var;
 
 .input-field {
   display: inline-block;
@@ -14,11 +13,11 @@
     input {
       width: inherit;
       height: 3.75rem;
-      border: 0.0938rem solid colors.$border-color;
+      border: 0.0938rem solid var.$border;
       border-radius: 0.25rem;
       font-size: 1.125rem;
-      color: colors.$text-primary-color;
-      font-family: fonts.$font-regular;
+      color: var.$text-primary;
+      font-family: var.$font-regular;
       padding: 0.9375rem 15px 0 15px;
       box-sizing: border-box;
 
@@ -30,7 +29,7 @@
       }
       &:focus {
         outline: none;
-        border: 0.0938rem solid colors.$btn-primary-color;
+        border: 0.0938rem solid var.$btn-primary;
         & + label {
           top: 0.3125rem;
           transform: none;
@@ -39,18 +38,18 @@
         }
       }
       &.error {
-        border-color: colors.$error-color;
+        border-color: var.$error;
       }
       &.underlined {
         border-top: none;
         border-left: none;
         border-right: none;
         border-radius: inherit;
-        border-bottom: 0.0938rem solid colors.$border-color;
+        border-bottom: 0.0938rem solid var.$border;
         padding-left: 0;
         padding-right: 0;
         &.error {
-          border-color: colors.$error-color;
+          border-color: var.$error;
         }
       }
     }
@@ -64,8 +63,8 @@
       left: 0.9375rem;
       top: 50%;
       transform: translateY(-50%);
-      font-family: fonts.$font-regular;
-      color: colors.$text-secondary-color;
+      font-family: var.$font-regular;
+      color: var.$text-secondary;
       font-size: 1.125rem;
       transition: all 0.2s ease-out;
       cursor: inherit;
@@ -82,20 +81,20 @@
         left: 3.125rem;
       }
       &.error {
-        color: colors.$error-color;
+        color: var.$error;
       }
     }
   }
 
   .message {
     font-size: 0.875rem;
-    color: colors.$text-secondary-color;
-    font-family: fonts.$font-regular;
+    color: var.$text-secondary;
+    font-family: var.$font-regular;
     display: block;
     margin-top: 0.3125rem;
     letter-spacing: -0.0406rem;
     &.error {
-      color: colors.$error-color;
+      color: var.$error;
       text-overflow: ellipsis;
     }
   }

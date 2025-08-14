@@ -1,12 +1,11 @@
-@use '../../style/fonts';
-@use '../../style/colors';
+@use '../../assets/styles/_variables' as var;
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 10px 16px;
-  color: colors.$white-color;
+  color: var.$white;
   border: none;
   border-radius: 4px;
   position: relative;
@@ -16,21 +15,21 @@
   cursor: pointer;
 
   &.primary {
-    background-color: colors.$btn-primary-color;
+    background-color: var.$btn-primary;
   }
   &.secondary {
     background-color: transparent;
-    border: 1px solid colors.$btn-primary-color;
-    color: colors.$btn-primary-color;
+    border: 1px solid var.$btn-primary;
+    color: var.$btn-primary;
   }
   &.disabled {
     opacity: unset;
-    color: colors.$white-color;
-    border: 1px solid colors.$btn-disable-color;
-    background-color: colors.$btn-disable-color;
+    color: var.$white;
+    border: 1px solid var.$btn-disable;
+    background-color: var.$btn-disable;
     cursor: no-drop;
   }
   &.link {
-    color: colors.$link-primary-color;
+    color: var.$link-primary;
   }
 }

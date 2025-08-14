@@ -1,5 +1,5 @@
 import React, { FC, SyntheticEvent } from 'react';
-import { TImage } from '@/type/type';
+import { TImage } from '../../type/type';
 import './image.scss';
 
 export const Image: FC<TImage> = ({
