@@ -1,5 +1,5 @@
 import clsx from "classnames";
-import { TPaginationProps } from "../../type/type";
+import { TPaginationProps } from "../../types/type";
 import { Button } from "../Button/Button";
 
 const Pagination = ({

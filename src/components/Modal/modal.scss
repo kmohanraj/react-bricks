@@ -1,7 +1,11 @@
-@use '../../assets/styles/_variables' as var;
+@use "../../assets/styles/_variables" as var;
+
+h5 {
+  margin: 0;
+}
 
 .modal-popup {
-  background-color: rgb(0,0,0,0.50);
+  background-color: rgb(0, 0, 0, 0.5);
   display: none;
   position: fixed;
   left: 0;
@@ -9,13 +13,8 @@
   right: 0;
   height: 100%;
   z-index: 999;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
-
-  .close-button-holder {
-    text-align: right;
-    height: 20px;
-  }
 
   .close-button {
     cursor: pointer;
@@ -25,52 +24,64 @@
     width: 1.25rem;
     height: 1.25rem;
     display: inline-block;
-
+    &:hover {
+      background: none;
+    }
     img {
       margin-left: 0;
-    }
-
-    .close-button {
-      cursor: pointer;
-      background: none;
-      padding: 0;
-      border: none;
-
-      &:hover {
-        background: none;
-      }
     }
   }
 
   &-content {
-    padding: 3rem;
+    padding: 2rem;
+    padding-top: 0;
     border-radius: 0.5rem;
     color: var.$text-primary;
     position: relative;
     background-color: var.$white;
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 80vh;
+    max-height: 70vh;
     font-family: var.$font-regular;
 
-    @include var.breakpoint(md) {
-      padding: 2.5rem;
-    }
-  }
-  &-body {
-    width: 100%;
-    padding-top: 1.5rem;
-
-    @include var.breakpoint(sm) {
-      padding-top: 2rem;
+    @include var.breakpoint(min, md) {
+      max-height: 80vh;
+      // padding: 2.5rem;
+      // padding-top: 0;
     }
 
-    @include var.breakpoint(xs) {
-      padding-top: 2.5rem;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 30px 0;
+    }
+
+    &-body {
+      width: 100%;
+      // padding-top: 2.5rem;
+      padding-top: .625rem;
+
+      // @include var.breakpoint(min, sm) {
+      //   padding-top: 2rem;
+      // }
+
+      // @include var.breakpoint(min, xs) {
+      //   padding-top: 2.5rem;
+      // }
     }
   }
+
   &.show-modal-popup {
     display: flex;
+  }
+  &.sticky-header {
+    .modal-popup-content-header {
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 10;
+      padding: 30px 0 40px 0;
+    }
   }
 
   .sticky-bottom {
@@ -85,38 +96,36 @@
   }
 }
 
-@include var.breakpoint(sm) {
+@include var.breakpoint(min, sm) {
   .modal-popup {
     .modal-popup-content {
-      margin-top: 3.3125rem;
+      margin-top: 6.3125rem;
       position: relative;
       background-color: var.$white;
-      padding: 2.75rem;
+      // padding: 2.75rem;
       width: 100%;
-      max-height: none;
-      height: calc(100svh - 3.3125rem);
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      border-radius: 0.5rem 0.5rem 0rem 0rem;
     }
-    .close-button {
-      right: 2.8125rem;
-    }
+    // .close-button {
+    //   right: 2.8125rem;
+    // }
   }
 }
 
-@include var.breakpoint(xs) {
+@include var.breakpoint(min, xs) {
   .modal-popup {
     .modal-popup-content {
       padding: 1.875rem;
-      margin-top: 3.9375rem;
-      border-radius: 0.5rem 0.5rem 0rem 0rem;
-      max-height: none;
-      height: calc(100svh - 3.9375rem);
+      padding-top: 0;
+      // margin-top: 3.9375rem;
+      // border-radius: 0.5rem 0.5rem 0rem 0rem;
+      // max-height: none;
+      // height: calc(100svh - 10.9375rem);
     }
-    .close-button {
-      right: 1.875rem;
-    }
+    // .close-button {
+    //   right: 1.875rem;
+    // }
   }
 }

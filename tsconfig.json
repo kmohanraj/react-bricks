@@ -18,7 +18,8 @@
     "paths": {
       "@/*": ["*"],
       "@components": ["/src/components"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   },
-  "include": ["src"],
+  "include": ["src", "src/types", "svg.d.ts"],
 }

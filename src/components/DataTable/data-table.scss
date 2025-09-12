@@ -1,7 +1,12 @@
-@use '../../assets/styles/_variables' as var;
-
+@use "../../assets/styles/_variables" as var;
 
 .table-wrapper {
+  
+  @include var.breakpoint(max, md) {
+    display: block;
+    overflow-x: auto;
+  }
+
   .table {
     border-color: var.$border;
     border: 1px solid var.$border;
@@ -30,9 +35,18 @@
         }
       }
     }
-    tr,
-    td,
-    tr,
+    tr {
+      border-color: var.$border;
+      border: 1px solid var.$border;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    td {
+      border-color: var.$border;
+      border: 1px solid var.$border;
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
     th {
       border-color: var.$border;
       border: 1px solid var.$border;
@@ -41,6 +55,7 @@
     }
     .actions {
       width: 80px;
+      text-align: center;
       span {
         padding: 0 5px;
       }
@@ -58,7 +73,7 @@
     tr,
     th {
       text-align: justify;
-      padding: 19px 20px 19px 24px;
+      padding: 14px 20px;
       &:last-child {
         cursor: default;
       }
@@ -79,8 +94,8 @@
 
     .sorting {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: baseline;
+      align-items: flex-start;
       gap: 10px;
     }
   }

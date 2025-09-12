@@ -15,5 +15,5 @@ export {
   tick,
   close,
   sortingAsc,
-  sortingDes,
+  sortingDes
 };

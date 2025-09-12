@@ -1,5 +1,5 @@
-import React, { FC, SyntheticEvent } from 'react';
-import { TImage } from '../../type/type';
+import { FC, SyntheticEvent } from 'react';
+import { TImage } from '../../types/type';
 import './image.scss';
 
 export const Image: FC<TImage> = ({
@@ -9,7 +9,8 @@ export const Image: FC<TImage> = ({
   height = '',
   className = '',
   onClick,
-  onError
+  onError,
+  role = ''
 }) => {
 
   const handleError = (e: SyntheticEvent<HTMLImageElement, Event>) => {
@@ -26,6 +27,7 @@ export const Image: FC<TImage> = ({
       className={className ? className : 'image-tag'}
       onClick={onClick}
       onError={(e) => handleError(e)}
+      role={role}
     />
   );
 };

@@ -7,7 +7,7 @@
 }
 
 .select_control {
-  border: 0.0625rem solid var.$border;
+  border: 0.0938rem solid var.$border;
   border-radius: 0.25rem;
   min-height: 3.75rem;
   box-sizing: border-box;
@@ -23,9 +23,16 @@
       }
     }
   }
+  &.is-focused.primary {
+    border: 0.0625rem solid var.$primary;
+  }
+  &.is-focused.ghost {
+    border: 0.0625rem solid var.$text-primary;
+  }
   &.is-focused {
     border: 0.0625rem solid var.$text-primary;
   }
+  
 
   .select_value_container {
     display: flex;

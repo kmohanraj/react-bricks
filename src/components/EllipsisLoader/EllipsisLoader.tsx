@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import clsx from "classnames";
-import { TEllipsisLoader } from "../../type/type";
+import { TEllipsisLoader } from "../../types/type";
 import "./ellipsis-loader.scss";
 
 

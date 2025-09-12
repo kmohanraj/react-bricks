@@ -4,7 +4,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 16px;
+  padding: 14px 16px;
   color: var.$white;
   border: none;
   border-radius: 4px;
@@ -13,7 +13,17 @@
   height: auto; /* or auto if dynamic */
   min-width: 6.25rem;
   cursor: pointer;
+  transition: all 0.5s ease, background-color 1.5s ease;
 
+  &:hover {
+    transform: scale(0.97);
+  }
+  &.prefix {
+    gap: .625rem;
+  }
+  &.suffix {
+    gap: .625rem;
+  }
   &.primary {
     background-color: var.$btn-primary;
   }
@@ -21,6 +31,9 @@
     background-color: transparent;
     border: 1px solid var.$btn-primary;
     color: var.$btn-primary;
+  }
+  &.ghost {
+    border: 1px solid var.$text-primary;
   }
   &.disabled {
     opacity: unset;

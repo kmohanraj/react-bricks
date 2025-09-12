@@ -1,7 +1,7 @@
 import { FC } from "react";
 import clsx from "classnames";
 import CONSTANTS from "../../constants/constants";
-import { TCheckBox } from "../../type/type";
+import { TCheckBox } from "../../types/type";
 import "./checkbox.scss";
 
 const isValueSelectedFn = (isChecked: boolean | undefined, value: any, selected: any) => {

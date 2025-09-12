@@ -18,16 +18,17 @@ type Story = StoryObj<typeof meta>;
 export const Outlined: Story = {
   args: {
     type: 'text',
-    placeholder: 'Button',
+    placeholder: 'Name',
     inputId: 'name',
-    borderType: 'outlined'
+    borderType: 'outlined',
+    isNumber: true
   },
 };
 
 export const Underlined: Story = {
   args: {
     type: 'text',
-    placeholder: 'Button',
+    placeholder: 'Name',
     inputId: 'name',
     borderType: 'underlined'
   }

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { TDataTable} from "../../type/type";
+import { TDataTable } from "../../types/type";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Pagination from "./Pagination";
-import * as Icons from "../../assets/icons/icon";
+import { sortingAsc, sortingDes } from "../../assets/icons/icon";
 import "./data-table.scss";
 
 const getSortedData = <T,>(
@@ -30,14 +30,17 @@ const getPaginatedData = <T,>(
 
 export const DataTable = <T extends Record<string, any>>({
   data,
-  columns = [],
+  columns,
   rowsPerPage = 5,
   isSorting = false,
   isPagination = false,
   isAction = false,
   isPaginationRight = false,
-  sortingAscIcon = Icons.sortingAsc,
-  sortingDesIcon = Icons.sortingDes
+  sortingAscIcon = sortingAsc,
+  sortingDesIcon = sortingDes,
+  onAction,
+  onEdit,
+  onDelete,
 }: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
@@ -85,7 +88,7 @@ export const DataTable = <T extends Record<string, any>>({
 
   return (
     <div className="table-wrapper">
-      <table className="table" border={1} cellPadding={10} cellSpacing={0}>
+      <table className="table" cellPadding={10} cellSpacing={0}>
         <TableHeader
           columns={columns}
           isSorting={isSorting}
@@ -96,6 +99,9 @@ export const DataTable = <T extends Record<string, any>>({
           paginatedData={paginatedData}
           columns={columns}
           isAction={isAction}
+          onAction={onAction}
+          onEdit={onEdit}
+          onDelete={onDelete}
         />
       </table>
       {isPagination && (

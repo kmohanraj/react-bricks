@@ -6,7 +6,7 @@ import {
   ReactNode,
   SyntheticEvent,
   SetStateAction,
-  ComponentType
+  ComponentType,  
 } from "react";
 
 export type TButton = {
@@ -15,7 +15,7 @@ export type TButton = {
   link?: string;
   type?: string;
   label?: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "ghost";
   loaderSize?: "sm" | "md" | "lg";
   loaderColor?:
     | "primary"
@@ -33,6 +33,17 @@ export type TButton = {
   role?: string;
   ariaLabelledBy?: string;
   ariaDescription?: string;
+  prefix?: string
+  suffix?: string
+};
+
+export type TButtonClass = {
+  prefix?: string | undefined;
+  suffix?: string | undefined;
+  customClass?: string;
+  variant?: string;
+  isDisabled?: boolean;
+  type?: string;
 };
 
 export type TCheckBox = {
@@ -68,7 +79,8 @@ export type TInputField = {
   error?: string;
   placeholder: string;
   inputId: string;
-  borderType: "outlined" | "underlined";
+  borderType?: "outlined" | "underlined";
+  variant?: "primary" | "ghost";
   isRequired?: boolean;
   customClass?: string;
   preFixIcon?: any;
@@ -83,17 +95,21 @@ export type TInputField = {
   isDisabled?: boolean;
   maxLength?: number;
   autoComplete?: string;
+  isNumber?: boolean;
 };
 
 export type TModal = {
   id: string;
-  closeIcon: string;
+  title?: string;
+  closeIcon?: string;
   isShowModal: boolean;
-  customClass: string;
+  customClass?: string;
   children: ReactNode;
   onModalClose: any;
-  closeAriaLabel: string;
-  modalAriaLabel: string;
+  closeAriaLabel?: string;
+  modalAriaLabel?: string;
+  maxWidth?: string;
+  isStickyHeader?: boolean
 };
 
 export type TOption = {
@@ -114,6 +130,9 @@ export type TSelect = {
   isLoading?: boolean;
   isClearable?: boolean;
   onClear?: (field: any) => void;
+  customClass?: string;
+  variant?: "primary" | "ghost";
+  noRecordMessage?: string;
 };
 
 export type TColumn<T> = {
@@ -128,6 +147,9 @@ export type TDataTable<T> = {
   isSorting?: boolean;
   isPagination?: boolean;
   isAction?: boolean;
+  onAction?: (data: T) => void;
+  onEdit?: (data: T) => void;
+  onDelete?: (data: T) => void;
   isPaginationRight?: boolean;
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
@@ -144,6 +166,9 @@ export type TTableBodyProps<T> = {
   paginatedData: T[];
   columns: { key: keyof T; label: string }[];
   isAction: boolean;
+  onAction?: (data: T) => void;
+  onEdit?: (data: T) => void;
+  onDelete?: (data: T) => void;
 };
 
 export type TPaginationProps = {
@@ -161,4 +186,5 @@ export type TImage = {
   className?: string;
   onClick?: MouseEventHandler<HTMLImageElement>;
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
+  role?: string
 };

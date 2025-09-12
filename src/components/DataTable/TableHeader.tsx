@@ -1,5 +1,6 @@
 import { Key } from "react";
-import { TTableHeaderProps } from "../../type/type";
+import cx from "classnames";
+import { TTableHeaderProps } from "../../types/type";
 
 const TableHeader = <T,>({
   columns,
@@ -11,7 +12,7 @@ const TableHeader = <T,>({
     <tr>
       {columns.map((col) => (
         <th key={col.key as Key}>
-          <div className="sorting">
+          <div className={cx({ sorting: isSorting })}>
             <span>{col.label}</span>
             {isSorting && checkIsSorting(col.key)}
           </div>

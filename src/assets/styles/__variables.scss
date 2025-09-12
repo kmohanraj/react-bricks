@@ -1,4 +1,4 @@
-@use 'sass:map';
+@use "sass:map";
 @import url("https://cdn.fonts.net/kit/62ee8ca4-c29c-43ec-9465-04b0232e8c19/62ee8ca4-c29c-43ec-9465-04b0232e8c19.css");
 
 // Fonts
@@ -43,7 +43,6 @@ $warning: var(--warning, #e09e42);
 $error: var(--error, #e22c1c);
 $neutral: var(--neutral, #e8f0f2);
 
-
 // Breakpoints for responsive
 $breakpoints: (
   xs: 480px,
@@ -51,11 +50,35 @@ $breakpoints: (
   md: 1024px,
   lg: 1280px,
   xl: 1440px,
-  xxl: 1920px
+  xxl: 1920px,
 );
 
-@mixin breakpoint($breakpoint) {
-  @media (min-width: map.get($breakpoints, $breakpoint)) {
-    @content;
+// @mixin minBreakpoint($breakpoint) {
+//   @media (min-width: map.get($breakpoints, $breakpoint)) {
+//     @content;
+//   }
+// }
+
+// @mixin maxBreakpoint($breakpoint) {
+//   @media (max-width: map.get($breakpoints, $breakpoint)) {
+//     @content;
+//   }
+// }
+
+@mixin breakpoint($type, $bp1, $bp2: null) {
+  @if $type == min {
+    @media (min-width: map.get($breakpoints, $bp1)) {
+      @content;
+    }
+  } @else if $type == max {
+    @media (max-width: map.get($breakpoints, $bp1)) {
+      @content;
+    }
+  } @else if $type == between and $bp2 != null {
+    @media (min-width: map.get($breakpoints, $bp1)) and (max-width: map.get($breakpoints, $bp2)) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid breakpoints type or missing second breakpoint for 'between'.";
   }
 }
