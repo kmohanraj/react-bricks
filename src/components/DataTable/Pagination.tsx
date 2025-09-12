@@ -1,14 +1,15 @@
 import clsx from "classnames";
 import { TPaginationProps } from "../../types/type";
 import { Button } from "../Button/Button";
+import './pagination.scss';
 
 const Pagination = ({
   currentPage,
   totalPages,
   setCurrentPage,
-  isPaginationRight,
+  isPaginationLeft,
 }: TPaginationProps) => (
-  <div className={clsx("pagination", { right: isPaginationRight })}>
+  <div className={clsx("pagination", { left: isPaginationLeft })}>
     <Button
       label="Prev"
       onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}

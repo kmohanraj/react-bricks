@@ -1,0 +1,9 @@
+@use "../../assets/styles/_variables" as var;
+
+.pagination {
+  padding: 20px 2px;
+  float: right;
+  &.left {
+    float: left;
+  }
+}

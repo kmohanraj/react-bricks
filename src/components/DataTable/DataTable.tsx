@@ -35,7 +35,7 @@ export const DataTable = <T extends Record<string, any>>({
   isSorting = false,
   isPagination = false,
   isAction = false,
-  isPaginationRight = false,
+  isPaginationLeft = false,
   sortingAscIcon = sortingAsc,
   sortingDesIcon = sortingDes,
   onAction,
@@ -109,7 +109,7 @@ export const DataTable = <T extends Record<string, any>>({
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
-          isPaginationRight={isPaginationRight}
+          isPaginationLeft={isPaginationLeft}
         />
       )}
     </div>

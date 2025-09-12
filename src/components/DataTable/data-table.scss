@@ -1,7 +1,6 @@
 @use "../../assets/styles/_variables" as var;
 
 .table-wrapper {
-  
   @include var.breakpoint(max, md) {
     display: block;
     overflow-x: auto;
@@ -13,13 +12,13 @@
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-
     tr {
       td {
         cursor: pointer;
+        color: var.$text-secondary;
       }
       // &:nth-child(even) {
-      //   background-color: colors.$off-white;
+      //   background-color: var.$white;
       // }
       &:hover {
         td {
@@ -61,19 +60,14 @@
       }
     }
   }
-  .pagination {
-    padding: 20px 2px;
-    &.right {
-      float: right;
-    }
-  }
   thead {
     background-color: var.$btn-secondary;
-    font-size: 14px;
+    font-family: var.$font-bold;
     tr,
     th {
       text-align: justify;
       padding: 14px 20px;
+      color: var.$text-primary;
       &:last-child {
         cursor: default;
       }
@@ -83,15 +77,12 @@
     }
   }
   tbody {
+    font-family: var.$font-regular;
     td {
       padding: 14px 20px;
     }
   }
   th {
-    font-size: 14px;
-    font-weight: 600;
-    font-family: Inter;
-
     .sorting {
       display: flex;
       justify-content: baseline;

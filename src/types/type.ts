@@ -150,7 +150,7 @@ export type TDataTable<T> = {
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
-  isPaginationRight?: boolean;
+  isPaginationLeft?: boolean;
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
 };
@@ -175,7 +175,7 @@ export type TPaginationProps = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  isPaginationRight: boolean;
+  isPaginationLeft: boolean;
 };
 
 export type TImage = {
