@@ -147,10 +147,12 @@ export type TDataTable<T> = {
   isSorting?: boolean;
   isPagination?: boolean;
   isAction?: boolean;
+  isOuterBorderLess?: boolean;
+  isMoreBtn?: boolean;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
-  isPaginationLeft?: boolean;
+  paginationPlacement?: 'left' | 'right' | 'center';
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
 };
@@ -166,6 +168,7 @@ export type TTableBodyProps<T> = {
   paginatedData: T[];
   columns: { key: keyof T; label: string }[];
   isAction: boolean;
+  isMoreBtn?: boolean;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
@@ -175,8 +178,15 @@ export type TPaginationProps = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  isPaginationLeft: boolean;
+  paginationPlacement: 'left' | 'right' | 'center';
 };
+
+export type TTableActions<T> = {
+  onAction?: (data: T) => void;
+  onEdit?: (data: T) => void;
+  onDelete?: (data: T) => void;
+  row: any;
+}
 
 export type TImage = {
   src: string;
@@ -188,3 +198,9 @@ export type TImage = {
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
   role?: string
 };
+
+export type TPopoverProps = {
+  children: React.ReactNode;
+  content: React.ReactNode;
+  placement?: string
+}

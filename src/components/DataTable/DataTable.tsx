@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import cx from "classnames";
 import { TDataTable } from "../../types/type";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
@@ -35,12 +36,14 @@ export const DataTable = <T extends Record<string, any>>({
   isSorting = false,
   isPagination = false,
   isAction = false,
-  isPaginationLeft = false,
+  paginationPlacement,
   sortingAscIcon = sortingAsc,
   sortingDesIcon = sortingDes,
   onAction,
   onEdit,
   onDelete,
+  isOuterBorderLess,
+  isMoreBtn
 }: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
@@ -87,31 +90,38 @@ export const DataTable = <T extends Record<string, any>>({
   };
 
   return (
-    <div className="table-wrapper">
-      <table className="table" cellPadding={10} cellSpacing={0}>
-        <TableHeader
-          columns={columns}
-          isSorting={isSorting}
-          isAction={isAction}
-          checkIsSorting={checkIsSorting}
-        />
-        <TableBody
-          paginatedData={paginatedData}
-          columns={columns}
-          isAction={isAction}
-          onAction={onAction}
-          onEdit={onEdit}
-          onDelete={onDelete}
-        />
-      </table>
-      {isPagination && (
+    <>
+      <div className="table-wrapper">
+        <table
+          className={cx("table", { "outer-border-less": isOuterBorderLess })}
+          cellPadding={10}
+          cellSpacing={0}
+        >
+          <TableHeader
+            columns={columns}
+            isSorting={isSorting}
+            isAction={isAction}
+            checkIsSorting={checkIsSorting}
+          />
+          <TableBody
+            paginatedData={paginatedData}
+            columns={columns}
+            isAction={isAction}
+            onAction={onAction}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            isMoreBtn={isMoreBtn}
+          />
+        </table>
+      </div>
+      {isPagination && data?.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
-          isPaginationLeft={isPaginationLeft}
+          paginationPlacement={paginationPlacement ?? 'right'}
         />
       )}
-    </div>
+    </>
   );
 };
