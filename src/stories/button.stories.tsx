@@ -20,7 +20,7 @@ export const Primary: Story = {
     id: 'primary',
     label: 'Button',
     type: 'button',
-    variant: 'primary'
+    variant: 'primary',
   },
 };
 export const Secondary: Story = {
@@ -37,7 +37,7 @@ export const Disabled: Story = {
     label: 'Button',
     type: 'button',
     variant: 'secondary',
-    isDisabled: true
+    isDisabled: true,
   },
 };
 

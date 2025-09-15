@@ -1,12 +1,21 @@
-import { ChangeEvent, FC, useEffect, useRef, useState, KeyboardEvent } from "react";
+import {
+  ChangeEvent,
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  KeyboardEvent,
+} from "react";
 import cx from "classnames";
-import { TOption, TSelect } from "../../type/type";
-import * as Icons from "../../assets/icons/icon";
+import { TOption, TSelect } from "../../types/type";
+import arrowDown from "../../assets/icons/arrow-down.svg";
+import closeIcon from "../../assets/icons/close.svg";
 import { EllipsisLoader } from "../EllipsisLoader/EllipsisLoader";
+import { Image } from "../Image/Image";
 import "./select.scss";
 
 export const Select: FC<TSelect> = ({
-  value = '',
+  value = "",
   inputId,
   placeholder,
   isRequired = false,
@@ -18,6 +27,9 @@ export const Select: FC<TSelect> = ({
   isLoading,
   isClearable,
   onClear,
+  customClass,
+  variant = "ghost",
+  noRecordMessage,
 }) => {
   const initialState = isMulti ? ([] as any) : {};
   const [searchValue, setSearchValue] = useState<string>("");
@@ -29,6 +41,7 @@ export const Select: FC<TSelect> = ({
 
   const selectClass = cx(
     "select_control",
+    variant,
     { "is-focused": isMenuOpen },
     { "is-disabled": isDisabled }
   );
@@ -65,16 +78,16 @@ export const Select: FC<TSelect> = ({
   }, [value]);
 
   useEffect(() => {
-      const handler = (e: MouseEvent) => {
-          if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
-              setIsMenuOpen(false);
-              setSearchValue("");
-          }
-      };
-      window.addEventListener("click", handler);
-      return () => {
-          window.removeEventListener("click", handler);
-      };
+    const handler = (e: MouseEvent) => {
+      if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+        setSearchValue("");
+      }
+    };
+    window.addEventListener("click", handler);
+    return () => {
+      window.removeEventListener("click", handler);
+    };
   }, []);
 
   const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -104,7 +117,8 @@ export const Select: FC<TSelect> = ({
 
     if (isMulti) {
       if (
-        selectedValue.findIndex((opt: TOption) => opt.label === option.label) >= 0
+        selectedValue.findIndex((opt: TOption) => opt.label === option.label) >=
+        0
       ) {
         newValue = removeOption(option);
       } else {
@@ -135,11 +149,7 @@ export const Select: FC<TSelect> = ({
     if (inputRef.current) {
       inputRef.current.focus();
     }
-    if (isDisabled) {
-      setIsMenuOpen(false);
-    } else {
-      setIsMenuOpen(!isMenuOpen);
-    }
+    setIsMenuOpen(isDisabled ? false : true);
   };
 
   const checkSelectionOption = () => {
@@ -186,7 +196,7 @@ export const Select: FC<TSelect> = ({
   };
 
   return (
-    <div className="select">
+    <div className={`select ${customClass}`}>
       <div className={selectClass} ref={selectRef} onClick={handleOnSelectBox}>
         <div className="select_value_container">
           <div className={selectValueClass}>
@@ -206,7 +216,7 @@ export const Select: FC<TSelect> = ({
               ref={inputRef}
             />
           </div>
-          <label className={hasValueClass}>
+          <label htmlFor={inputId} className={hasValueClass}>
             {placeholder} {isRequired && "*"}
           </label>
 
@@ -219,20 +229,21 @@ export const Select: FC<TSelect> = ({
             {isClearable &&
               (selectedValue.length > 0 ||
                 Object.keys(selectedValue).length > 0) && (
-                <img
-                  src={Icons.close as unknown as string}
-                  alt=""
+                <Image
+                  src={closeIcon as never}
                   className="clear-all"
                   onClick={() =>
                     !isDisabled && setSelectedValue(isMulti ? [] : {})
                   }
+                  alt="Close"
                 />
               )}
-            <img
+            <Image
+              src={arrowDown as never}
               className={suffixIConClass}
-              src={Icons.arrowDown as unknown as string}
-              alt=""
               role="presentation"
+              onClick={() => !isDisabled && setSelectedValue(isMulti ? [] : {})}
+              alt="Arrow Down"
             />
           </div>
         </div>
@@ -240,8 +251,10 @@ export const Select: FC<TSelect> = ({
       {isMenuOpen && (
         <div className="select__menu">
           <div className="select__menu-list">
-            {selectedValue?.length === filterOptions().length ? (
-              <div className="no-options">No Options</div>
+            {filterOptions().length === 0 ? (
+              <div className="no-options">
+                {noRecordMessage ? noRecordMessage : "No Records"}
+              </div>
             ) : (
               filterOptions()?.map((option: TOption, index: number) =>
                 checkSelectedItem(option, index)

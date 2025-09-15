@@ -6,3 +6,4 @@ export { Image } from "./Image/Image";
 export { Input } from "./Input/Input";
 export { Modal } from "./Modal/Modal";
 export { Select } from "./Select/Select";
+export { Popover } from "./Popover/Popover";

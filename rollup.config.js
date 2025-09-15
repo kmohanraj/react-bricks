@@ -4,7 +4,8 @@ import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import postcss from "rollup-plugin-postcss";
 import pkg from "./package.json" assert { type: "json" };
-import url from '@rollup/plugin-url';
+import svgr from "@svgr/rollup";
+import url from "@rollup/plugin-url";
 
 export default [
   {
@@ -30,9 +31,12 @@ export default [
         extensions: [".css", ".scss"],
         plugins: [],
       }),
+      svgr(),
       url({
         include: ["**/*.svg"],
-        limit: 0,
+        limit: 8192, // inline files < 8kb, copy others
+        emitFiles: true,
+        fileName: "assets/[name][extname]",
       }),
     ],
   },

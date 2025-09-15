@@ -1,25 +1,35 @@
-import React, { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import cx from "classnames";
-import { TModal } from "../../type/type";
+import { TModal } from "../../types/type";
 import { preventBodyScroll } from "../../helper/helper";
 import * as Icon from "../../assets/icons/icon";
 import "./modal.scss";
-
+import { Image } from "../Image/Image";
 
 export const Modal: FC<TModal> = ({
   id = "",
-  closeIcon = Icon.close,
+  title,
+  closeIcon,
   isShowModal,
   customClass,
   children,
   onModalClose,
   closeAriaLabel = "",
   modalAriaLabel = "",
+  maxWidth = "",
+  isStickyHeader
 }) => {
   const modalWindow = useRef<HTMLDivElement>(null);
-  const modalContent = useRef(null);
+  const modalContent = useRef<HTMLDivElement>(null);
   const modalBody = useRef(null);
-  const ModalClass = cx({ "modal-popup": true, "show-modal-popup": isShowModal });
+  const modalClass = cx(
+    {
+      "modal-popup": true,
+      "show-modal-popup": isShowModal,
+    },
+    customClass ? customClass : "",
+    isStickyHeader ? 'sticky-header': null
+  );
 
   const prevActiveElementRef = useRef<HTMLElement | null>(null);
 
@@ -33,6 +43,9 @@ export const Modal: FC<TModal> = ({
         "style",
         `position: fixed; top: -${window.scrollY}px; left: 0; right: 0;`
       );
+      if (modalContent.current) {
+        modalContent.current.style.maxWidth = `${maxWidth}px`;
+      }
     } else {
       document.body.removeAttribute("style");
       prevActiveElementRef.current?.focus();
@@ -43,7 +56,7 @@ export const Modal: FC<TModal> = ({
       preventBodyScroll(false);
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [isShowModal]);
+  }, [isShowModal, maxWidth]);
 
   function handleEscapeKey() {
     onModalClose?.();
@@ -87,7 +100,7 @@ export const Modal: FC<TModal> = ({
 
   return (
     <div
-      className={`${ModalClass} ${customClass ? customClass : ""}`}
+      className={modalClass}
       role="dialog"
       aria-modal
       tabIndex={-1}
@@ -96,20 +109,17 @@ export const Modal: FC<TModal> = ({
       aria-label={modalAriaLabel ? modalAriaLabel : ""}
     >
       <div className="modal-popup-content" ref={modalContent}>
-        <div className="close-button-holder ">
+        <div className="modal-popup-content-header">
+          <h2>{title}</h2>
           <button
-            className="close-button gbh-data-layer"
+            className="close-button"
             onClick={onModalClose}
             aria-label={closeAriaLabel ? closeAriaLabel : "close"}
           >
-            {typeof closeIcon === "string" ? (
-              <img src={closeIcon} alt="" />
-            ) : (
-              React.createElement(closeIcon)
-            )}
+            <Image src={closeIcon ? closeIcon : Icon.close as never} />       
           </button>
         </div>
-        <div className="modal-popup-body" ref={modalBody}>
+        <div className="modal-popup-content-body" ref={modalBody}>
           {isShowModal && children}
         </div>
       </div>

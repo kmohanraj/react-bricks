@@ -1,20 +1,24 @@
-@use '../../assets/styles/_variables' as var;
-
+@use "../../assets/styles/_variables" as var;
 
 .table-wrapper {
+  @include var.breakpoint(max, md) {
+    display: block;
+    overflow-x: auto;
+    font-size: 0.875rem;
+  }
+
   .table {
     border-color: var.$border;
-    border: 1px solid var.$border;
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
-
     tr {
       td {
         cursor: pointer;
+        color: var.$text-secondary;
       }
       // &:nth-child(even) {
-      //   background-color: colors.$off-white;
+      //   background-color: var.$white;
       // }
       &:hover {
         td {
@@ -30,58 +34,92 @@
         }
       }
     }
-    tr,
-    td,
-    tr,
-    th {
-      border-color: var.$border;
-      border: 1px solid var.$border;
-      border-collapse: collapse;
-      border-spacing: 0;
-    }
-    .actions {
-      width: 80px;
-      span {
-        padding: 0 5px;
+    thead {
+      background-color: var.$btn-secondary;
+      font-family: var.$font-bold;
+      tr {
+        border: 1px solid var.$border;
       }
-    }
-  }
-  .pagination {
-    padding: 20px 2px;
-    &.right {
-      float: right;
-    }
-  }
-  thead {
-    background-color: var.$btn-secondary;
-    font-size: 14px;
-    tr,
-    th {
-      text-align: justify;
-      padding: 19px 20px 19px 24px;
-      &:last-child {
-        cursor: default;
+      th {
+        border: 1px solid var.$border;
       }
-      img {
-        cursor: pointer;
-      }
-    }
-  }
-  tbody {
-    td {
-      padding: 14px 20px;
-    }
-  }
-  th {
-    font-size: 14px;
-    font-weight: 600;
-    font-family: Inter;
+      tr,
+      th {
+        text-align: justify;
+        padding: 14px 20px;
+        color: var.$text-primary;
+        border-color: var.$border;
+        border-collapse: collapse;
+        border-spacing: 0;
 
-    .sorting {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
+        &:last-child {
+          cursor: default;
+        }
+        img {
+          cursor: pointer;
+        }
+      }
+      .sorting {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.625rem;
+      }
+    }
+    tbody {
+      font-family: var.$font-regular;
+      tr {
+        border: 1px solid var.$border;
+      }
+      td {
+        border: 1px solid var.$border;
+      }
+      td {
+        padding: 0.875rem 1.25rem;
+        border-color: var.$border;
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+      .actions {
+        width: 5rem;
+        text-align: center;
+        user-select: none;
+        img {
+          padding: 0 0.3125rem;
+        }
+        &-items {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 5px;
+        }
+      }
+    }
+    &.outer-border-less {
+      thead {
+        tr {
+          border: none;
+        }
+        th {
+          border: none;
+        }
+      }
+      tbody {
+        tr {
+          border: 1px solid var.$border;
+          border-left: none;
+          border-right: none;
+          &:first-child {
+            border-top: none;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+        td {
+          border: none;
+        }
+      }
     }
   }
 }

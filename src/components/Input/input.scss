@@ -1,9 +1,41 @@
-@use '../../assets/styles/_variables' as var;
+@use "../../assets/styles/_variables" as var;
+
+$borderValue: 0.0625rem;
 
 .input-field {
   display: inline-block;
   width: 100%;
 
+  &.primary input:focus {
+    border: $borderValue solid var.$primary;
+  }
+  &.ghost input:focus {
+    border: $borderValue solid var.$text-primary;
+  }
+  &.underlined input {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: inherit;
+    border-bottom: 0.0938rem solid var.$border;
+    padding-left: 0;
+    padding-right: 0;
+    &.error {
+      border-color: var.$error;
+    }
+  }
+  &.underlined input + label {
+    left: 0;
+  }
+  &.has-prefix input {
+    padding-left: 3.125rem;
+  }
+  &.has-suffix input {
+    padding-right: 3.125rem;
+  }
+  &.error input {
+    border-color: var.$error;
+  }
   &__input-wrapper {
     position: relative;
     display: inline-block;
@@ -21,15 +53,9 @@
       padding: 0.9375rem 15px 0 15px;
       box-sizing: border-box;
 
-      &.has-prefix {
-        padding-left: 3.125rem;
-      }
-      &.has-suffix {
-        padding-right: 3.125rem;
-      }
       &:focus {
         outline: none;
-        border: 0.0938rem solid var.$btn-primary;
+        border: $borderValue solid var.$primary;
         & + label {
           top: 0.3125rem;
           transform: none;
@@ -37,25 +63,6 @@
           letter-spacing: -0.0219rem;
         }
       }
-      &.error {
-        border-color: var.$error;
-      }
-      &.underlined {
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-radius: inherit;
-        border-bottom: 0.0938rem solid var.$border;
-        padding-left: 0;
-        padding-right: 0;
-        &.error {
-          border-color: var.$error;
-        }
-      }
-    }
-
-    .underlined + label {
-      left: 0;
     }
 
     label {

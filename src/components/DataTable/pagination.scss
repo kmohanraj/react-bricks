@@ -1,0 +1,18 @@
+@use "../../assets/styles/_variables" as var;
+
+.pagination {
+  display: flex;
+  padding: 20px 2px;
+  float: right;
+  align-items: center;
+  &.center {
+    float: unset;
+    justify-content: center;
+  }
+  &.left {
+    float: left;
+  }
+  &-page-count {
+    padding: 10px;
+  }
+}

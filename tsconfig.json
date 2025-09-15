@@ -17,8 +17,10 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@components": ["/src/components"]
-    }
+      "@components": ["/src/components"],
+      "@hooks": ["/src/hooks"]
+    },
+    "ignoreDeprecations": "6.0"
   },
-  "include": ["src"],
+  "include": ["src", "src/types", "svg.d.ts"]
 }

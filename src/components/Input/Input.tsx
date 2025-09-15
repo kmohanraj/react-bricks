@@ -1,7 +1,64 @@
-import React, { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import cx from "classnames";
-import { TInputField } from "../../type/type";
+import { TInputField } from "../../types/type";
 import "./input.scss";
+
+const getErrorClass = (error: boolean) => cx("message", { error });
+const getLabelClass = (
+  inputValue: string,
+  error: boolean,
+  preFixIcon?: string
+) =>
+  cx({
+    "has-value": inputValue,
+    error,
+    "has-prefix": preFixIcon,
+  });
+const getInputClass = (
+  customClass: string | undefined,
+  variant: string | undefined,
+  borderType: string,
+  error: boolean,
+  preFixIcon?: string,
+  sufFixIcon?: string
+) =>
+  cx('input-field', customClass, variant, borderType ? borderType : null, {
+    error,
+    "has-prefix": preFixIcon,
+    "has-suffix": sufFixIcon,
+  });
+
+const handleInputChange = (
+  e: ChangeEvent<HTMLInputElement>,
+  isNumber: boolean | undefined,
+  setInputValue: (value: string) => void,
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
+) => {
+  const value = e.target.value;
+  if (isNumber) {
+    const val = value.replace(/[^0-9.]/g, '')
+    setInputValue(val);
+    onChange?.({...e, target: {...e.target, value: val}});
+  } else {
+    setInputValue(value);
+    onChange?.(e);
+  }
+};
+
+const handleInputBlur = (
+  onBlur: (() => void) | undefined,
+  setIsShow: (show: boolean) => void
+) => {
+  onBlur?.();
+  setIsShow(false);
+};
+
+const handleInputFocus = (
+  setIsShow: (show: boolean) => void,
+  isShow: boolean
+) => {
+  setIsShow(!isShow);
+};
 
 export const Input: FC<TInputField> = ({
   value,
@@ -22,32 +79,25 @@ export const Input: FC<TInputField> = ({
   isDisabled,
   maxLength,
   autoComplete = "off",
+  variant = 'ghost',
+  isNumber,
 }) => {
   const [isShow, setIsShow] = useState(false);
   const [inputValue, setInputValue] = useState(value);
-  const errorClass = cx("message", { error: error });
-  const labelClass = cx({
-    "has-value": inputValue,
-    error: error,
-    "has-prefix": preFixIcon,
-  });
-  const inputClass = cx(customClass, borderType ? borderType : null, {
-    error: error,
-    "has-prefix": preFixIcon,
-    "has-suffix": sufFixIcon,
-  });
 
-  const handleOnBlur = () => {
-    onBlur?.();
-    setIsShow(false);
-  };
-
-  const handleOnFocus = () => {
-    setIsShow(!isShow);
-  };
+  const errorClass = getErrorClass(!!error);
+  const labelClass = getLabelClass(inputValue, !!error, preFixIcon);
+  const inputClass = getInputClass(
+    customClass,
+    variant,
+    borderType,
+    !!error,
+    preFixIcon,
+    sufFixIcon
+  );
 
   return (
-    <span className="input-field">
+    <span className={inputClass}>
       <span className="input-field__input-wrapper">
         {preFixIcon && (
           <img
@@ -68,17 +118,15 @@ export const Input: FC<TInputField> = ({
         )}
         <input
           name={inputId}
-          className={inputClass}
           id={inputId}
           value={inputValue}
           required={isRequired}
           aria-required={isRequired}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            onChange?.(e);
-          }}
-          onBlur={handleOnBlur}
-          onFocus={handleOnFocus}
+          onChange={(e) =>
+            handleInputChange(e, isNumber, setInputValue, onChange)
+          }
+          onBlur={() => handleInputBlur(onBlur, setIsShow)}
+          onFocus={() => handleInputFocus(setIsShow, isShow)}
           autoComplete={autoComplete}
           type={inputType}
           disabled={isDisabled}
