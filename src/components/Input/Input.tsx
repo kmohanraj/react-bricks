@@ -61,6 +61,7 @@ const handleInputFocus = (
 };
 
 export const Input: FC<TInputField> = ({
+  name,
   value,
   onChange,
   message,
@@ -117,7 +118,7 @@ export const Input: FC<TInputField> = ({
           />
         )}
         <input
-          name={inputId}
+          name={name}
           id={inputId}
           value={inputValue}
           required={isRequired}
