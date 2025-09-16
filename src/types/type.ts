@@ -73,6 +73,7 @@ export type TEllipsisLoader = {
 };
 
 export type TInputField = {
+  name: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   message?: string;
