@@ -84,14 +84,12 @@
         width: 5rem;
         text-align: center;
         user-select: none;
-        img {
-          padding: 0 0.3125rem;
-        }
         &-items {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 5px;
+          gap: 10px;
         }
       }
     }

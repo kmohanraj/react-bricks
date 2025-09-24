@@ -43,7 +43,8 @@ export const DataTable = <T extends Record<string, any>>({
   onEdit,
   onDelete,
   isOuterBorderLess,
-  isMoreBtn
+  isMoreBtn,
+  iconSize = "18"
 }: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
@@ -111,6 +112,7 @@ export const DataTable = <T extends Record<string, any>>({
             onEdit={onEdit}
             onDelete={onDelete}
             isMoreBtn={isMoreBtn}
+            iconSize={iconSize}
           />
         </table>
       </div>

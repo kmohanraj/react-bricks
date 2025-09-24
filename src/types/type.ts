@@ -6,7 +6,7 @@ import {
   ReactNode,
   SyntheticEvent,
   SetStateAction,
-  ComponentType,  
+  ComponentType,
 } from "react";
 
 export type TButton = {
@@ -33,8 +33,8 @@ export type TButton = {
   role?: string;
   ariaLabelledBy?: string;
   ariaDescription?: string;
-  prefix?: string
-  suffix?: string
+  prefix?: string;
+  suffix?: string;
 };
 
 export type TButtonClass = {
@@ -74,8 +74,8 @@ export type TEllipsisLoader = {
 
 export type TInputField = {
   name: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string | number | null;
+  onChange: (name?: string, value?: string | number, e?: ChangeEvent<HTMLInputElement>) => void;
   message?: string;
   error?: string;
   placeholder: string;
@@ -88,7 +88,7 @@ export type TInputField = {
   sufFixIcon?: any;
   suffixOnClick?: any;
   altName?: string;
-  inputType?: string;
+  inputType?: "text" | "number" | "email" | "password" | "tel" | "url";
   isSelect?: boolean;
   selectOptions?: any;
   onSelect?: any;
@@ -97,6 +97,7 @@ export type TInputField = {
   maxLength?: number;
   autoComplete?: string;
   isNumber?: boolean;
+  isDecimal?: boolean
 };
 
 export type TModal = {
@@ -110,11 +111,11 @@ export type TModal = {
   closeAriaLabel?: string;
   modalAriaLabel?: string;
   maxWidth?: string;
-  isStickyHeader?: boolean
+  isStickyHeader?: boolean;
 };
 
 export type TOption = {
-  id: any;
+  id: string | number;
   label: string;
 };
 
@@ -150,10 +151,11 @@ export type TDataTable<T> = {
   isAction?: boolean;
   isOuterBorderLess?: boolean;
   isMoreBtn?: boolean;
+  iconSize?: string;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
-  paginationPlacement?: 'left' | 'right' | 'center';
+  paginationPlacement?: "left" | "right" | "center";
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
 };
@@ -173,13 +175,14 @@ export type TTableBodyProps<T> = {
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
+  iconSize?: string;
 };
 
 export type TPaginationProps = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  paginationPlacement: 'left' | 'right' | 'center';
+  paginationPlacement: "left" | "right" | "center";
 };
 
 export type TTableActions<T> = {
@@ -187,7 +190,8 @@ export type TTableActions<T> = {
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
   row: any;
-}
+  iconSize?: string;
+};
 
 export type TImage = {
   src: string;
@@ -197,11 +201,11 @@ export type TImage = {
   className?: string;
   onClick?: MouseEventHandler<HTMLImageElement>;
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
-  role?: string
+  role?: string;
 };
 
 export type TPopoverProps = {
   children: React.ReactNode;
   content: React.ReactNode;
-  placement?: string
-}
+  placement?: string;
+};

@@ -5,7 +5,7 @@ import "./input.scss";
 
 const getErrorClass = (error: boolean) => cx("message", { error });
 const getLabelClass = (
-  inputValue: string,
+  inputValue: string | number,
   error: boolean,
   preFixIcon?: string
 ) =>
@@ -22,28 +22,11 @@ const getInputClass = (
   preFixIcon?: string,
   sufFixIcon?: string
 ) =>
-  cx('input-field', customClass, variant, borderType ? borderType : null, {
+  cx("input-field", customClass, variant, borderType ? borderType : null, {
     error,
     "has-prefix": preFixIcon,
     "has-suffix": sufFixIcon,
   });
-
-const handleInputChange = (
-  e: ChangeEvent<HTMLInputElement>,
-  isNumber: boolean | undefined,
-  setInputValue: (value: string) => void,
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
-) => {
-  const value = e.target.value;
-  if (isNumber) {
-    const val = value.replace(/[^0-9.]/g, '')
-    setInputValue(val);
-    onChange?.({...e, target: {...e.target, value: val}});
-  } else {
-    setInputValue(value);
-    onChange?.(e);
-  }
-};
 
 const handleInputBlur = (
   onBlur: (() => void) | undefined,
@@ -80,12 +63,12 @@ export const Input: FC<TInputField> = ({
   isDisabled,
   maxLength,
   autoComplete = "off",
-  variant = 'ghost',
+  variant = "ghost",
   isNumber,
+  isDecimal,
 }) => {
   const [isShow, setIsShow] = useState(false);
-  const [inputValue, setInputValue] = useState(value);
-
+  const [inputValue, setInputValue] = useState<string | number>(value ?? "");
   const errorClass = getErrorClass(!!error);
   const labelClass = getLabelClass(inputValue, !!error, preFixIcon);
   const inputClass = getInputClass(
@@ -96,6 +79,29 @@ export const Input: FC<TInputField> = ({
     preFixIcon,
     sufFixIcon
   );
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    isNumber: boolean | undefined,
+    setInputValue: (value: string | number) => void
+  ) => {
+    const { name, value } = e.target;
+    let parsedValue: string | number | null = value;
+    const parseNumber = value.replace(/[^0-9.]/g, "");
+    if (isNumber) {
+      parsedValue = parseInt(parseNumber);
+      // setInputValue(parsedValue);
+      // onChange?.(name, Number(value), e);
+    } else if (isDecimal) {
+      parsedValue = parseFloat(parseNumber);
+      // onChange?.(name, parseFloat(value), e);
+    } else {
+      // setInputValue(value);
+      parsedValue = value;
+    }
+    setInputValue(parsedValue);
+    onChange?.(name, parsedValue, e);
+  };
 
   return (
     <span className={inputClass}>
@@ -123,9 +129,7 @@ export const Input: FC<TInputField> = ({
           value={inputValue}
           required={isRequired}
           aria-required={isRequired}
-          onChange={(e) =>
-            handleInputChange(e, isNumber, setInputValue, onChange)
-          }
+          onChange={(e) => handleInputChange(e, isNumber, setInputValue)}
           onBlur={() => handleInputBlur(onBlur, setIsShow)}
           onFocus={() => handleInputFocus(setIsShow, isShow)}
           autoComplete={autoComplete}

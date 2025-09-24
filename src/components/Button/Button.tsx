@@ -75,7 +75,7 @@ export const Button: FC<TButton> = ({
     >
       {isLoading && <EllipsisLoader color={loaderColor} size={loaderSize} />}
       {prefix && <Image src={prefix} className="prefix" role="presentation" />}
-      <span>{label}</span>
+      {!isLoading && <span>{label}</span>} 
       {suffix && <Image src={suffix} className="suffix" role="presentation" />}
     </ElementTag>
   );

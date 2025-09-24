@@ -35,6 +35,7 @@
   }
   &.ghost {
     border: 1px solid var.$text-primary;
+    color: var.$text-primary;
   }
   &.disabled {
     opacity: unset;
