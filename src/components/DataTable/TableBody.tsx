@@ -51,12 +51,14 @@ const TableBody = <T extends Record<string, any>>({
   onDelete,
   iconSize,
 }: TTableBodyProps<T>) => {
+  const hasIdColumn = columns.some((col) => col.key === "id");
   const visibleColumns = columns.filter((col) => col.key !== "id");
+
   return (
     <tbody>
       {paginatedData.map((row, idx) => (
         <tr key={idx}>
-          <td>{idx + 1}</td>
+          {hasIdColumn && <td>{idx + 1}</td>}
           {visibleColumns.map((col) => (
             <td className="" key={col.key as Key}>
               {row[col.key]}
