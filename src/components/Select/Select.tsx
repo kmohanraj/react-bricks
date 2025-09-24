@@ -196,7 +196,7 @@ export const Select: FC<TSelect> = ({
   };
 
   return (
-    <div className={`select ${customClass}`}>
+    <div className={cx("select", customClass)}>
       <div className={selectClass} ref={selectRef} onClick={handleOnSelectBox}>
         <div className="select_value_container">
           <div className={selectValueClass}>

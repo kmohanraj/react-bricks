@@ -17,7 +17,7 @@ export const Modal: FC<TModal> = ({
   closeAriaLabel = "",
   modalAriaLabel = "",
   maxWidth = "",
-  isStickyHeader
+  isStickyHeader,
 }) => {
   const modalWindow = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ export const Modal: FC<TModal> = ({
       "show-modal-popup": isShowModal,
     },
     customClass ? customClass : "",
-    isStickyHeader ? 'sticky-header': null
+    isStickyHeader ? "sticky-header" : null
   );
 
   const prevActiveElementRef = useRef<HTMLElement | null>(null);
@@ -116,7 +116,7 @@ export const Modal: FC<TModal> = ({
             onClick={onModalClose}
             aria-label={closeAriaLabel ? closeAriaLabel : "close"}
           >
-            <Image src={closeIcon ? closeIcon : Icon.close as never} />       
+            <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
           </button>
         </div>
         <div className="modal-popup-content-body" ref={modalBody}>

@@ -86,18 +86,23 @@ export const Input: FC<TInputField> = ({
     setInputValue: (value: string | number) => void
   ) => {
     const { name, value } = e.target;
-    let parsedValue: string | number | null = value;
+
+    // If input is empty, set empty string and return early
+    if (value.trim() === "") {
+      setInputValue("");
+      onChange?.(name, "", e);
+      return;
+    }
+
     const parseNumber = value.replace(/[^0-9.]/g, "");
+    let parsedValue: string | number = value;
+
     if (isNumber) {
-      parsedValue = parseInt(parseNumber);
-      // setInputValue(parsedValue);
-      // onChange?.(name, Number(value), e);
+      const num = parseInt(parseNumber, 10);
+      parsedValue = isNaN(num) ? "" : num;
     } else if (isDecimal) {
-      parsedValue = parseFloat(parseNumber);
-      // onChange?.(name, parseFloat(value), e);
-    } else {
-      // setInputValue(value);
-      parsedValue = value;
+      const floatNum = parseFloat(parseNumber);
+      parsedValue = isNaN(floatNum) ? "" : floatNum;
     }
     setInputValue(parsedValue);
     onChange?.(name, parsedValue, e);
