@@ -75,7 +75,11 @@ export type TEllipsisLoader = {
 export type TInputField = {
   name: string;
   value: string | number | null;
-  onChange: (name?: string, value?: string | number, e?: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (
+    name?: string,
+    value?: string | number,
+    e?: ChangeEvent<HTMLInputElement>
+  ) => void;
   message?: string;
   error?: string;
   placeholder: string;
@@ -97,7 +101,7 @@ export type TInputField = {
   maxLength?: number;
   autoComplete?: string;
   isNumber?: boolean;
-  isDecimal?: boolean
+  isDecimal?: boolean;
 };
 
 export type TModal = {
@@ -169,7 +173,11 @@ export type TTableHeaderProps<T> = {
 
 export type TTableBodyProps<T> = {
   paginatedData: T[];
-  columns: { key: keyof T; label: string }[];
+  columns: {
+    selector: any;
+    key: keyof T;
+    label: string;
+  }[];
   isAction: boolean;
   isMoreBtn?: boolean;
   onAction?: (data: T) => void;
@@ -208,4 +216,5 @@ export type TPopoverProps = {
   children: React.ReactNode;
   content: React.ReactNode;
   placement?: string;
+  isClickClose?: boolean;
 };

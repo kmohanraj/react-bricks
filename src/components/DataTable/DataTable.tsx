@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 import cx from "classnames";
 import { TDataTable } from "../../types/type";
+import { useGetDevice } from "@/hooks";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
@@ -27,7 +28,7 @@ const getPaginatedData = <T,>(
   currentPage: number,
   rowsPerPage: number
 ): T[] =>
-  data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
 export const DataTable = <T extends Record<string, any>>({
   data,
@@ -51,18 +52,18 @@ export const DataTable = <T extends Record<string, any>>({
     direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
-
-  const sortedData = React.useMemo(
+  const devise = useGetDevice()
+  const sortedData = useMemo(
     () => getSortedData(data, sortConfig),
     [data, sortConfig]
   );
 
-  const paginatedData = React.useMemo(
+  const paginatedData = useMemo(
     () => getPaginatedData(sortedData, currentPage, rowsPerPage),
     [sortedData, currentPage, rowsPerPage]
   );
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(data?.length / rowsPerPage);
 
   const requestSort = (key: keyof T | null) => {
     let direction: "asc" | "desc" = "asc";
@@ -106,7 +107,7 @@ export const DataTable = <T extends Record<string, any>>({
           />
           <TableBody
             paginatedData={paginatedData}
-            columns={columns}
+            columns={columns as never}
             isAction={isAction}
             onAction={onAction}
             onEdit={onEdit}
@@ -121,7 +122,7 @@ export const DataTable = <T extends Record<string, any>>({
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
-          paginationPlacement={paginationPlacement ?? 'right'}
+          paginationPlacement={devise === 'mobile' ? 'center' : paginationPlacement ?? 'right'}
         />
       )}
     </>

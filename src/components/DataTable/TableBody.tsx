@@ -56,12 +56,12 @@ const TableBody = <T extends Record<string, any>>({
 
   return (
     <tbody>
-      {paginatedData.map((row, idx) => (
+      {paginatedData?.map((row, idx) => (
         <tr key={idx}>
           {hasIdColumn && <td>{idx + 1}</td>}
           {visibleColumns.map((col) => (
             <td className="" key={col.key as Key}>
-              {row[col.key]}
+            {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
             </td>
           ))}
           {isAction && (
@@ -70,9 +70,9 @@ const TableBody = <T extends Record<string, any>>({
                 <Popover
                   children={
                     <Image
-                      src={Icons.moreIcon3 as unknown as string}
-                      width="28"
-                      height="28"
+                      src={Icons.moreIcon as unknown as string}
+                      width="24"
+                      height="24"
                     />
                   }
                   content={
@@ -84,6 +84,7 @@ const TableBody = <T extends Record<string, any>>({
                       iconSize={iconSize}
                     />
                   }
+                  isClickClose
                 />
               ) : (
                 <>
