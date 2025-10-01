@@ -6,6 +6,11 @@
     overflow-x: auto;
     font-size: 0.875rem;
   }
+  .no-records {
+    text-align: center;
+    padding: 1.875rem;
+    font-family: var.$font-regular;
+  }
 
   .table {
     border-color: var.$border;

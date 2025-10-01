@@ -34,3 +34,10 @@ export const Radio: Story = {
   },
 };
 
+export const Swithc: Story = {
+  args: {
+    label: "Switch",
+    name: "Status",
+    type: "switch"
+  }
+}

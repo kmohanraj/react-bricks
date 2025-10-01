@@ -55,7 +55,11 @@ export const CheckBox: FC<TCheckBox> = ({
   const handleOnKeyDown = (e: any) =>
     handleOnKeyDownFn(e, isDisabled, value, onChecked);
 
-  const spanClass = clsx(type === "radio" ? "checkCircle" : "checkMark");
+  const spanClass = clsx({
+    checkCircle: type === "radio" ? "checkCircle" : "checkMark",
+    checkMark: type === 'checkbox',
+    switchSlider: type === 'switch'
+    });
 
   return (
     <div className="checkbox">

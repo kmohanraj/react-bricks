@@ -48,7 +48,7 @@ export type TButtonClass = {
 
 export type TCheckBox = {
   testId?: string;
-  type: "checkbox" | "radio";
+  type: "checkbox" | "radio" | "switch";
   position?: "left" | "right";
   customClass?: string;
   name?: string;
@@ -76,9 +76,8 @@ export type TInputField = {
   name: string;
   value: string | number | null;
   onChange: (
-    name?: string,
-    value?: string | number,
-    e?: ChangeEvent<HTMLInputElement>
+    // e?: ChangeEvent<HTMLInputElement>
+    value?: string | number | Date
   ) => void;
   message?: string;
   error?: string;
@@ -92,7 +91,7 @@ export type TInputField = {
   sufFixIcon?: any;
   suffixOnClick?: any;
   altName?: string;
-  inputType?: "text" | "number" | "email" | "password" | "tel" | "url";
+  inputType?: "text" | "number" | "email" | "password" | "tel" | "url" | "date";
   isSelect?: boolean;
   selectOptions?: any;
   onSelect?: any;
@@ -102,20 +101,22 @@ export type TInputField = {
   autoComplete?: string;
   isNumber?: boolean;
   isDecimal?: boolean;
+  isDatePicker?: boolean;
 };
 
 export type TModal = {
-  id: string;
+  id?: string;
   title?: string;
   closeIcon?: string;
-  isShowModal: boolean;
+  isModal: boolean;
   customClass?: string;
   children: ReactNode;
-  onModalClose: any;
+  onClose: () => void;
   closeAriaLabel?: string;
   modalAriaLabel?: string;
   maxWidth?: string;
   isStickyHeader?: boolean;
+  isRightSide?: boolean;
 };
 
 export type TOption = {

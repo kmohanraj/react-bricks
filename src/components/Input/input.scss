@@ -126,3 +126,72 @@ $borderValue: 0.0625rem;
     object-fit: contain;
   }
 }
+
+// Calendar style
+.custom-calendar {
+  position: absolute;
+  background: var.$white;
+  border: 1px solid var.$border;
+  padding: 10px;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 260px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+
+  button {
+    padding: 5px;
+    border: none;
+    background: var.$white;
+    cursor: pointer;
+
+    &:hover {
+      background: var.$primary;
+      color: var.$white;
+    }
+  }
+}
+
+.calendar-close {
+  margin-top: 10px;
+  background: #eee;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.calendar-grid button.selected {
+  background-color: var.$primary;
+  color: white;
+  font-weight: bold;
+}
+
+.close-and-clear {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-grid button.disabled {
+  background: var.$btn-disable;
+  color: var.$white;
+  opacity: 0.8;
+  cursor: not-allowed;
+}

@@ -53,6 +53,9 @@ $sizes: (
       }
     }
     &.primary span {
+      background-color: var.$btn-secondary;
+    }
+    &.secondary span {
       background-color: var.$btn-primary;
     }
     &.dark span {

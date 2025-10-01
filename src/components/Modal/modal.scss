@@ -59,7 +59,7 @@ h5 {
     &-body {
       width: 100%;
       // padding-top: 2.5rem;
-      padding-top: .625rem;
+      padding-top: 0.625rem;
 
       // @include var.breakpoint(min, sm) {
       //   padding-top: 2rem;
@@ -83,6 +83,14 @@ h5 {
       padding: 30px 0 40px 0;
     }
   }
+  &.right-side-slide {
+    justify-content: end;
+    .modal-popup-content {
+      margin-top: 0;
+      border-radius: 0;
+      max-height: 100vh;
+    }
+  }
 
   .sticky-bottom {
     position: sticky;
@@ -102,15 +110,11 @@ h5 {
       margin-top: 6.3125rem;
       position: relative;
       background-color: var.$white;
-      // padding: 2.75rem;
       width: 100%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
     }
-    // .close-button {
-    //   right: 2.8125rem;
-    // }
   }
 }
 
@@ -119,13 +123,6 @@ h5 {
     .modal-popup-content {
       padding: 1.875rem;
       padding-top: 0;
-      // margin-top: 3.9375rem;
-      // border-radius: 0.5rem 0.5rem 0rem 0rem;
-      // max-height: none;
-      // height: calc(100svh - 10.9375rem);
     }
-    // .close-button {
-    //   right: 1.875rem;
-    // }
   }
 }

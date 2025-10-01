@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import cx from "classnames";
 import { TDataTable } from "../../types/type";
-import { useGetDevice } from "@/hooks";
+import { useGetDevice } from "../../hooks/useGetDevice";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
@@ -116,6 +116,9 @@ export const DataTable = <T extends Record<string, any>>({
             iconSize={iconSize}
           />
         </table>
+        {paginatedData.length === 0 && (
+          <div className="no-records">No Records</div>
+        ) }
       </div>
       {isPagination && data?.length > rowsPerPage && (
         <Pagination
