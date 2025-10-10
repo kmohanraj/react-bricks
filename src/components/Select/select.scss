@@ -1,9 +1,18 @@
-@use '../../assets/styles/_variables' as var;
+@use "../../assets/styles/_variables" as var;
 
 .select {
   position: relative;
   box-sizing: border-box;
   min-width: 18.75rem;
+}
+
+.message {
+  font-size: 0.875rem;
+  color: var.$error;
+  font-family: var.$font-regular;
+  display: block;
+  margin-top: 0.3125rem;
+  letter-spacing: -0.0406rem;
 }
 
 .select_control {
@@ -32,7 +41,12 @@
   &.is-focused {
     border: 0.0625rem solid var.$text-primary;
   }
-  
+  &.error {
+    border-color: var.$error;
+    label {
+      color: var.$error !important;
+    }
+  }
 
   .select_value_container {
     display: flex;

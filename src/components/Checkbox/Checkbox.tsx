@@ -1,38 +1,41 @@
 import { FC } from "react";
-import clsx from "classnames";
+import cx from "classnames";
 import CONSTANTS from "../../constants/constants";
 import { TCheckBox } from "../../types/type";
 import "./checkbox.scss";
 
-const isValueSelectedFn = (isChecked: boolean | undefined, value: any, selected: any) => {
-  return isChecked ?? value === selected;
-}
+// const isValueSelectedFn = (
+//   isChecked: boolean | undefined,
+//   value: any,
+//   selected: any
+// ) => {
+//   return isChecked ?? value === selected;
+// };
 
 const handleOnCheckFn = (
   e: React.ChangeEvent<HTMLInputElement>,
   isDisabled: boolean | undefined,
-  value: any,
-  onChecked: ((e: React.ChangeEvent<HTMLInputElement>, value: any) => void) | undefined
+  onChecked: ((e: React.ChangeEvent<HTMLInputElement>) => void) | undefined
 ) => {
-  if (!isDisabled && value !== undefined) {
-    onChecked?.(e, value);
+  if (!isDisabled) {
+    onChecked?.(e);
   }
-}
+};
 
 const handleOnKeyDownFn = (
   e: any,
   isDisabled: boolean | undefined,
-  value: any,
-  onChecked: ((e: React.ChangeEvent<HTMLInputElement>, value: any) => void) | undefined
+  value: string | undefined,
+  onChecked: ((e: React.ChangeEvent<HTMLInputElement>) => void) | undefined
 ) => {
   const { KEY, KEYCODE } = CONSTANTS;
   if (e.key === KEY.ENTER || e.keyCode === KEYCODE.SPACE) {
     e.preventDefault();
-    if (!isDisabled && value !== undefined) {
-      onChecked?.(e, value);
+    if (!isDisabled) {
+      onChecked?.(e);
     }
   }
-}
+};
 
 export const CheckBox: FC<TCheckBox> = ({
   label,
@@ -43,50 +46,59 @@ export const CheckBox: FC<TCheckBox> = ({
   customClass = "",
   onChecked,
   isChecked,
-  selected,
   value,
   isDisabled,
 }) => {
-  const isValueSelected = isValueSelectedFn(isChecked, value, selected);
+  // const isValueSelected = isValueSelectedFn(isChecked, value, selected);
 
-  const handleOnCheck = (e: React.ChangeEvent<HTMLInputElement>) =>
-    handleOnCheckFn(e, isDisabled, value, onChecked);
+  const handleOnCheck = (
+    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLSpanElement>
+  ) => {
+    // If the event is a mouse event, simulate a change event for onChecked
+    if ("currentTarget" in e && e.currentTarget instanceof HTMLSpanElement) {
+      // Do nothing, as onChecked expects a ChangeEvent<HTMLInputElement>
+    } else {
+      handleOnCheckFn(
+        e as React.ChangeEvent<HTMLInputElement>,
+        isDisabled,
+        onChecked
+      );
+    }
+  };
 
   const handleOnKeyDown = (e: any) =>
     handleOnKeyDownFn(e, isDisabled, value, onChecked);
 
-  const spanClass = clsx({
-    checkCircle: type === "radio" ? "checkCircle" : "checkMark",
-    checkMark: type === 'checkbox',
-    switchSlider: type === 'switch'
-    });
+  const spanClass = cx({
+    checkCircle: type === "radio",
+    checkMark: type === "checkbox",
+    switchSlider: type === "switch",
+  });
 
   return (
-    <div className="checkbox">
+    <div className={cx("checkbox", customClass)}>
       <label
-        role="switch"
+        role={type}
         aria-label={name}
-        aria-checked={isValueSelected}
+        aria-checked={isChecked}
         aria-disabled={isDisabled}
-        className={clsx(
-          "checkbox__wrapper",
-          customClass,
-          {
-            checked: isValueSelected,
-            left:  position === "left"
-          }
-        )}
+        className={cx("checkbox__wrapper", {
+          checked: isChecked,
+          left: position === "left",
+        })}
       >
         <input
           onChange={handleOnCheck}
           onKeyDown={handleOnKeyDown}
           data-testid={testId}
           disabled={isDisabled}
-          role="switch"
+          role={type}
           aria-label={name}
-          aria-checked={isValueSelected}
+          aria-checked={isChecked}
+          checked={isChecked}
           tabIndex={0}
           name={name}
+          type={type}
         />
         <span
           onChange={handleOnCheck}

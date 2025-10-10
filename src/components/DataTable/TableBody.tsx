@@ -60,8 +60,11 @@ const TableBody = <T extends Record<string, any>>({
         <tr key={idx}>
           {hasIdColumn && <td>{idx + 1}</td>}
           {visibleColumns.map((col) => (
-            <td className="" key={col.key as Key}>
-            {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
+            <td
+              key={col.key as Key}
+              onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
+            >
+              {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
             </td>
           ))}
           {isAction && (

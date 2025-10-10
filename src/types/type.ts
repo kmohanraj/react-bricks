@@ -53,7 +53,7 @@ export type TCheckBox = {
   customClass?: string;
   name?: string;
   label?: string;
-  onChecked?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
+  onChecked?: (e: ChangeEvent<HTMLInputElement>) => void;
   isChecked?: boolean;
   selected?: string;
   value?: string;
@@ -126,6 +126,7 @@ export type TOption = {
 
 export type TSelect = {
   value: any;
+  error?: string;
   inputId?: string;
   placeholder: string;
   options: any[];

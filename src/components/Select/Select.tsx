@@ -16,6 +16,7 @@ import "./select.scss";
 
 export const Select: FC<TSelect> = ({
   value = "",
+  error = "",
   inputId,
   placeholder,
   isRequired = false,
@@ -42,6 +43,7 @@ export const Select: FC<TSelect> = ({
   const selectClass = cx(
     "select_control",
     variant,
+    { error: error },
     { "is-focused": isMenuOpen },
     { "is-disabled": isDisabled }
   );
@@ -248,6 +250,7 @@ export const Select: FC<TSelect> = ({
           </div>
         </div>
       </div>
+      {error && <span className="message">{error}</span>}
       {isMenuOpen && (
         <div className="select__menu">
           <div className="select__menu-list">

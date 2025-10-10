@@ -12,7 +12,7 @@ h5 {
   top: 0;
   right: 0;
   height: 100%;
-  z-index: 999;
+  z-index: 9999;
   align-items: baseline;
   justify-content: center;
 
@@ -88,7 +88,9 @@ h5 {
     .modal-popup-content {
       margin-top: 0;
       border-radius: 0;
+      @include var.breakpoint(min, md) {
       max-height: 100vh;
+      }
     }
   }
 

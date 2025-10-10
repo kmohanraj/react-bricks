@@ -93,15 +93,12 @@ export const Input: FC<TInputField> = ({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    // If you want to handle number/decimal parsing, do it here using props
-    // Example:
-    let parsedValue: string | number = e.target.value;
+    let parsedValue = e.target.value;
     if (isNumber) {
-      const num = parseInt(e.target.value.replace(/[^0-9]/g, ""), 10);
-      parsedValue = isNaN(num) ? "" : num;
+      const num = parseInt(e.target.value, 10);
+      parsedValue = isNaN(num) ? "" : num.toString();
     } else if (isDecimal) {
-      const floatNum = parseFloat(e.target.value.replace(/[^0-9.]/g, ""));
-      parsedValue = isNaN(floatNum) ? "" : floatNum;
+      parsedValue = e.target.value.replace(/[^0-9./]/g, "").replace(/(\..*)\./g, "$1");;
     }
     onChange?.(parsedValue);
     // onChange?.(e.target.value);
