@@ -33,3 +33,12 @@ export const Underlined: Story = {
     borderType: 'underlined'
   }
 }
+
+export const DatePicker: Story = {
+  args: {
+    type: "text",
+    placeholder: "Start Date",
+    inputId: 'start_date',
+    isDatePicker: true
+  }
+}

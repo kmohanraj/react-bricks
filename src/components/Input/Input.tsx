@@ -1,16 +1,17 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import cx from "classnames";
 import { TInputField } from "../../types/type";
+import RenderCalendar from "./Calender";
 import "./input.scss";
 
 const getErrorClass = (error: boolean) => cx("message", { error });
 const getLabelClass = (
-  inputValue: string,
+  value: string | number,
   error: boolean,
   preFixIcon?: string
 ) =>
   cx({
-    "has-value": inputValue,
+    "has-value": value,
     error,
     "has-prefix": preFixIcon,
   });
@@ -22,28 +23,11 @@ const getInputClass = (
   preFixIcon?: string,
   sufFixIcon?: string
 ) =>
-  cx('input-field', customClass, variant, borderType ? borderType : null, {
+  cx("input-field", customClass, variant, borderType ? borderType : null, {
     error,
     "has-prefix": preFixIcon,
     "has-suffix": sufFixIcon,
   });
-
-const handleInputChange = (
-  e: ChangeEvent<HTMLInputElement>,
-  isNumber: boolean | undefined,
-  setInputValue: (value: string) => void,
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
-) => {
-  const value = e.target.value;
-  if (isNumber) {
-    const val = value.replace(/[^0-9.]/g, '')
-    setInputValue(val);
-    onChange?.({...e, target: {...e.target, value: val}});
-  } else {
-    setInputValue(value);
-    onChange?.(e);
-  }
-};
 
 const handleInputBlur = (
   onBlur: (() => void) | undefined,
@@ -55,9 +39,11 @@ const handleInputBlur = (
 
 const handleInputFocus = (
   setIsShow: (show: boolean) => void,
+  setIsDateShow: (show: boolean) => void,
   isShow: boolean
 ) => {
   setIsShow(!isShow);
+  setIsDateShow(true);
 };
 
 export const Input: FC<TInputField> = ({
@@ -80,14 +66,17 @@ export const Input: FC<TInputField> = ({
   isDisabled,
   maxLength,
   autoComplete = "off",
-  variant = 'ghost',
+  variant = "ghost",
   isNumber,
+  isDecimal,
+  isDatePicker,
 }) => {
   const [isShow, setIsShow] = useState(false);
-  const [inputValue, setInputValue] = useState(value);
-
+  const inputRef = useRef<HTMLInputElement>(null);
+  const calendarRef = useRef<HTMLInputElement>(null);
+  // const [inputValue, setInputValue] = useState<string | number>(value ?? "");
   const errorClass = getErrorClass(!!error);
-  const labelClass = getLabelClass(inputValue, !!error, preFixIcon);
+  const labelClass = getLabelClass(value as string, !!error, preFixIcon);
   const inputClass = getInputClass(
     customClass,
     variant,
@@ -96,6 +85,55 @@ export const Input: FC<TInputField> = ({
     preFixIcon,
     sufFixIcon
   );
+  // Date setter
+  const today = new Date();
+  const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+  const [isDateShow, setIsDateShow] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let parsedValue = e.target.value;
+    if (isNumber) {
+      const num = parseInt(e.target.value, 10);
+      parsedValue = isNaN(num) ? "" : num.toString();
+    } else if (isDecimal) {
+      parsedValue = e.target.value.replace(/[^0-9./]/g, "").replace(/(\..*)\./g, "$1");;
+    }
+    onChange?.(parsedValue);
+    // onChange?.(e.target.value);
+  };
+
+  const handleDateSelect = (day: number) => {
+    const selectedDate = new Date(selectedYear, selectedMonth, day);
+    setSelectedDate(selectedDate);
+    // const formattedDate = formatDate(selectedDate);
+    // setInputValue(formattedDate);
+    onChange?.(selectedDate);
+    setIsDateShow(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const calendarExists = calendarRef.current !== null;
+      const inputExists = inputRef.current !== null;
+
+      const clickedOutsideCalendar =
+        calendarExists && !calendarRef.current!.contains(event.target as Node);
+      const clickedOutsideInput =
+        inputExists && !inputRef.current!.contains(event.target as Node);
+
+      // Close datepicker only if clicked outside both calendar and input
+      if (clickedOutsideCalendar && clickedOutsideInput) {
+        setIsDateShow(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   return (
     <span className={inputClass}>
@@ -118,26 +156,40 @@ export const Input: FC<TInputField> = ({
           />
         )}
         <input
+          ref={inputRef}
           name={name}
           id={inputId}
-          value={inputValue}
+          type={inputType}
+          value={value ?? ""}
           required={isRequired}
           aria-required={isRequired}
-          onChange={(e) =>
-            handleInputChange(e, isNumber, setInputValue, onChange)
-          }
+          onChange={handleInputChange}
           onBlur={() => handleInputBlur(onBlur, setIsShow)}
-          onFocus={() => handleInputFocus(setIsShow, isShow)}
+          onFocus={() => handleInputFocus(setIsShow, setIsDateShow, isShow)}
           autoComplete={autoComplete}
-          type={inputType}
           disabled={isDisabled}
           maxLength={maxLength}
+          readOnly={isDatePicker}
         />
         <label className={labelClass} htmlFor={inputId}>
           {placeholder}
           {isRequired && "*"}
         </label>
       </span>
+      {isDatePicker && isDateShow && (
+        <div ref={calendarRef}>
+          <RenderCalendar
+            today={today}
+            setSelectedMonth={setSelectedMonth}
+            setSelectedYear={setSelectedYear}
+            selectedMonth={selectedMonth}
+            selectedYear={selectedYear}
+            selectedDate={selectedDate}
+            handleDateSelect={handleDateSelect}
+            setIsDateShow={setIsDateShow}
+          />
+        </div>
+      )}
       {message && <span className="message">{message}</span>}
       {error && <span className={errorClass}>{error}</span>}
     </span>

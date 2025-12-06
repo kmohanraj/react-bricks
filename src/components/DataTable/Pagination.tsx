@@ -3,8 +3,7 @@ import { TPaginationProps } from "../../types/type";
 import { Button } from "../Button/Button";
 import { Image } from "../Image/Image";
 import * as Icons from "../../assets/icons/icon";
-
-import './pagination.scss';
+import "./pagination.scss";
 
 const Pagination = ({
   currentPage,
@@ -28,7 +27,7 @@ const Pagination = ({
     <span className="pagination-page-count">
       Page {currentPage} of {totalPages}
     </span>
-     <Image
+    <Image
       src={Icons.nextIcon as unknown as string}
       onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
       width="18"

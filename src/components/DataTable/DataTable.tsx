@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useMemo, useState } from "react";
 import cx from "classnames";
 import { TDataTable } from "../../types/type";
+import { useGetDevice } from "../../hooks/useGetDevice";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
@@ -27,7 +28,7 @@ const getPaginatedData = <T,>(
   currentPage: number,
   rowsPerPage: number
 ): T[] =>
-  data.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
 export const DataTable = <T extends Record<string, any>>({
   data,
@@ -43,25 +44,26 @@ export const DataTable = <T extends Record<string, any>>({
   onEdit,
   onDelete,
   isOuterBorderLess,
-  isMoreBtn
+  isMoreBtn,
+  iconSize = "18"
 }: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
     direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
-
-  const sortedData = React.useMemo(
+  const devise = useGetDevice()
+  const sortedData = useMemo(
     () => getSortedData(data, sortConfig),
     [data, sortConfig]
   );
 
-  const paginatedData = React.useMemo(
+  const paginatedData = useMemo(
     () => getPaginatedData(sortedData, currentPage, rowsPerPage),
     [sortedData, currentPage, rowsPerPage]
   );
 
-  const totalPages = Math.ceil(data.length / rowsPerPage);
+  const totalPages = Math.ceil(data?.length / rowsPerPage);
 
   const requestSort = (key: keyof T | null) => {
     let direction: "asc" | "desc" = "asc";
@@ -105,21 +107,25 @@ export const DataTable = <T extends Record<string, any>>({
           />
           <TableBody
             paginatedData={paginatedData}
-            columns={columns}
+            columns={columns as never}
             isAction={isAction}
             onAction={onAction}
             onEdit={onEdit}
             onDelete={onDelete}
             isMoreBtn={isMoreBtn}
+            iconSize={iconSize}
           />
         </table>
+        {paginatedData.length === 0 && (
+          <div className="no-records">No Records</div>
+        ) }
       </div>
       {isPagination && data?.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
-          paginationPlacement={paginationPlacement ?? 'right'}
+          paginationPlacement={devise === 'mobile' ? 'center' : paginationPlacement ?? 'right'}
         />
       )}
     </>

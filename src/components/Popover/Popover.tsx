@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, FC } from "react";
 import cx from "classnames";
 import { useGetPosition } from "../../hooks/useGetPosition";
 import { TPopoverProps } from "@/types/type";
@@ -45,7 +45,7 @@ const useOutsideClick = (
   }, [visible, popoverRef, triggerRef, setVisible]);
 };
 
-export const Popover: React.FC<TPopoverProps> = ({ children, content }) => {
+export const Popover: FC<TPopoverProps> = ({ children, content, isClickClose }) => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -81,6 +81,11 @@ export const Popover: React.FC<TPopoverProps> = ({ children, content }) => {
             left: position?.left ?? -9999,
             zIndex: 1000,
             visibility: position ? "visible" : "hidden",
+          }}
+          onClick={() => {
+            if (isClickClose) {
+              setVisible(false)
+            }
           }}
         >
           {content}

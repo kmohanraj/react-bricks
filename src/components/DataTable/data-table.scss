@@ -6,6 +6,11 @@
     overflow-x: auto;
     font-size: 0.875rem;
   }
+  .no-records {
+    text-align: center;
+    padding: 1.875rem;
+    font-family: var.$font-regular;
+  }
 
   .table {
     border-color: var.$border;
@@ -84,14 +89,12 @@
         width: 5rem;
         text-align: center;
         user-select: none;
-        img {
-          padding: 0 0.3125rem;
-        }
         &-items {
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 5px;
+          gap: 10px;
         }
       }
     }

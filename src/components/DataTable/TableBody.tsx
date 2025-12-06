@@ -1,46 +1,41 @@
 import { Key } from "react";
 import { TTableActions, TTableBodyProps } from "../../types/type";
 import { Image } from "../Image/Image";
-import * as Icons from "../../assets/icons/icon";
 import { Popover } from "../Popover/Popover";
+import * as Icons from "../../assets/icons/icon";
 
 const Actions = <T extends Record<string, any>>({
   onAction,
   onEdit,
   onDelete,
   row,
+  iconSize,
 }: TTableActions<T>) => {
   return (
     <div className="actions-items">
       {onAction && (
-        // <span onClick={() => onAction?.(row)}>
         <Image
           src={Icons.addWallet as unknown as string}
-          width="18"
-          height="18"
+          width={iconSize}
+          height={iconSize}
           onClick={() => onAction?.(row)}
         />
-        // </span>
       )}
       {onEdit && (
-        // <span >
         <Image
           src={Icons.edit as unknown as string}
-          width="18"
-          height="18"
+          width={iconSize}
+          height={iconSize}
           onClick={() => onEdit?.(row)}
         />
-        // </span>
       )}
       {onDelete && (
-        // <span >
         <Image
           src={Icons.deleteIcon as unknown as string}
-          width="18"
-          height="18"
+          width={iconSize}
+          height={iconSize}
           onClick={() => onDelete?.(row)}
         />
-        // </span>
       )}
     </div>
   );
@@ -54,77 +49,63 @@ const TableBody = <T extends Record<string, any>>({
   onAction,
   onEdit,
   onDelete,
-}: TTableBodyProps<T>) => (
-  <tbody>
-    {paginatedData.map((row, idx) => (
-      <tr key={idx}>
-        {columns.map((col) => (
-          <td className="" key={col.key as Key}>
-            {row[col.key]}
-          </td>
-        ))}
-        {isAction && (
-          <td className="actions">
-            {isMoreBtn ? (
-              <Popover
-                children={
-                  <Image
-                    src={Icons.moreIcon3 as unknown as string}
-                    width="28"
-                    height="28"
-                  />
-                }
-                content={
+  iconSize,
+}: TTableBodyProps<T>) => {
+  const hasIdColumn = columns.some((col) => col.key === "id");
+  const visibleColumns = columns.filter((col) => col.key !== "id");
+
+  return (
+    <tbody>
+      {paginatedData?.map((row, idx) => (
+        <tr key={idx}>
+          {hasIdColumn && <td>{idx + 1}</td>}
+          {visibleColumns.map((col) => (
+            <td
+              key={col.key as Key}
+              onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
+            >
+              {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
+            </td>
+          ))}
+          {isAction && (
+            <td className="actions">
+              {isMoreBtn ? (
+                <Popover
+                  children={
+                    <Image
+                      src={Icons.moreIcon as unknown as string}
+                      width="24"
+                      height="24"
+                    />
+                  }
+                  content={
+                    <Actions
+                      onAction={onAction}
+                      onEdit={onEdit}
+                      onDelete={onDelete}
+                      row={row}
+                      iconSize={iconSize}
+                    />
+                  }
+                  isClickClose
+                />
+              ) : (
+                <>
                   <Actions
                     onAction={onAction}
                     onEdit={onEdit}
                     onDelete={onDelete}
                     row={row}
+                    iconSize={iconSize}
                   />
-                }
-              />
-            ) : (
-              <>
-                <Actions
-                  onAction={onAction}
-                  onEdit={onEdit}
-                  onDelete={onDelete}
-                  row={row}
-                />
-                {/* {onAction && (
-                  <span onClick={() => onAction?.(row)}>
-                    <Image
-                      src={Icons.addWallet as unknown as string}
-                      width="14"
-                      height="14"
-                    />
-                  </span>
-                )}
-                {onEdit && (
-                  <span onClick={() => onEdit?.(row)}>
-                    <Image
-                      src={Icons.edit as unknown as string}
-                      width="14"
-                      height="14"
-                    />
-                  </span>
-                )}
-                {onDelete && (
-                  <span onClick={() => onDelete?.(row)}>
-                    <Image
-                      src={Icons.deleteIcon as unknown as string}
-                      width="14"
-                      height="14"
-                    />
-                  </span>
-                )} */}
-              </>
-            )}
-          </td>
-        )}
-      </tr>
-    ))}
-  </tbody>
-);
+                </>
+              )}
+            </td>
+          )}
+        </tr>
+      ))}
+    </tbody>
+  );
+};
 
 export default TableBody;

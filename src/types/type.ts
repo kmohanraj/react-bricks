@@ -6,7 +6,7 @@ import {
   ReactNode,
   SyntheticEvent,
   SetStateAction,
-  ComponentType,  
+  ComponentType,
 } from "react";
 
 export type TButton = {
@@ -33,8 +33,8 @@ export type TButton = {
   role?: string;
   ariaLabelledBy?: string;
   ariaDescription?: string;
-  prefix?: string
-  suffix?: string
+  prefix?: string;
+  suffix?: string;
 };
 
 export type TButtonClass = {
@@ -48,12 +48,12 @@ export type TButtonClass = {
 
 export type TCheckBox = {
   testId?: string;
-  type: "checkbox" | "radio";
+  type: "checkbox" | "radio" | "switch";
   position?: "left" | "right";
   customClass?: string;
   name?: string;
   label?: string;
-  onChecked?: (e: ChangeEvent<HTMLInputElement>, value: string) => void;
+  onChecked?: (e: ChangeEvent<HTMLInputElement>) => void;
   isChecked?: boolean;
   selected?: string;
   value?: string;
@@ -74,8 +74,11 @@ export type TEllipsisLoader = {
 
 export type TInputField = {
   name: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string | number | null;
+  onChange: (
+    // e?: ChangeEvent<HTMLInputElement>
+    value?: string | number | Date
+  ) => void;
   message?: string;
   error?: string;
   placeholder: string;
@@ -88,7 +91,7 @@ export type TInputField = {
   sufFixIcon?: any;
   suffixOnClick?: any;
   altName?: string;
-  inputType?: string;
+  inputType?: "text" | "number" | "email" | "password" | "tel" | "url" | "date";
   isSelect?: boolean;
   selectOptions?: any;
   onSelect?: any;
@@ -97,29 +100,33 @@ export type TInputField = {
   maxLength?: number;
   autoComplete?: string;
   isNumber?: boolean;
+  isDecimal?: boolean;
+  isDatePicker?: boolean;
 };
 
 export type TModal = {
-  id: string;
+  id?: string;
   title?: string;
   closeIcon?: string;
-  isShowModal: boolean;
+  isModal: boolean;
   customClass?: string;
   children: ReactNode;
-  onModalClose: any;
+  onClose: () => void;
   closeAriaLabel?: string;
   modalAriaLabel?: string;
   maxWidth?: string;
-  isStickyHeader?: boolean
+  isStickyHeader?: boolean;
+  isRightSide?: boolean;
 };
 
 export type TOption = {
-  id: any;
+  id: string | number;
   label: string;
 };
 
 export type TSelect = {
   value: any;
+  error?: string;
   inputId?: string;
   placeholder: string;
   options: any[];
@@ -150,10 +157,11 @@ export type TDataTable<T> = {
   isAction?: boolean;
   isOuterBorderLess?: boolean;
   isMoreBtn?: boolean;
+  iconSize?: string;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
-  paginationPlacement?: 'left' | 'right' | 'center';
+  paginationPlacement?: "left" | "right" | "center";
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
 };
@@ -167,19 +175,24 @@ export type TTableHeaderProps<T> = {
 
 export type TTableBodyProps<T> = {
   paginatedData: T[];
-  columns: { key: keyof T; label: string }[];
+  columns: {
+    selector: any;
+    key: keyof T;
+    label: string;
+  }[];
   isAction: boolean;
   isMoreBtn?: boolean;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
+  iconSize?: string;
 };
 
 export type TPaginationProps = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
-  paginationPlacement: 'left' | 'right' | 'center';
+  paginationPlacement: "left" | "right" | "center";
 };
 
 export type TTableActions<T> = {
@@ -187,7 +200,8 @@ export type TTableActions<T> = {
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
   row: any;
-}
+  iconSize?: string;
+};
 
 export type TImage = {
   src: string;
@@ -197,11 +211,12 @@ export type TImage = {
   className?: string;
   onClick?: MouseEventHandler<HTMLImageElement>;
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
-  role?: string
+  role?: string;
 };
 
 export type TPopoverProps = {
   children: React.ReactNode;
   content: React.ReactNode;
-  placement?: string
-}
+  placement?: string;
+  isClickClose?: boolean;
+};
