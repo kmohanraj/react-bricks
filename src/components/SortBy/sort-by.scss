@@ -1,0 +1,31 @@
+@use "../../assets/styles/_variables" as *;
+
+.sort-by {
+  background-color: var(--white);
+  box-shadow: 0 0.125rem 0.25rem rgba(117, 131, 142, 0.04),
+    0 0.5rem 1rem rgba(52, 60, 68, 0.1);
+  list-style-type: none;
+  padding: 1rem;
+  position: absolute;
+  text-align: left;
+  transition: width 0.5s ease-in-out, height 0.5s ease-in-out;
+  min-width: 6.125rem;
+  z-index: 10;
+
+  .list {
+    padding: 0.5rem 0;
+    cursor: pointer;
+  }
+  &.hide-arrow {
+    &::before,
+    &::after {
+      content: none;
+    }
+  }
+  &.is-border-radius {
+    border-radius: 1rem;
+  }
+  .selected {
+    color: var(--primary);
+  }
+}

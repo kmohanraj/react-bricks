@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Select } from "../components";
-// import * as Icons from '../assets/icons/icon';
 
 const meta: any = {
   title: "React-Bricks/Select",

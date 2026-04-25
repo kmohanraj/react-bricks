@@ -1,4 +1,5 @@
 import { Key } from "react";
+import cx from 'classnames';
 import { TTableActions, TTableBodyProps } from "../../types/type";
 import { Image } from "../Image/Image";
 import { Popover } from "../Popover/Popover";
@@ -63,29 +64,30 @@ const TableBody = <T extends Record<string, any>>({
             <td
               key={col.key as Key}
               onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
+              className={cx({cursor: onAction || onEdit})}
             >
               {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
             </td>
           ))}
           {isAction && (
-            <td className="actions">
+            <td className={cx("actions", {cursor: onAction || onEdit})}>
               {isMoreBtn ? (
                 <Popover
-                  children={
+                  title={
                     <Image
                       src={Icons.moreIcon as unknown as string}
                       width="24"
                       height="24"
                     />
                   }
-                  content={
+                  children={[
                     <Actions
                       onAction={onAction}
                       onEdit={onEdit}
                       onDelete={onDelete}
                       row={row}
                       iconSize={iconSize}
-                    />
+                    />]
                   }
                   isClickClose
                 />

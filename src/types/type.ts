@@ -7,6 +7,7 @@ import {
   SyntheticEvent,
   SetStateAction,
   ComponentType,
+  FocusEvent
 } from "react";
 
 export type TButton = {
@@ -30,6 +31,7 @@ export type TButton = {
   customClass?: string;
   isLoading?: boolean;
   isDisabled?: boolean;
+  isSmall?: boolean;
   role?: string;
   ariaLabelledBy?: string;
   ariaDescription?: string;
@@ -44,6 +46,7 @@ export type TButtonClass = {
   variant?: string;
   isDisabled?: boolean;
   type?: string;
+  isSmall?: boolean;
 };
 
 export type TCheckBox = {
@@ -58,6 +61,7 @@ export type TCheckBox = {
   selected?: string;
   value?: string;
   isDisabled?: boolean;
+  variant?: "secondary" | "ghost";
 };
 
 export type TEllipsisLoader = {
@@ -72,7 +76,7 @@ export type TEllipsisLoader = {
   size?: "sm" | "md" | "lg";
 };
 
-export type TInputField = {
+export type TInputFields = {
   name: string;
   value: string | number | null;
   onChange: (
@@ -100,23 +104,46 @@ export type TInputField = {
   maxLength?: number;
   autoComplete?: string;
   isNumber?: boolean;
+  isCommaSeparate?: boolean;
   isDecimal?: boolean;
   isDatePicker?: boolean;
+  isTextArea?: boolean;
+  hideFloating?: boolean;
+  rows?: number;
 };
+
+export type TInputFieldWithDate = TInputFields & {
+  isDatePicker: true;
+  isShowPastDate: true
+  timeZone: string;
+};
+
+type TInputFieldWithoutDate = TInputFields & {
+  isDatePicker?: boolean;
+  isShowPastDate?: boolean;
+  timeZone?: string;
+};
+
+export type TInputField = TInputFieldWithDate | TInputFieldWithoutDate;
 
 export type TModal = {
   id?: string;
   title?: string;
+  actionMode?: string;
   closeIcon?: string;
   isModal: boolean;
   customClass?: string;
+  content?: string | ReactNode;
   children: ReactNode;
-  onClose: () => void;
+  onClick?: () => void;
+  onClose?: () => void;
   closeAriaLabel?: string;
   modalAriaLabel?: string;
   maxWidth?: string;
   isStickyHeader?: boolean;
   isRightSide?: boolean;
+  isCloseIcon?: boolean;
+  isLoading?: boolean;
 };
 
 export type TOption = {
@@ -137,6 +164,7 @@ export type TSelect = {
   isDisabled?: boolean;
   isLoading?: boolean;
   isClearable?: boolean;
+  hideFloating?: boolean;
   onClear?: (field: any) => void;
   customClass?: string;
   variant?: "primary" | "ghost";
@@ -156,14 +184,20 @@ export type TDataTable<T> = {
   isPagination?: boolean;
   isAction?: boolean;
   isOuterBorderLess?: boolean;
+  isHrBorderLess?: boolean;
+  isTHeadTransparent?: boolean;
   isMoreBtn?: boolean;
   iconSize?: string;
+  isSlimTable?: boolean;
   onAction?: (data: T) => void;
   onEdit?: (data: T) => void;
   onDelete?: (data: T) => void;
   paginationPlacement?: "left" | "right" | "center";
   sortingAscIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
   sortingDesIcon?: string | ComponentType<React.SVGProps<SVGSVGElement>>;
+  bodyHeight?: number;
+  isBodyScrollable?: boolean;
+  thumbWidth?: number;
 };
 
 export type TTableHeaderProps<T> = {
@@ -215,8 +249,11 @@ export type TImage = {
 };
 
 export type TPopoverProps = {
-  children: React.ReactNode;
-  content: React.ReactNode;
-  placement?: string;
+  categories: [],
+  onClick: (id: number, label: string) => {}
+  customClass?: string;
+  children?: React.ReactNode;
+  content?: React.ReactNode;
+  placement?: "top" | "bottom" | "left" | "right";
   isClickClose?: boolean;
 };

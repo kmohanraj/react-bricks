@@ -4,22 +4,26 @@ import { TModal } from "../../types/type";
 import { preventBodyScroll } from "../../helper/helper";
 import * as Icon from "../../assets/icons/icon";
 import { Image } from "../Image/Image";
+import { Button } from "../Button/Button";
 import "./modal.scss";
-
 
 export const Modal: FC<TModal> = ({
   id = "",
   title,
   closeIcon,
-  isModal,
+  actionMode,
   customClass,
   children,
+  onClick,
   onClose,
   closeAriaLabel = "",
   modalAriaLabel = "",
   maxWidth = "",
+  isModal,
   isStickyHeader,
-  isRightSide
+  isRightSide,
+  isLoading,
+  isCloseIcon
 }) => {
   const modalWindow = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
@@ -29,7 +33,7 @@ export const Modal: FC<TModal> = ({
       "modal-popup": true,
       "show-modal-popup": isModal,
       "is-modal": !isRightSide,
-      'right-side-slide': isRightSide
+      "right-side-slide": isRightSide,
     },
     customClass ? customClass : "",
     isStickyHeader ? "sticky-header" : null
@@ -65,7 +69,7 @@ export const Modal: FC<TModal> = ({
   const handleEscapeKey = () => {
     onClose?.();
     preventBodyScroll(false);
-  }
+  };
 
   const handleTabKey = (
     e: KeyboardEvent,
@@ -84,7 +88,7 @@ export const Modal: FC<TModal> = ({
       e.preventDefault();
       (firstElem as HTMLElement).focus();
     }
-  }
+  };
 
   const handleKeyPress = (e: KeyboardEvent) => {
     const focusElements =
@@ -100,7 +104,7 @@ export const Modal: FC<TModal> = ({
     if (e.key === "Tab") {
       handleTabKey(e, firstElem, lastElem);
     }
-  }
+  };
 
   return (
     <div
@@ -114,17 +118,32 @@ export const Modal: FC<TModal> = ({
     >
       <div className="modal-popup-content" ref={modalContent}>
         <div className="modal-popup-content-header">
-          <h2>{title}</h2>
-          <button
-            className="close-button"
-            onClick={onClose}
-            aria-label={closeAriaLabel ? closeAriaLabel : "close"}
-          >
-            <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
-          </button>
+          {title && <h2>{title}</h2>}
+          {onClose && (
+            <button
+              className="close-button"
+              onClick={onClose}
+              aria-label={closeAriaLabel ? closeAriaLabel : "close"}
+            >
+              <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
+            </button>
+          )}
         </div>
         <div className="modal-popup-content-body" ref={modalBody}>
-          {isModal && children}
+          {children}
+        </div>
+        <div className="modal-popup-content-footer">
+          {onClose && (
+            <Button variant="secondary" label="Cancel" onClick={onClose} />
+          )}
+          {onClick && (
+            <Button
+              variant="primary"
+              label={actionMode}
+              onClick={onClick}
+              isLoading={isLoading}
+            />
+          )}
         </div>
       </div>
     </div>
