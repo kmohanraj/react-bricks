@@ -3,9 +3,11 @@ import resolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import postcss from "rollup-plugin-postcss";
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 import svgr from "@svgr/rollup";
 import url from "@rollup/plugin-url";
+import json from '@rollup/plugin-json';
+
 
 export default [
   {
@@ -38,6 +40,7 @@ export default [
         emitFiles: true,
         fileName: "assets/[name][extname]",
       }),
+      json()
     ],
   },
 ];

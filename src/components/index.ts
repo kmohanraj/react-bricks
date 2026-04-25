@@ -1,3 +1,4 @@
+export { Badge } from './Badge/Badge'
 export { Button } from "./Button/Button";
 export { CheckBox } from "./Checkbox/Checkbox";
 export { DataTable } from "./DataTable/DataTable";
@@ -6,5 +7,8 @@ export { EllipsisLoader } from "./EllipsisLoader/EllipsisLoader";
 export { Image } from "./Image/Image";
 export { Input } from "./Input/Input";
 export { Modal } from "./Modal/Modal";
-export { Select } from "./Select/Select";
 export { Popover } from "./Popover/Popover";
+export { Select } from "./Select/Select";
+export { SortBy } from './SortBy/SortBy';
+export { Scrollbar } from "./Scrollbar/Scrollbar";
+export { Tabs } from './Tabs/Tabs'

@@ -11,7 +11,7 @@ import "./data-table.scss";
 
 const getSortedData = <T,>(
   data: T[],
-  sortConfig: { key: keyof T | null; direction: "asc" | "desc" }
+  sortConfig: { key: keyof T | null; direction: "asc" | "desc" },
 ): T[] => {
   if (!sortConfig.key) return data;
   return [...data].sort((a, b) => {
@@ -26,7 +26,7 @@ const getSortedData = <T,>(
 const getPaginatedData = <T,>(
   data: T[],
   currentPage: number,
-  rowsPerPage: number
+  rowsPerPage: number,
 ): T[] =>
   data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
@@ -44,23 +44,26 @@ export const DataTable = <T extends Record<string, any>>({
   onEdit,
   onDelete,
   isOuterBorderLess,
+  isHrBorderLess,
+  isTHeadTransparent,
   isMoreBtn,
-  iconSize = "18"
+  iconSize = "18",
+  isSlimTable = false,
 }: TDataTable<T & { [K in keyof T]: T[K] }>) => {
   const [sortConfig, setSortConfig] = useState<{
     key: keyof T | null;
     direction: "asc" | "desc";
   }>({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
-  const devise = useGetDevice()
+  const devise = useGetDevice();
   const sortedData = useMemo(
     () => getSortedData(data, sortConfig),
-    [data, sortConfig]
+    [data, sortConfig],
   );
 
   const paginatedData = useMemo(
     () => getPaginatedData(sortedData, currentPage, rowsPerPage),
-    [sortedData, currentPage, rowsPerPage]
+    [sortedData, currentPage, rowsPerPage],
   );
 
   const totalPages = Math.ceil(data?.length / rowsPerPage);
@@ -95,7 +98,12 @@ export const DataTable = <T extends Record<string, any>>({
     <>
       <div className="table-wrapper">
         <table
-          className={cx("table", { "outer-border-less": isOuterBorderLess })}
+          className={cx("table", {
+            "outer-border-less": isOuterBorderLess,
+            "hr-border-less": isHrBorderLess,
+            "is-thead-transparent": isTHeadTransparent,
+            "is-slim": isSlimTable,
+          })}
           cellPadding={10}
           cellSpacing={0}
         >
@@ -116,16 +124,18 @@ export const DataTable = <T extends Record<string, any>>({
             iconSize={iconSize}
           />
         </table>
-        {paginatedData.length === 0 && (
+        {paginatedData?.length === 0 && (
           <div className="no-records">No Records</div>
-        ) }
+        )}
       </div>
       {isPagination && data?.length > rowsPerPage && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
-          paginationPlacement={devise === 'mobile' ? 'center' : paginationPlacement ?? 'right'}
+          paginationPlacement={
+            devise === "mobile" ? "center" : (paginationPlacement ?? "right")
+          }
         />
       )}
     </>

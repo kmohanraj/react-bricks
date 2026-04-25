@@ -31,6 +31,7 @@ export const Select: FC<TSelect> = ({
   customClass,
   variant = "ghost",
   noRecordMessage,
+  hideFloating = false,
 }) => {
   const initialState = isMulti ? ([] as any) : {};
   const [searchValue, setSearchValue] = useState<string>("");
@@ -43,16 +44,27 @@ export const Select: FC<TSelect> = ({
   const selectClass = cx(
     "select_control",
     variant,
+    hideFloating ? "" : "floating",
     { error: error },
     { "is-focused": isMenuOpen },
-    { "is-disabled": isDisabled }
+    { "is-disabled": isDisabled },
+    // { floating: hideFloating },
   );
   const selectValueClass = cx(
     "select__values",
     { "is-multi": isMulti },
-    { "is-single": !isMulti }
+    { "is-single": !isMulti },
+    {
+      "has-value":
+        (isMulti && selectedValue.length > 0) ||
+        Object.keys(selectedValue).length > 0,
+    },
   );
-  const hasValueClass = cx(
+  const hasValue =
+    !!searchValue ||
+    (isMulti && selectedValue?.length > 0) ||
+    (!isMulti && Object.keys(selectedValue || {}).length > 0);
+  const labelClass = cx(
     {
       "is-focus":
         isMenuOpen &&
@@ -64,7 +76,10 @@ export const Select: FC<TSelect> = ({
         (isMulti && selectedValue.length > 0) ||
         Object.keys(selectedValue).length > 0 ||
         isMenuOpen,
-    }
+    },
+    {
+      "hide-label": hideFloating && hasValue,
+    },
   );
   const suffixIConClass = cx("suffix-icon", { "is-open": isMenuOpen });
 
@@ -142,7 +157,7 @@ export const Select: FC<TSelect> = ({
       options.filter(
         (option) =>
           option.label.toLowerCase().indexOf(searchValue.toLocaleLowerCase()) >=
-          0
+          0,
       )
     );
   };
@@ -191,7 +206,7 @@ export const Select: FC<TSelect> = ({
           }`}
           onClick={() => handleOnSelect(option)}
         >
-          {multipleOptions ? option.label : option.label}
+          {option.label}
         </div>
       );
     }
@@ -200,57 +215,54 @@ export const Select: FC<TSelect> = ({
   return (
     <div className={cx("select", customClass)}>
       <div className={selectClass} ref={selectRef} onClick={handleOnSelectBox}>
-        <div className="select_value_container">
-          <div className={selectValueClass}>
-            {checkSelectionOption()}
-            <input
-              autoCapitalize="none"
-              autoComplete="off"
-              id={inputId}
-              type="text"
-              aria-autocomplete="list"
-              value={searchValue}
-              className="select_input__field"
-              onChange={handleOnChange}
-              onKeyUp={handleOnKeyDown}
-              readOnly={isSearchable}
-              disabled={isDisabled}
-              ref={inputRef}
-            />
-          </div>
-          <label htmlFor={inputId} className={hasValueClass}>
-            {placeholder} {isRequired && "*"}
-          </label>
+        <div className={selectValueClass}>
+          {checkSelectionOption()}
+          <input
+            autoCapitalize="none"
+            autoComplete="off"
+            id={inputId}
+            type="text"
+            aria-autocomplete="list"
+            value={searchValue}
+            className="select_input__field"
+            onChange={handleOnChange}
+            onKeyUp={handleOnKeyDown}
+            readOnly={isSearchable}
+            disabled={isDisabled}
+            ref={inputRef}
+          />
+        </div>
+        <label htmlFor={inputId} className={labelClass || undefined}>
+          {placeholder} {isRequired && "*"}
+        </label>
 
-          <div className="right-section">
-            {isLoading && (
-              <span className="loader">
-                <EllipsisLoader size="sm" />
-              </span>
+        <div className="right-section">
+          {isLoading && (
+            <span className="loader">
+              <EllipsisLoader size="sm" />
+            </span>
+          )}
+          {isClearable &&
+            (selectedValue.length > 0 ||
+              Object.keys(selectedValue).length > 0) && (
+              <Image
+                src={closeIcon as never}
+                className="clear-all"
+                onClick={() =>
+                  !isDisabled && setSelectedValue(isMulti ? [] : {})
+                }
+                alt="Close"
+              />
             )}
-            {isClearable &&
-              (selectedValue.length > 0 ||
-                Object.keys(selectedValue).length > 0) && (
-                <Image
-                  src={closeIcon as never}
-                  className="clear-all"
-                  onClick={() =>
-                    !isDisabled && setSelectedValue(isMulti ? [] : {})
-                  }
-                  alt="Close"
-                />
-              )}
-            <Image
-              src={arrowDown as never}
-              className={suffixIConClass}
-              role="presentation"
-              onClick={() => !isDisabled && setSelectedValue(isMulti ? [] : {})}
-              alt="Arrow Down"
-            />
-          </div>
+          <Image
+            src={arrowDown as never}
+            className={suffixIConClass}
+            role="presentation"
+            onClick={() => !isDisabled && setSelectedValue(isMulti ? [] : {})}
+            alt="Arrow Down"
+          />
         </div>
       </div>
-      {error && <span className="message">{error}</span>}
       {isMenuOpen && (
         <div className="select__menu">
           <div className="select__menu-list">
@@ -260,12 +272,13 @@ export const Select: FC<TSelect> = ({
               </div>
             ) : (
               filterOptions()?.map((option: TOption, index: number) =>
-                checkSelectedItem(option, index)
+                checkSelectedItem(option, index),
               )
             )}
           </div>
         </div>
       )}
+      {error && <span className="message">{error}</span>}
     </div>
   );
 };

@@ -1,0 +1,57 @@
+@use "../../assets/styles/_variables" as *;
+
+.badge {
+  background: transparent;
+  border-radius: 4px;
+  color: var(--primary);
+  padding: 4px 10px;
+  font-size: 12px;
+  width: max-content;
+  height: max-content;
+  &.primary {
+    color: var(--white);
+    background: var(--primary);
+  }
+  &.info {
+    color: var(--primary);
+    background-color: color-mix(
+    in srgb,
+    var(--primary) 25%,
+    transparent
+  );
+  }
+  &.paid, &.completed, &.settled {
+    background: var(--success);
+    color: var(--white);
+  }
+  &.active {
+    color: var(--white);
+    background: var(--success);
+  }
+  &.success {
+    background: var(--success);
+    color: var(--white);
+  }
+  &.warning, &.late {
+    background: var(--warning);
+    color: var(--white);
+  }
+  &.error, &.overdue, &.defaulted {
+    background: var(--error);
+    color: var(--white);
+  }
+  &.closed {
+    background: var(--border);
+    color: var(--text-secondary);
+  }
+  &.ghost {
+    background: var(--text-primary);
+    color: var(--white);
+  }
+  &.link {
+    cursor: pointer;
+  }
+  &.is-round {
+    border-radius: 999px;
+  }
+}

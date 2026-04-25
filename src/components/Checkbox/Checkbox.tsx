@@ -4,14 +4,6 @@ import CONSTANTS from "../../constants/constants";
 import { TCheckBox } from "../../types/type";
 import "./checkbox.scss";
 
-// const isValueSelectedFn = (
-//   isChecked: boolean | undefined,
-//   value: any,
-//   selected: any
-// ) => {
-//   return isChecked ?? value === selected;
-// };
-
 const handleOnCheckFn = (
   e: React.ChangeEvent<HTMLInputElement>,
   isDisabled: boolean | undefined,
@@ -48,8 +40,8 @@ export const CheckBox: FC<TCheckBox> = ({
   isChecked,
   value,
   isDisabled,
+  variant
 }) => {
-  // const isValueSelected = isValueSelectedFn(isChecked, value, selected);
 
   const handleOnCheck = (
     e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLSpanElement>
@@ -76,7 +68,7 @@ export const CheckBox: FC<TCheckBox> = ({
   });
 
   return (
-    <div className={cx("checkbox", customClass)}>
+    <div className={cx("checkbox", customClass, variant)}>
       <label
         role={type}
         aria-label={name}

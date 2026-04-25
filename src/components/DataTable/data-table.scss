@@ -1,69 +1,80 @@
-@use "../../assets/styles/_variables" as var;
+@use "../../assets/styles/_variables" as *;
 
 .table-wrapper {
-  @include var.breakpoint(max, md) {
+  @include breakpoint(max, md) {
     display: block;
     overflow-x: auto;
     font-size: 0.875rem;
   }
+
+  .cursor {
+    cursor: pointer;
+  }
+
   .no-records {
     text-align: center;
     padding: 1.875rem;
-    font-family: var.$font-regular;
+    font-family: var(--font-family);
   }
 
   .table {
-    border-color: var.$border;
+    border-color: var(--border);
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+
     tr {
       td {
-        cursor: pointer;
-        color: var.$text-secondary;
+        color: var(--text-secondary);
       }
-      // &:nth-child(even) {
-      //   background-color: var.$white;
-      // }
+
       &:hover {
         td {
-          background: var.$neutral;
-          font-weight: var.$font-bold;
-          color: var.$text-primary;
+          background: var(--neutral);
+          color: var(--text-primary);
         }
       }
+
       &.active {
         td {
-          background: var.$btn-secondary;
-          color: var.$white;
+          background: var(--btn-secondary);
+          color: var(--white);
         }
       }
     }
+
     thead {
-      background-color: var.$btn-secondary;
-      font-family: var.$font-bold;
+      background-color: var(--btn-secondary);
+      font-family: var(--font-family);
+
       tr {
-        border: 1px solid var.$border;
+        border: 1px solid var(--border);
       }
+
       th {
-        border: 1px solid var.$border;
+        border: 1px solid var(--border);
+        font-size: 14px;
+        font-weight: 600;
       }
+
       tr,
       th {
         text-align: justify;
         padding: 14px 20px;
-        color: var.$text-primary;
-        border-color: var.$border;
+        color: var(--text-primary);
+        border-color: var(--border);
         border-collapse: collapse;
         border-spacing: 0;
 
         &:last-child {
           cursor: default;
         }
+
         img {
           cursor: pointer;
         }
       }
+
       .sorting {
         display: flex;
         justify-content: flex-start;
@@ -71,24 +82,30 @@
         gap: 0.625rem;
       }
     }
+
     tbody {
-      font-family: var.$font-regular;
+      font-family: var(--font-family);
+
       tr {
-        border: 1px solid var.$border;
+        border: 1px solid var(--border);
       }
+
       td {
-        border: 1px solid var.$border;
+        border: 1px solid var(--border);
       }
+
       td {
         padding: 0.875rem 1.25rem;
-        border-color: var.$border;
+        border-color: var(--border);
         border-collapse: collapse;
         border-spacing: 0;
       }
+
       .actions {
         width: 5rem;
         text-align: center;
         user-select: none;
+
         &-items {
           display: flex;
           align-items: center;
@@ -98,30 +115,76 @@
         }
       }
     }
+
+    &.is-slim {
+      font-size: 14px;
+    }
+
     &.outer-border-less {
       thead {
         tr {
           border: none;
         }
+
         th {
           border: none;
         }
       }
+
       tbody {
         tr {
-          border: 1px solid var.$border;
+          border: 1px solid var(--border);
           border-left: none;
           border-right: none;
+
           &:first-child {
             border-top: none;
           }
+
           &:last-child {
             border-bottom: none;
           }
         }
+
         td {
           border: none;
         }
+      }
+    }
+
+    &.hr-border-less {
+      thead {
+        tr {
+          border: none;
+        }
+
+        th {
+          border: none;
+        }
+      }
+
+      tbody {
+        tr {
+          border: none;
+
+          &:first-child {
+            border-top: none;
+          }
+
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+
+        td {
+          border: none;
+        }
+      }
+    }
+
+    &.is-thead-transparent {
+      thead {
+        background-color: transparent;
       }
     }
   }

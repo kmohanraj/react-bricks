@@ -1,4 +1,10 @@
 import cx from "classnames";
+import {
+  toZonedStartOfDay,
+  createZonedDate,
+  isPastZonedDate,
+  isSameZonedDay,
+} from "../../helper/date.helper";
 
 const getDaysInMonth = (month: number, year: number) =>
   new Date(year, month + 1, 0).getDate();
@@ -17,6 +23,8 @@ const canGoPrevMonth = (
 
 interface RenderCalendarProps {
   today: Date;
+  timeZone: string;
+  isShowPastDate?: boolean;
   setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
   setSelectedYear: React.Dispatch<React.SetStateAction<number>>;
   selectedMonth: number;
@@ -24,11 +32,12 @@ interface RenderCalendarProps {
   selectedDate: Date | null;
   handleDateSelect: (day: number) => void;
   setIsDateShow: (show: boolean) => void;
-  // setInputValue: (value: string) => void;
 }
 
 const RenderCalendar = ({
   today,
+  timeZone,
+  isShowPastDate,
   setSelectedMonth,
   setSelectedYear,
   selectedMonth,
@@ -36,11 +45,13 @@ const RenderCalendar = ({
   selectedDate,
   handleDateSelect,
   setIsDateShow,
-  // setInputValue,
 }: RenderCalendarProps) => {
-  const currentMonth = today.getMonth();
-  const currentYear = today.getFullYear();
+  // Timezone-safe "today"
+  const zonedToday = toZonedStartOfDay(today, timeZone);
+  const currentMonth = zonedToday.getMonth();
+  const currentYear = zonedToday.getFullYear();
 
+  // Month/Year navigation
   const handlePrevMonth = () => {
     if (canGoPrevMonth(selectedMonth, selectedYear, currentMonth, currentYear)) {
       setSelectedMonth((m) => (m === 0 ? 11 : m - 1));
@@ -58,7 +69,7 @@ const RenderCalendar = ({
   };
 
   const handlePrevYear = () => {
-    if (selectedYear > today.getFullYear()) {
+    if (selectedYear > zonedToday.getFullYear()) {
       setSelectedYear((y) => y - 1);
     }
   };
@@ -68,10 +79,10 @@ const RenderCalendar = ({
   };
 
   const handleClear = () => {
-    // setInputValue("");
     setIsDateShow(false);
   };
 
+  // Render calendar grid
   const renderCalendarGrid = () => {
     const daysInMonth = getDaysInMonth(selectedMonth, selectedYear);
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
@@ -79,14 +90,9 @@ const RenderCalendar = ({
     return (
       <div className="calendar-grid">
         {days.map((day) => {
-          const date = new Date(selectedYear, selectedMonth, day);
-          const isPastDate =
-            date.getTime() < new Date(today.setHours(0, 0, 0, 0)).getTime();
-          const isSelected =
-            selectedDate &&
-            date?.getDate() === selectedDate?.getDate() &&
-            date?.getMonth() === selectedDate?.getMonth() &&
-            date?.getFullYear() === selectedDate?.getFullYear();
+          const date = createZonedDate(selectedYear, selectedMonth, day, timeZone);
+          const isPastDate = isShowPastDate ? false : isPastZonedDate(date, zonedToday);
+          const isSelected = selectedDate && isSameZonedDay(date, selectedDate);
 
           return (
             <button
@@ -103,6 +109,7 @@ const RenderCalendar = ({
     );
   };
 
+  // Render calendar header
   const renderCalendarHeader = () => (
     <div className="calendar-header">
       <button
@@ -115,7 +122,7 @@ const RenderCalendar = ({
       <button onClick={handleNextMonth}>›</button>
       <button
         onClick={handlePrevYear}
-        disabled={selectedYear <= today.getFullYear()}
+        disabled={selectedYear <= zonedToday.getFullYear()}
       >
         «
       </button>

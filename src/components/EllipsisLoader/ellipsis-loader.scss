@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '../../assets/styles/_variables' as var;
+@use '../../assets/styles/_variables' as *;
 
 $sizes: (
   sm: (
@@ -53,25 +53,25 @@ $sizes: (
       }
     }
     &.primary span {
-      background-color: var.$btn-secondary;
+      background-color:  var(--btn-secondary);
     }
     &.secondary span {
-      background-color: var.$btn-primary;
+      background-color: var(--btn-primary);
     }
     &.dark span {
-      background-color: var.$black;
+      background-color: var(--black);
     }
     &.grey span {
-      background-color: var.$border;
+      background-color: var(--border);
     }
     &.white span {
-      background-color: var.$white;
+      background-color: var(--white);
     }
     &.success span {
-      background-color: var.$success;
+      background-color: var(--success);
     }
     &.warning span {
-      background-color: var.$error;
+      background-color: var(--error);
     }
   }
 }

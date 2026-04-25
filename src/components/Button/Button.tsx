@@ -9,13 +9,25 @@ const getElementTag = (type: string, link: string) => {
   return type === "link" && link ? "a" : "button";
 };
 
+type TButtonPropsReturn = {
+  href?: string;
+  id?: string;
+  role?: string;
+  title?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+  disabled?: boolean;
+  isSmall?: boolean
+};
+
 const getButtonClass = ({
   prefix,
   suffix,
-  customClass,
+  customClass = "",
   variant,
   isDisabled,
   type,
+  isSmall
 }: TButtonClass): string => {
   return cx(
     "btn",
@@ -26,8 +38,37 @@ const getButtonClass = ({
     isDisabled ? "disabled" : null,
     {
       link: type === "link",
-    }
+    },
+    isSmall ? "small-btn" : null  
   );
+};
+
+const getButtonProps = ({
+  href,
+  id,
+  role,
+  title,
+  ariaLabelledBy,
+  ariaDescription,
+  isDisabled,
+}: {
+  href?: string;
+  id?: string;
+  role?: string;
+  title?: string;
+  ariaLabelledBy?: string;
+  ariaDescription?: string;
+  isDisabled?: boolean;
+}): TButtonPropsReturn => {
+  return {
+    ...(href && { href }),
+    ...(id && { id }),
+    ...(role && { role }),
+    ...(title && { title }),
+    ...(ariaLabelledBy && { "aria-labelledby": ariaLabelledBy }),
+    ...(ariaDescription && { "aria-describedby": ariaDescription }),
+    ...(isDisabled && { disabled: isDisabled }),
+  };
 };
 
 export const Button: FC<TButton> = ({
@@ -44,6 +85,7 @@ export const Button: FC<TButton> = ({
   customClass = "",
   isLoading = false,
   isDisabled = false,
+  isSmall = false,
   role = "",
   ariaLabelledBy = "",
   ariaDescription = "",
@@ -58,24 +100,30 @@ export const Button: FC<TButton> = ({
     variant,
     isDisabled,
     type,
+    isSmall
+  });
+
+  const buttonProps = getButtonProps({
+    href: link,
+    id,
+    role,
+    title,
+    ariaLabelledBy,
+    ariaDescription,
+    isDisabled,
   });
 
   return (
     <ElementTag
-      id={id}
-      title={title}
-      href={link}
       className={buttonClass}
       onClick={onClick}
       onKeyDown={onKeyDown}
       disabled={isDisabled}
-      role={role}
-      aria-labelledby={ariaLabelledBy ?? null}
-      aria-description={ariaDescription ?? null}
+      {...buttonProps}
     >
       {isLoading && <EllipsisLoader color={loaderColor} size={loaderSize} />}
       {prefix && <Image src={prefix} className="prefix" role="presentation" />}
-      {!isLoading && <span>{label}</span>} 
+      {!isLoading && label ? <span>{label}</span> : null}
       {suffix && <Image src={suffix} className="suffix" role="presentation" />}
     </ElementTag>
   );

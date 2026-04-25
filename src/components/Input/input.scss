@@ -1,4 +1,4 @@
-@use "../../assets/styles/_variables" as var;
+@use "../../assets/styles/_variables" as *;
 
 $borderValue: 0.0625rem;
 
@@ -7,21 +7,21 @@ $borderValue: 0.0625rem;
   width: 100%;
 
   &.primary input:focus {
-    border: $borderValue solid var.$primary;
+    border: $borderValue solid var(--btn-primary);
   }
   &.ghost input:focus {
-    border: $borderValue solid var.$text-primary;
+    border: $borderValue solid var(--text-primary);
   }
   &.underlined input {
     border-top: none;
     border-left: none;
     border-right: none;
     border-radius: inherit;
-    border-bottom: 0.0938rem solid var.$border;
+    border-bottom: 0.0938rem solid var(--border);
     padding-left: 0;
     padding-right: 0;
     &.error {
-      border-color: var.$error;
+      border-color: var(--error);
     }
   }
   &.underlined input + label {
@@ -34,8 +34,16 @@ $borderValue: 0.0625rem;
     padding-right: 3.125rem;
   }
   &.error input {
-    border-color: var.$error;
+    border-color: var(--error);
   }
+  &.floating {
+    input {
+      // height: 3.75rem;
+      height: 58px;
+      padding: 0.9375rem 15px 0 15px;
+    }
+  }
+
   &__input-wrapper {
     position: relative;
     display: inline-block;
@@ -44,18 +52,40 @@ $borderValue: 0.0625rem;
 
     input {
       width: inherit;
-      height: 3.75rem;
-      border: 0.0938rem solid var.$border;
+      height: 2.625rem;
+      padding: 8px 16px;
+      border: 0.0938rem solid var(--border);
       border-radius: 0.25rem;
-      font-size: 1.125rem;
-      color: var.$text-primary;
-      font-family: var.$font-regular;
-      padding: 0.9375rem 15px 0 15px;
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-family: var(--font-family);
       box-sizing: border-box;
 
       &:focus {
         outline: none;
-        border: $borderValue solid var.$primary;
+        border: $borderValue solid var(--btn-primary);
+        & + label {
+          top: 0.3125rem;
+          transform: none;
+          font-size: 0.75rem;
+          letter-spacing: -0.0219rem;
+        }
+      }
+    }
+
+    textarea {
+      width: inherit;
+      border: 0.0938rem solid var(--border);
+      border-radius: 0.25rem;
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      padding: 1.25rem 15px 0 15px;
+      box-sizing: border-box;
+
+      &:focus {
+        outline: none;
+        border: $borderValue solid var(--btn-primary);
         & + label {
           top: 0.3125rem;
           transform: none;
@@ -70,14 +100,15 @@ $borderValue: 0.0625rem;
       left: 0.9375rem;
       top: 50%;
       transform: translateY(-50%);
-      font-family: var.$font-regular;
-      color: var.$text-secondary;
-      font-size: 1.125rem;
+      font-family: var(--font-family);
+      color: var(--text-secondary);
+      font-size: 1rem;
       transition: all 0.2s ease-out;
       cursor: inherit;
       letter-spacing: -0.0437rem;
       &.has-value {
         top: 0.3125rem;
+        left: 15px;
         transform: none !important;
         -webkit-transform: none !important;
         letter-spacing: -0.0219rem;
@@ -88,20 +119,23 @@ $borderValue: 0.0625rem;
         left: 3.125rem;
       }
       &.error {
-        color: var.$error;
+        color: var(--error);
       }
     }
   }
-
+  .hide-label {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.98);
+  }
   .message {
     font-size: 0.875rem;
-    color: var.$text-secondary;
-    font-family: var.$font-regular;
+    color: var(--text-secondary);
+    font-family: var(--font-family);
     display: block;
     margin-top: 0.3125rem;
     letter-spacing: -0.0406rem;
     &.error {
-      color: var.$error;
+      color: var(--error);
       text-overflow: ellipsis;
     }
   }
@@ -130,11 +164,11 @@ $borderValue: 0.0625rem;
 // Calendar style
 .custom-calendar {
   position: absolute;
-  background: var.$white;
-  border: 1px solid var.$border;
+  background: var(--white);
+  border: 1px solid var(--border);
   padding: 10px;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   width: 260px;
 }
 
@@ -160,12 +194,12 @@ $borderValue: 0.0625rem;
   button {
     padding: 5px;
     border: none;
-    background: var.$white;
+    background: var(--white);
     cursor: pointer;
 
     &:hover {
-      background: var.$primary;
-      color: var.$white;
+      background: var(--btn-primary);
+      color: var(--white);
     }
   }
 }
@@ -179,8 +213,8 @@ $borderValue: 0.0625rem;
 }
 
 .calendar-grid button.selected {
-  background-color: var.$primary;
-  color: white;
+  background-color: var(--btn-primary);
+  color: var(--white);
   font-weight: bold;
 }
 
@@ -190,8 +224,7 @@ $borderValue: 0.0625rem;
 }
 
 .calendar-grid button.disabled {
-  background: var.$btn-disable;
-  color: var.$white;
+  color: var(--btn-disable);
   opacity: 0.8;
   cursor: not-allowed;
 }
