@@ -6,12 +6,13 @@
     "email": "mohanksv.89@gmail.com"
   },
   "keywords": [
-    "components",
-    "react bricks",
+    "react components",
+    "react blocks",
     "typescript",
-    "react"
+    "react",
+    "UI"
   ],
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
