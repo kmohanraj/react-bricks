@@ -1,14 +1,74 @@
-## React Rollup Boiler Plate
+# 🚀 React Blocks Components
 
+A modern, lightweight, and customizable React component library for building scalable user interfaces and efficiently.
+---
 
-#### Install the dependencies
+## 📦 Installation
+
+```bash
+npm i @kmohanraj/react-blocks
 ```
-npm install --save-dev @rollup/plugin-commonjs @rollup/plugin-node-resolve @rollup/plugin-typescript @types/react @types/react-dom react react-dom rollup rollup-plugin-peer-deps-external typescript node-sass sass postcss rollup-plugin-postcss
 
+or
+
+```bash
+yarn add @kmohanraj/react-blocks
 ```
 
-#### Run Build 
+---
 
+## 🧩 Components
+
+React Forge UI provides a set of reusable and customizable components:
+
+* Badge
+* Button
+* Checkbox
+* DataTable
+* Drawer
+* EllipsisLoader
+* Image
+* Modal
+* Popover
+* Scrollbar
+* Select
+* Tabs
+
+---
+
+## 🎨 Features
+
+* ⚛️ Built for React
+* 🎯 Easy to use and integrate
+* 🎨 Customizable components
+* 📦 Lightweight and modular
+* ♻️ Reusable UI building blocks
+
+---
+
+## 🛠️ Development
+
+Install dependencies:
+
+```bash
+npm install
 ```
-npm run build
+
+Run development server:
+
+```bash
+npm run dev
 ```
+---
+
+## 📄 License
+
+MIT License © 2026 Mohanraj K
+
+---
+
+## 🌟 Support
+
+If you like this project, consider giving it a ⭐ on GitHub!
+
+---
