@@ -210,7 +210,7 @@ export type TTableHeaderProps<T> = {
 export type TTableBodyProps<T> = {
   paginatedData: T[];
   columns: {
-    selector: any;
+    selector: (column: T, row?: T) => ReactNode;
     key: keyof T;
     label: string;
   }[];
