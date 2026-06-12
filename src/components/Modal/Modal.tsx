@@ -1,3 +1,156 @@
+// import { FC, useEffect, useRef } from "react";
+// import cx from "classnames";
+// import { TModal } from "../../types/type";
+// import { preventBodyScroll } from "../../helper/helper";
+// import * as Icon from "../../assets/icons/icon";
+// import { Image } from "../Image/Image";
+// import { Button } from "../Button/Button";
+// import "./modal.scss";
+
+// export const Modal: FC<TModal> = ({
+//   id = "",
+//   title,
+//   closeIcon,
+//   actionMode,
+//   customClass,
+//   children,
+//   onClick,
+//   onClose,
+//   closeAriaLabel = "",
+//   modalAriaLabel = "",
+//   maxWidth = "",
+//   isModal,
+//   isStickyHeader,
+//   isRightSide,
+//   isLoading,
+//   isCloseIcon
+// }) => {
+//   const modalWindow = useRef<HTMLDivElement>(null);
+//   const modalContent = useRef<HTMLDivElement>(null);
+//   const modalBody = useRef(null);
+//   const modalClass = cx(
+//     {
+//       "modal-popup": true,
+//       "show-modal-popup": isModal,
+//       "is-modal": !isRightSide,
+//       "right-side-slide": isRightSide,
+//     },
+//     customClass ? customClass : "",
+//     isStickyHeader ? "sticky-header" : null
+//   );
+
+//   const prevActiveElementRef = useRef<HTMLElement | null>(null);
+
+//   useEffect(() => {
+//     if (isModal) {
+//       prevActiveElementRef.current = document.activeElement as HTMLElement;
+//       window.addEventListener("keydown", handleKeyPress);
+//       if (modalAriaLabel) modalWindow?.current?.focus();
+//       preventBodyScroll(true);
+//       document.body.setAttribute(
+//         "style",
+//         `position: fixed; top: -${window.scrollY}px; left: 0; right: 0;`
+//       );
+//       if (modalContent.current) {
+//         modalContent.current.style.width = `${maxWidth}px`;
+//       }
+//     } else {
+//       document.body.removeAttribute("style");
+//       prevActiveElementRef.current?.focus();
+//       preventBodyScroll(false);
+//     }
+//     return () => {
+//       document.body.removeAttribute("style");
+//       preventBodyScroll(false);
+//       window.removeEventListener("keydown", handleKeyPress);
+//     };
+//   }, [isModal, maxWidth]);
+
+//   const handleEscapeKey = () => {
+//     onClose?.();
+//     preventBodyScroll(false);
+//   };
+
+//   const handleTabKey = (
+//     e: KeyboardEvent,
+//     firstElem: Element,
+//     lastElem: Element
+//   ) => {
+//     const isShiftAndFirstOrModal =
+//       e.shiftKey &&
+//       (document.activeElement === firstElem ||
+//         document.activeElement === modalWindow.current);
+//     if (isShiftAndFirstOrModal) {
+//       e.preventDefault();
+//       (lastElem as HTMLElement).focus();
+//     }
+//     if (!e.shiftKey && document.activeElement === lastElem) {
+//       e.preventDefault();
+//       (firstElem as HTMLElement).focus();
+//     }
+//   };
+
+//   const handleKeyPress = (e: KeyboardEvent) => {
+//     const focusElements =
+//       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+//     const focusContent = modalWindow.current
+//       ? modalWindow.current.querySelectorAll(focusElements)
+//       : [];
+//     const firstElem = focusContent[0];
+//     const lastElem = focusContent[focusContent.length - 1];
+//     if (e.key === "Escape") {
+//       handleEscapeKey();
+//     }
+//     if (e.key === "Tab") {
+//       handleTabKey(e, firstElem, lastElem);
+//     }
+//   };
+
+//   return (
+//     <div
+//       className={modalClass}
+//       role="dialog"
+//       aria-modal
+//       tabIndex={-1}
+//       ref={modalWindow}
+//       id={`modal_${id}`}
+//       aria-label={modalAriaLabel ? modalAriaLabel : ""}
+//     >
+//       <div className="modal-popup-content" ref={modalContent}>
+//         <div className="modal-popup-content-header">
+//           {title && <h2>{title}</h2>}
+//           {onClose && (
+//             <button
+//               className="close-button"
+//               onClick={onClose}
+//               aria-label={closeAriaLabel ? closeAriaLabel : "close"}
+//             >
+//               <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
+//             </button>
+//           )}
+//         </div>
+//         <div className="modal-popup-content-body" ref={modalBody}>
+//           {children}
+//         </div>
+//         <div className="modal-popup-content-footer">
+//           {onClose && (
+//             <Button variant="secondary" label="Cancel" onClick={onClose} />
+//           )}
+//           {onClick && (
+//             <Button
+//               variant="primary"
+//               label={actionMode}
+//               onClick={onClick}
+//               isLoading={isLoading}
+//             />
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+
 import { FC, useEffect, useRef } from "react";
 import cx from "classnames";
 import { TModal } from "../../types/type";
@@ -28,6 +181,11 @@ export const Modal: FC<TModal> = ({
   const modalWindow = useRef<HTMLDivElement>(null);
   const modalContent = useRef<HTMLDivElement>(null);
   const modalBody = useRef(null);
+
+  const prevActiveElementRef = useRef<HTMLElement | null>(null);
+
+  const ANIMATION_DURATION = 250;
+
   const modalClass = cx(
     {
       "modal-popup": true,
@@ -35,30 +193,42 @@ export const Modal: FC<TModal> = ({
       "is-modal": !isRightSide,
       "right-side-slide": isRightSide,
     },
-    customClass ? customClass : "",
-    isStickyHeader ? "sticky-header" : null
+    customClass || "",
+    isStickyHeader ? "sticky-header" : ""
   );
 
-  const prevActiveElementRef = useRef<HTMLElement | null>(null);
-
+  // ============================
+  // BODY SCROLL + FOCUS + WIDTH
+  // ============================
   useEffect(() => {
     if (isModal) {
       prevActiveElementRef.current = document.activeElement as HTMLElement;
+
       window.addEventListener("keydown", handleKeyPress);
+
       if (modalAriaLabel) modalWindow?.current?.focus();
+
       preventBodyScroll(true);
+
       document.body.setAttribute(
         "style",
         `position: fixed; top: -${window.scrollY}px; left: 0; right: 0;`
       );
+
       if (modalContent.current) {
-        modalContent.current.style.width = `${maxWidth}px`;
+        modalContent.current.style.width = maxWidth ? `${maxWidth}px` : "";
       }
     } else {
-      document.body.removeAttribute("style");
-      prevActiveElementRef.current?.focus();
-      preventBodyScroll(false);
+      // wait for animation before cleanup
+      const timeout = setTimeout(() => {
+        document.body.removeAttribute("style");
+        preventBodyScroll(false);
+        prevActiveElementRef.current?.focus();
+      }, ANIMATION_DURATION);
+
+      return () => clearTimeout(timeout);
     }
+
     return () => {
       document.body.removeAttribute("style");
       preventBodyScroll(false);
@@ -66,6 +236,9 @@ export const Modal: FC<TModal> = ({
     };
   }, [isModal, maxWidth]);
 
+  // ============================
+  // KEYBOARD HANDLING (UNCHANGED)
+  // ============================
   const handleEscapeKey = () => {
     onClose?.();
     preventBodyScroll(false);
@@ -80,10 +253,12 @@ export const Modal: FC<TModal> = ({
       e.shiftKey &&
       (document.activeElement === firstElem ||
         document.activeElement === modalWindow.current);
+
     if (isShiftAndFirstOrModal) {
       e.preventDefault();
       (lastElem as HTMLElement).focus();
     }
+
     if (!e.shiftKey && document.activeElement === lastElem) {
       e.preventDefault();
       (firstElem as HTMLElement).focus();
@@ -93,14 +268,18 @@ export const Modal: FC<TModal> = ({
   const handleKeyPress = (e: KeyboardEvent) => {
     const focusElements =
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
     const focusContent = modalWindow.current
       ? modalWindow.current.querySelectorAll(focusElements)
       : [];
+
     const firstElem = focusContent[0];
     const lastElem = focusContent[focusContent.length - 1];
+
     if (e.key === "Escape") {
       handleEscapeKey();
     }
+
     if (e.key === "Tab") {
       handleTabKey(e, firstElem, lastElem);
     }
@@ -114,28 +293,38 @@ export const Modal: FC<TModal> = ({
       tabIndex={-1}
       ref={modalWindow}
       id={`modal_${id}`}
-      aria-label={modalAriaLabel ? modalAriaLabel : ""}
+      aria-label={modalAriaLabel || ""}
     >
-      <div className="modal-popup-content" ref={modalContent}>
+      {/* BACKDROP (for animation click close) */}
+      <div className="modal-backdrop" onClick={onClose} />
+
+      <div
+        className="modal-popup-content"
+        ref={modalContent}
+      >
         <div className="modal-popup-content-header">
           {title && <h2>{title}</h2>}
+
           {onClose && (
             <button
               className="close-button"
               onClick={onClose}
-              aria-label={closeAriaLabel ? closeAriaLabel : "close"}
+              aria-label={closeAriaLabel || "close"}
             >
               <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
             </button>
           )}
         </div>
+
         <div className="modal-popup-content-body" ref={modalBody}>
           {children}
         </div>
+
         <div className="modal-popup-content-footer">
           {onClose && (
             <Button variant="secondary" label="Cancel" onClick={onClose} />
           )}
+
           {onClick && (
             <Button
               variant="primary"
