@@ -1,5 +1,5 @@
 {
-  "name": "react-ui-blocks",
+  "name": "@kmohanraj/react-blocks",
   "description": "",
   "author": {
     "name": "Mohanraj Kandasamy",
@@ -12,7 +12,7 @@
     "react",
     "UI"
   ],
-  "version": "1.0.7",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
