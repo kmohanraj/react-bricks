@@ -5,6 +5,12 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   z-index: 1050;
   padding: 0.5rem 0.75rem;
+
+  &:has(.sort-by-dropdown) {
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .popover-arrow {
@@ -14,50 +20,56 @@
   background: #fff;
   border-left: 1px solid rgba(0, 0, 0, 0.175);
   border-top: 1px solid rgba(0, 0, 0, 0.175);
-  transform: rotate(45deg);
 }
 
-/* bottom */
+/* ---- Bottom Placements ---- */
 .popover-content.bottom .popover-arrow {
-  top: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-/* top */
-.popover-content.top .popover-arrow {
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-}
-.popover-content.bottom .popover-arrow {
-  // top: -6px;
   top: -9px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
 }
 
 .popover-content.bottom-start .popover-arrow {
-  // top: -6px;
   top: -9px;
   left: 12px;
+  transform: rotate(45deg);
 }
 
 .popover-content.bottom-end .popover-arrow {
   top: -9px;
   right: 12px;
+  transform: rotate(45deg);
 }
 
+/* ---- Top Placements ---- */
 .popover-content.top .popover-arrow {
   bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%) rotate(225deg);
 }
 
 .popover-content.top-start .popover-arrow {
   bottom: -9px;
   left: 12px;
+  transform: rotate(225deg);
 }
 
 .popover-content.top-end .popover-arrow {
   bottom: -9px;
   right: 12px;
+  transform: rotate(225deg);
 }
 
+/* ---- Left Placements ---- */
+.popover-content.left .popover-arrow {
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%) rotate(225deg);
+}
 
+/* ---- Right Placements ---- */
+.popover-content.right .popover-arrow {
+  left: -7px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}

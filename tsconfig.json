@@ -9,6 +9,7 @@
     "module": "ESNext",
     "declaration": true,
     "declarationDir": "lib",
+    "rootDir": "src",
     "sourceMap": true,
     "outDir": "lib",
     "moduleResolution": "node",

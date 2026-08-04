@@ -5,6 +5,7 @@ import { TInputField } from "../../types/type";
 import RenderCalendar from "./Calender";
 import "./input.scss";
 import { formatPrice } from "../../helper/helper";
+import { formatDateDisplay } from "../../helper/date.helper";
 
 const getErrorClass = (error: boolean) => cx("message", { error });
 const getLabelClass = (
@@ -84,6 +85,7 @@ export const Input = <T,>({
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const calendarRef = useRef<HTMLInputElement>(null);
   const errorClass = getErrorClass(!!error);
+  const [showPassword, setShowPassword] = useState(false);
 
   const inputClass = getInputClass(
     customClass,
@@ -132,7 +134,8 @@ export const Input = <T,>({
   const handleDateSelect = (day: number) => {
     const selectedDate = new Date(selectedYear, selectedMonth, day);
     setSelectedDate(selectedDate);
-    onChange?.(selectedDate);
+    const formattedDate = formatDateDisplay(selectedDate);
+    onChange?.(formattedDate);
     setIsDateShow(false);
   };
 
@@ -157,11 +160,13 @@ export const Input = <T,>({
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
+    if (isDatePicker) {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click", handleClickOutside);
+      };
+    }
+  }, [isDatePicker]);
 
   let effectiveSelectedDate: Date | null = null;
   if (selectedDate) {
@@ -235,7 +240,7 @@ export const Input = <T,>({
         <div ref={calendarRef}>
           <RenderCalendar
             today={today}
-            timeZone={timeZone ?? ""}
+            timeZone={timeZone || "UTC"}
             isShowPastDate={isShowPastDate}
             setSelectedMonth={setSelectedMonth}
             setSelectedYear={setSelectedYear}

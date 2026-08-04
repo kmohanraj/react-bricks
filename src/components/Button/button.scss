@@ -41,6 +41,11 @@
     border: 1px solid var(--border);
     color: var(--text-primary);
     background-color: var(--white);
+    
+    &:hover {
+      background-color: #f5f5f5;
+      border-color: var(--text-primary);
+    }
   }
   &.disabled {
     opacity: unset;

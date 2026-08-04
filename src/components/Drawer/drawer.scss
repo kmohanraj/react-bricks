@@ -1,55 +1,194 @@
 @use "../../assets/styles/_variables" as *;
 
-.drawer {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 300px;
-  max-width: 80vw;
-  height: 100vh;
-  background-color: var(--white);
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease-in-out;
-  z-index: 1000;
-  padding: 1rem;
-  overflow-y: scroll;
+// Animations
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
-.drawer.open {
-  right: 0;
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
-.backdrop {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.drawer-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0);
-  transition: background-color 0.3s ease-in-out;
-  z-index: 999;
+  inset: 0;
+  /* Z-index is dynamically calculated: 9999 + (level * 100) */
+  /* This allows for deep nesting: Level 0 = 9999, Level 1 = 10099, Level 2 = 10199, etc. */
   pointer-events: none;
-  overflow: hidden;
 }
 
-.backdrop.visible {
-  background-color: rgba(0, 0, 0, 0.5);
+.drawer-overlay.open {
   pointer-events: auto;
 }
 
-.close-btn {
+/* Backdrop */
+.drawer-backdrop {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  cursor: pointer;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.drawer-overlay.open .drawer-backdrop {
+  opacity: 1;
+}
+
+/* Drawer Panel */
+.drawer-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+}
+
+.drawer-panel.open {
+  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+}
+
+.drawer-panel--left {
+  left: 0;
+  right: auto;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  transform: translateX(-100%);
+
+  &.open {
+    animation: slideInLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(0);
+  }
+}
+
+/* Nested drawer indicator - adds subtle visual distinction */
+.drawer-panel--nested {
+  &.drawer-panel--right {
+    box-shadow: -6px 0 32px rgba(0, 0, 0, 0.2);
+  }
+
+  &.drawer-panel--left {
+    box-shadow: 6px 0 32px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Header */
+.drawer-header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+  gap: 1rem;
+
+  .drawer-header__title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    flex: 1;
+  }
+
+  .drawer-header__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border-radius: 0.25rem;
+
+    &:hover {
+      background-color: var(--neutral);
+      color: var(--text-primary);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+/* Content */
+.drawer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--text-secondary);
+    }
+  }
+}
+
+/* Footer */
+.drawer-footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--white);
+  position: sticky;
+  bottom: 0;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .drawer {
-    width: 100%;
+  .drawer-panel {
+    width: 100vw !important;
+    max-width: 100vw;
+  }
+
+  .drawer-panel--left {
+    width: 100vw !important;
     max-width: 100vw;
   }
 }

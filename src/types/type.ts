@@ -65,14 +65,7 @@ export type TCheckBox = {
 };
 
 export type TEllipsisLoader = {
-  color?:
-    | "primary"
-    | "dark"
-    | "grey"
-    | "white"
-    | "success"
-    | "warning"
-    | string;
+  color?: "primary" | "dark" | "grey" | "white" | "success" | "warning";
   size?: "sm" | "md" | "lg";
 };
 
@@ -240,12 +233,15 @@ export type TTableActions<T> = {
 export type TImage = {
   src: string;
   alt?: string;
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   className?: string;
   onClick?: MouseEventHandler<HTMLImageElement>;
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
   role?: string;
+  isLazy?: boolean;
+  fallbackSrc?: string;
+  isDisabled?: boolean;
 };
 
 export type TPopoverProps = {

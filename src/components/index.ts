@@ -1,11 +1,13 @@
 export { Badge } from './Badge/Badge'
 export { Button } from "./Button/Button";
+export { Card } from './Card/Card'
 export { CheckBox } from "./Checkbox/Checkbox";
 export { DataTable } from "./DataTable/DataTable";
 export { Drawer } from './Drawer/Drawer'
 export { EllipsisLoader } from "./EllipsisLoader/EllipsisLoader";
 export { Image } from "./Image/Image";
 export { Input } from "./Input/Input";
+export { Layout } from './Layout/Layout';
 export { Modal } from "./Modal/Modal";
 export { Popover } from "./Popover/Popover";
 export { Select } from "./Select/Select";
