@@ -1,52 +1,83 @@
-# 🚀 React Blocks Components
+# React UI Blocks
 
-A modern, lightweight, and customizable React component library for building scalable user interfaces and efficiently.
----
+`react-ui-blocks` is a lightweight and customizable React component library for building reusable, scalable user interfaces.
 
-## 📦 Installation
+## Why `react-ui-blocks`?
+
+- Reusable UI primitives for faster development
+- TypeScript-friendly component APIs
+- Storybook-ready local development workflow
+- Supports responsive table column sizing (for example, `DataTable` `maxWidth`)
+
+## Installation
 
 ```bash
-npm i @kmohanraj/react-blocks
+npm install react-ui-blocks
 ```
 
 or
 
 ```bash
-yarn add @kmohanraj/react-blocks
+yarn add react-ui-blocks
 ```
 
----
+## Exports
 
-## 🧩 Components
+### Components
 
-React Forge UI provides a set of reusable and customizable components:
+- Badge
+- Button
+- Card
+- CheckBox
+- DataTable
+- Drawer
+- EllipsisLoader
+- Image
+- Input
+- Layout
+- Modal
+- Popover
+- Scrollbar
+- Select
+- SortBy
+- Tabs
 
-* Badge
-* Button
-* Checkbox
-* DataTable
-* Drawer
-* EllipsisLoader
-* Image
-* Modal
-* Popover
-* Scrollbar
-* Select
-* Tabs
+### Hooks
 
----
+- useGetDevice
+- useGetPosition
 
-## 🎨 Features
+## Quick Start
 
-* ⚛️ Built for React
-* 🎯 Easy to use and integrate
-* 🎨 Customizable components
-* 📦 Lightweight and modular
-* ♻️ Reusable UI building blocks
+```tsx
+import { Button, DataTable } from "react-ui-blocks";
 
----
+const columns = [
+  { key: "id", label: "ID" },
+  {
+    key: "name",
+    label: "Name",
+    maxWidth: { mobile: 120, tablet: 160, desktop: 220 },
+  },
+  { key: "age", label: "Age" },
+];
 
-## 🛠️ Development
+const data = [
+  { id: 1, name: "Alice", age: 28 },
+  { id: 2, name: "Bob", age: 34 },
+];
+
+export default function App() {
+  return (
+    <>
+      <Button value="Click me" />
+      <DataTable data={data} columns={columns} isPagination isSorting />
+    </>
+  );
+}
+```
+
+## Development
 
 Install dependencies:
 
@@ -54,21 +85,28 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Run Storybook:
 
 ```bash
-npm run dev
+npm run storybook
 ```
----
 
-## 📄 License
+Build package:
+
+```bash
+npm run build
+```
+
+Build static Storybook:
+
+```bash
+npm run build-storybook
+```
+
+## License
 
 MIT License © 2026 Mohanraj K
 
----
+## Support
 
-## 🌟 Support
-
-If you like this project, consider giving it a ⭐ on GitHub!
-
----
+If this project helps you, consider giving it a ⭐ on GitHub.

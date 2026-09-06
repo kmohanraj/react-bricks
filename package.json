@@ -1,6 +1,6 @@
 {
-  "name": "@kmohanraj/react-blocks",
-  "description": "",
+  "name": "react-ui-blocks",
+  "description": "A lightweight and customizable React UI component library for building reusable interfaces.",
   "author": {
     "name": "Mohanraj Kandasamy",
     "email": "mohanksv.89@gmail.com"
