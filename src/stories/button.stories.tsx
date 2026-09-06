@@ -51,10 +51,30 @@ export const Link: Story = {
 
 export const Loading: Story = {
   args: {
-    id: 'link',
-    label: 'Button',
+    id: 'loading',
+    label: 'Loading',
     type: 'button',
-    variant: 'secondary',
-    isLoading: true
+    variant: 'primary',
+    isLoading: true,
+    loaderColor: 'primary',
+  },
+};
+
+export const Ghost: Story = {
+  args: {
+    id: 'ghost',
+    label: 'Ghost Button',
+    type: 'button',
+    variant: 'ghost',
+  },
+};
+
+export const Small: Story = {
+  args: {
+    id: 'small',
+    label: 'Small',
+    type: 'button',
+    variant: 'primary',
+    isSmall: true,
   },
 };

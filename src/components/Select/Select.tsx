@@ -194,10 +194,13 @@ export const Select: FC<TSelect> = ({
   };
 
   const checkSelectedItem = (option: TOption, index: number) => {
-    const multipleOptions =
-      isMulti && selectedValue && !selectedValue.includes(option);
-    const checkIsMulti = isMulti ? multipleOptions : true;
-    if (checkIsMulti) {
+    const isOptionSelected = isMulti && selectedValue && selectedValue.some((opt: TOption) => opt.id === option.id);
+    
+    // For multi-select: only show unselected options
+    // For single-select: show all options
+    const shouldShow = isMulti ? !isOptionSelected : true;
+    
+    if (shouldShow) {
       return (
         <div
           key={index}
@@ -227,7 +230,7 @@ export const Select: FC<TSelect> = ({
             className="select_input__field"
             onChange={handleOnChange}
             onKeyUp={handleOnKeyDown}
-            readOnly={isSearchable}
+            readOnly={!isSearchable}
             disabled={isDisabled}
             ref={inputRef}
           />
@@ -258,7 +261,6 @@ export const Select: FC<TSelect> = ({
             src={arrowDown as never}
             className={suffixIConClass}
             role="presentation"
-            onClick={() => !isDisabled && setSelectedValue(isMulti ? [] : {})}
             alt="Arrow Down"
           />
         </div>

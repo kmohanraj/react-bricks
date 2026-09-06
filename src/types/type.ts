@@ -65,14 +65,7 @@ export type TCheckBox = {
 };
 
 export type TEllipsisLoader = {
-  color?:
-    | "primary"
-    | "dark"
-    | "grey"
-    | "white"
-    | "success"
-    | "warning"
-    | string;
+  color?: "primary" | "dark" | "grey" | "white" | "success" | "warning";
   size?: "sm" | "md" | "lg";
 };
 
@@ -174,6 +167,15 @@ export type TSelect = {
 export type TColumn<T> = {
   key: keyof T;
   label: string;
+  selector?: (column: T[keyof T], row?: T) => ReactNode;
+  maxWidth?:
+    | string
+    | number
+    | {
+        mobile?: string | number;
+        tablet?: string | number;
+        desktop?: string | number;
+      };
 };
 
 export type TDataTable<T> = {
@@ -201,7 +203,7 @@ export type TDataTable<T> = {
 };
 
 export type TTableHeaderProps<T> = {
-  columns: { key: keyof T; label: string }[];
+  columns: TColumn<T>[];
   isSorting: boolean;
   isAction: boolean;
   checkIsSorting: (key: keyof T) => ReactNode;
@@ -209,11 +211,7 @@ export type TTableHeaderProps<T> = {
 
 export type TTableBodyProps<T> = {
   paginatedData: T[];
-  columns: {
-    selector: (column: T, row?: T) => ReactNode;
-    key: keyof T;
-    label: string;
-  }[];
+  columns: TColumn<T>[];
   isAction: boolean;
   isMoreBtn?: boolean;
   onAction?: (data: T) => void;
@@ -240,12 +238,15 @@ export type TTableActions<T> = {
 export type TImage = {
   src: string;
   alt?: string;
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   className?: string;
   onClick?: MouseEventHandler<HTMLImageElement>;
   onError?: (e: SyntheticEvent<HTMLImageElement, Event>, src: string) => void;
   role?: string;
+  isLazy?: boolean;
+  fallbackSrc?: string;
+  isDisabled?: boolean;
 };
 
 export type TPopoverProps = {

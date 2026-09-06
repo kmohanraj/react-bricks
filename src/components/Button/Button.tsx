@@ -93,6 +93,13 @@ export const Button: FC<TButton> = ({
   suffix,
 }) => {
   const ElementTag = getElementTag(type, link);
+  
+  // Determine loader color based on variant
+  const getLoaderColor = (): "primary" | "dark" | "grey" | "white" | "success" | "warning" => {
+    if (variant === "primary" || variant === "dark") return "white";
+    return "primary";
+  };
+
   const buttonClass = getButtonClass({
     prefix,
     suffix,
@@ -118,10 +125,10 @@ export const Button: FC<TButton> = ({
       className={buttonClass}
       onClick={onClick}
       onKeyDown={onKeyDown}
-      disabled={isDisabled}
+      {...(ElementTag === 'button' && { disabled: isDisabled })}
       {...buttonProps}
     >
-      {isLoading && <EllipsisLoader color={loaderColor} size={loaderSize} />}
+      {isLoading && <EllipsisLoader color={getLoaderColor()} size={loaderSize} />}
       {prefix && <Image src={prefix} className="prefix" role="presentation" />}
       {!isLoading && label ? <span>{label}</span> : null}
       {suffix && <Image src={suffix} className="suffix" role="presentation" />}

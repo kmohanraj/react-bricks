@@ -30,6 +30,7 @@ $sizes: (
       width: 14px;
       height: 14px;
       border-radius: 50%;
+      background-color: var(--btn-primary);
       animation-timing-function: cubic-bezier(0, 1, 1, 0);
 
       &:nth-child(1) {
@@ -52,28 +53,44 @@ $sizes: (
         animation: ldsEllipsis3 0.6s infinite;
       }
     }
-    &.primary span {
-      background-color:  var(--btn-secondary);
-    }
-    &.secondary span {
-      background-color: var(--btn-primary);
-    }
-    &.dark span {
-      background-color: var(--black);
-    }
-    &.grey span {
-      background-color: var(--border);
-    }
-    &.white span {
-      background-color: var(--white);
-    }
-    &.success span {
-      background-color: var(--success);
-    }
-    &.warning span {
-      background-color: var(--error);
-    }
   }
+}
+
+/* Color overrides with proper specificity */
+.ldsEllipsis.primary.sm span,
+.ldsEllipsis.primary.md span,
+.ldsEllipsis.primary.lg span {
+  background-color: var(--btn-primary);
+}
+
+.ldsEllipsis.dark.sm span,
+.ldsEllipsis.dark.md span,
+.ldsEllipsis.dark.lg span {
+  background-color: var(--black);
+}
+
+.ldsEllipsis.grey.sm span,
+.ldsEllipsis.grey.md span,
+.ldsEllipsis.grey.lg span {
+  background-color: var(--border);
+}
+
+.ldsEllipsis.white.sm span,
+.ldsEllipsis.white.md span,
+.ldsEllipsis.white.lg span {
+  background-color: var(--white);
+}
+
+.ldsEllipsis.success.sm span,
+.ldsEllipsis.success.md span,
+.ldsEllipsis.success.lg span {
+  background-color: var(--success);
+}
+
+.ldsEllipsis.warning.sm span,
+.ldsEllipsis.warning.md span,
+.ldsEllipsis.warning.lg span {
+  background-color: var(--error);
 }
 
 @include ellipsis-loader(sm);

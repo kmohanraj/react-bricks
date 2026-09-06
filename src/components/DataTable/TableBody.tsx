@@ -57,42 +57,55 @@ const TableBody = <T extends Record<string, any>>({
 
   return (
     <tbody>
-      {paginatedData?.map((row, idx) => (
-        <tr key={idx}>
-          {hasIdColumn && <td>{idx + 1}</td>}
-          {visibleColumns.map((col) => (
-            <td
-              key={col.key as Key}
-              onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
-              className={cx({cursor: onAction || onEdit})}
-            >
-              {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
-            </td>
-          ))}
-          {isAction && (
-            <td className={cx("actions", {cursor: onAction || onEdit})}>
-              {isMoreBtn ? (
-                <Popover
-                  title={
-                    <Image
-                      src={Icons.moreIcon as unknown as string}
-                      width="24"
-                      height="24"
-                    />
-                  }
-                  children={[
-                    <Actions
-                      onAction={onAction}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                      row={row}
-                      iconSize={iconSize}
-                    />]
-                  }
-                  isClickClose
-                />
-              ) : (
-                <>
+      {paginatedData?.map((row, idx) => {
+        const rowKey = row.id || idx;
+        return (
+          <tr key={rowKey}>
+            {hasIdColumn && <td>{idx + 1}</td>}
+            {visibleColumns.map((col) => {
+              const cellMaxWidth =
+                typeof col.maxWidth === "string" || typeof col.maxWidth === "number"
+                  ? col.maxWidth
+                  : undefined;
+
+              return (
+                <td
+                  key={String(col.key)}
+                  onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
+                  style={cellMaxWidth ? { maxWidth: cellMaxWidth, width: cellMaxWidth } : undefined}
+                  className={cx({
+                    "cursor-pointer": onAction || onEdit
+                  })}
+                >
+                  {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
+                </td>
+              );
+            })}
+            {isAction && (
+              <td className={cx("actions", {
+                "cursor-pointer": onAction || onEdit
+              })}>
+                {isMoreBtn ? (
+                  <Popover
+                    title={
+                      <Image
+                        src={Icons.moreIcon as unknown as string}
+                        width="24"
+                        height="24"
+                      />
+                    }
+                    children={
+                      <Actions
+                        onAction={onAction}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                        row={row}
+                        iconSize={iconSize}
+                      />
+                    }
+                    isClickClose
+                  />
+                ) : (
                   <Actions
                     onAction={onAction}
                     onEdit={onEdit}
@@ -100,12 +113,12 @@ const TableBody = <T extends Record<string, any>>({
                     row={row}
                     iconSize={iconSize}
                   />
-                </>
-              )}
-            </td>
-          )}
-        </tr>
-      ))}
+                )}
+              </td>
+            )}
+          </tr>
+        );
+      })}
     </tbody>
   );
 };

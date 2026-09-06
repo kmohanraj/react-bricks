@@ -1,151 +1,100 @@
-import { FC, useEffect, useRef } from "react";
-import cx from "classnames";
-import { TModal } from "../../types/type";
-import { preventBodyScroll } from "../../helper/helper";
-import * as Icon from "../../assets/icons/icon";
-import { Image } from "../Image/Image";
+
+
+import { useEffect, ReactNode } from "react";
 import { Button } from "../Button/Button";
 import "./modal.scss";
 
-export const Modal: FC<TModal> = ({
-  id = "",
-  title,
-  closeIcon,
-  actionMode,
-  customClass,
-  children,
-  onClick,
+interface ModalAction {
+  label: string;
+  variant?: "primary" | "secondary" | "ghost";
+  onClick: () => void;
+}
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: ReactNode;
+  actions?: ModalAction[];
+  closeButton?: boolean;
+  backdropClickable?: boolean;
+}
+
+export const Modal = ({
+  isOpen,
   onClose,
-  closeAriaLabel = "",
-  modalAriaLabel = "",
-  maxWidth = "",
-  isModal,
-  isStickyHeader,
-  isRightSide,
-  isLoading,
-  isCloseIcon
-}) => {
-  const modalWindow = useRef<HTMLDivElement>(null);
-  const modalContent = useRef<HTMLDivElement>(null);
-  const modalBody = useRef(null);
-  const modalClass = cx(
-    {
-      "modal-popup": true,
-      "show-modal-popup": isModal,
-      "is-modal": !isRightSide,
-      "right-side-slide": isRightSide,
-    },
-    customClass ? customClass : "",
-    isStickyHeader ? "sticky-header" : null
-  );
-
-  const prevActiveElementRef = useRef<HTMLElement | null>(null);
-
+  title,
+  children,
+  actions,
+  closeButton = true,
+  backdropClickable = true,
+}: ModalProps) => {
   useEffect(() => {
-    if (isModal) {
-      prevActiveElementRef.current = document.activeElement as HTMLElement;
-      window.addEventListener("keydown", handleKeyPress);
-      if (modalAriaLabel) modalWindow?.current?.focus();
-      preventBodyScroll(true);
-      document.body.setAttribute(
-        "style",
-        `position: fixed; top: -${window.scrollY}px; left: 0; right: 0;`
-      );
-      if (modalContent.current) {
-        modalContent.current.style.width = `${maxWidth}px`;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
       }
-    } else {
-      document.body.removeAttribute("style");
-      prevActiveElementRef.current?.focus();
-      preventBodyScroll(false);
-    }
-    return () => {
-      document.body.removeAttribute("style");
-      preventBodyScroll(false);
-      window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [isModal, maxWidth]);
 
-  const handleEscapeKey = () => {
-    onClose?.();
-    preventBodyScroll(false);
-  };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEsc);
+      document.body.style.overflow = "hidden";
+    }
 
-  const handleTabKey = (
-    e: KeyboardEvent,
-    firstElem: Element,
-    lastElem: Element
-  ) => {
-    const isShiftAndFirstOrModal =
-      e.shiftKey &&
-      (document.activeElement === firstElem ||
-        document.activeElement === modalWindow.current);
-    if (isShiftAndFirstOrModal) {
-      e.preventDefault();
-      (lastElem as HTMLElement).focus();
-    }
-    if (!e.shiftKey && document.activeElement === lastElem) {
-      e.preventDefault();
-      (firstElem as HTMLElement).focus();
-    }
-  };
-
-  const handleKeyPress = (e: KeyboardEvent) => {
-    const focusElements =
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    const focusContent = modalWindow.current
-      ? modalWindow.current.querySelectorAll(focusElements)
-      : [];
-    const firstElem = focusContent[0];
-    const lastElem = focusContent[focusContent.length - 1];
-    if (e.key === "Escape") {
-      handleEscapeKey();
-    }
-    if (e.key === "Tab") {
-      handleTabKey(e, firstElem, lastElem);
-    }
-  };
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, onClose]);
 
   return (
-    <div
-      className={modalClass}
-      role="dialog"
-      aria-modal
-      tabIndex={-1}
-      ref={modalWindow}
-      id={`modal_${id}`}
-      aria-label={modalAriaLabel ? modalAriaLabel : ""}
-    >
-      <div className="modal-popup-content" ref={modalContent}>
-        <div className="modal-popup-content-header">
-          {title && <h2>{title}</h2>}
-          {onClose && (
-            <button
-              className="close-button"
-              onClick={onClose}
-              aria-label={closeAriaLabel ? closeAriaLabel : "close"}
-            >
-              <Image src={closeIcon ? closeIcon : (Icon.close as never)} />
-            </button>
-          )}
-        </div>
-        <div className="modal-popup-content-body" ref={modalBody}>
-          {children}
-        </div>
-        <div className="modal-popup-content-footer">
-          {onClose && (
-            <Button variant="secondary" label="Cancel" onClick={onClose} />
-          )}
-          {onClick && (
-            <Button
-              variant="primary"
-              label={actionMode}
-              onClick={onClick}
-              isLoading={isLoading}
-            />
-          )}
-        </div>
+    <div className={`modal-overlay ${isOpen ? "show" : ""}`}>
+      <div
+        className="modal-backdrop"
+        onClick={backdropClickable ? onClose : undefined}
+        role="presentation"
+      />
+
+      <div
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+      >
+        {title && (
+          <div className="modal-header">
+            <h3 className="modal-header__title">{title}</h3>
+
+            {closeButton && (
+              <button
+                className="modal-header__close"
+                onClick={onClose}
+                aria-label="Close modal"
+                type="button"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        )}
+
+        <div className="modal-body">{children}</div>
+
+        {actions && actions.length > 0 && (
+          <div className="modal-footer">
+            {actions.map((action, index) => (
+              <Button
+                key={index}
+                label={action.label}
+                variant={action.variant || "secondary"}
+                onClick={action.onClick}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
 };
+

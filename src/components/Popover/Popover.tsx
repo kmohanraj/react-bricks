@@ -24,11 +24,12 @@ type Placement =
 
 type PopoverProps = {
   title: ReactNode;
-  children: ReactNode;
+  children: ReactNode | ((closePopover: () => void) => ReactNode);
   placement?: Placement | "auto";
   isClickClose?: boolean;
   offset?: number;
   showArrow?: boolean;
+  onClose?: () => void;
 };
 
 /* ---------------- Constants ---------------- */
@@ -46,14 +47,16 @@ const resolvePlacement = (
 
   const spaceBottom = window.innerHeight - title.bottom;
   const spaceTop = title.top;
+  const spaceRight = window.innerWidth - title.right;
+  const spaceLeft = title.left;
 
-  // vertical decision
+  // vertical decision (prefer bottom, fallback to top)
   const vertical =
-    spaceBottom >= popover.height ? "bottom" :
-    spaceTop >= popover.height ? "top" :
+    spaceBottom >= popover.height + 8 ? "bottom" :
+    spaceTop >= popover.height + 8 ? "top" :
     "bottom";
 
-  // horizontal fit
+  // horizontal fit check (prefer center)
   const centerLeft = title.left + title.width / 2 - popover.width / 2;
   const fitsCenter =
     centerLeft >= 8 &&
@@ -61,9 +64,15 @@ const resolvePlacement = (
 
   if (fitsCenter) return vertical;
 
-  // edge cases (THIS FIXES YOUR SCREENSHOT)
-  if (title.right >= popover.width) return `${vertical}-end`;
-  return `${vertical}-start`;
+  // edge cases: use start/end based on available space
+  const fitsEnd = title.right - popover.width >= 8;
+  const fitsStart = title.left + popover.width <= window.innerWidth - 8;
+
+  if (fitsEnd) return `${vertical}-end`;
+  if (fitsStart) return `${vertical}-start`;
+
+  // fallback to center if no horizontal space
+  return vertical;
 };
 
 
@@ -73,11 +82,12 @@ const calculatePosition = (
   placement: Placement,
   offset: number
 ) => {
-  const [base, align] = placement.split("-");
+  const [base, align] = placement.split("-") as [string, string | undefined];
 
   let top = 0;
   let left = 0;
 
+  // Vertical placements
   if (base === "bottom") {
     top = t.bottom + offset;
     left =
@@ -98,6 +108,26 @@ const calculatePosition = (
         : t.left + t.width / 2 - p.width / 2;
   }
 
+  // Horizontal placements
+  if (base === "left") {
+    left = t.left - p.width - offset;
+    top = t.top + t.height / 2 - p.height / 2;
+  }
+
+  if (base === "right") {
+    left = t.right + offset;
+    top = t.top + t.height / 2 - p.height / 2;
+  }
+
+  // Constrain to viewport
+  const minLeft = 8;
+  const maxLeft = window.innerWidth - p.width - 8;
+  const minTop = 8;
+  const maxTop = window.innerHeight - p.height - 8;
+
+  left = Math.max(minLeft, Math.min(left, maxLeft));
+  top = Math.max(minTop, Math.min(top, maxTop));
+
   return { top, left };
 };
 
@@ -111,6 +141,7 @@ export const Popover: FC<PopoverProps> = ({
   isClickClose = true,
   offset = 8,
   showArrow = false,
+  onClose,
 }) => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -190,7 +221,12 @@ export const Popover: FC<PopoverProps> = ({
             }}
           >
             {showArrow && <span className="popover-arrow" />}
-            {children}
+            {typeof children === "function"
+              ? children(() => {
+                  setOpen(false);
+                  onClose?.();
+                })
+              : children}
           </div>,
           document.body
         )}

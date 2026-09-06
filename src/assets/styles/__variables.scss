@@ -1,46 +1,48 @@
 @use "sass:map";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
 
-// Fonts
-// $font-family: var(--font-family, "Inter");
+// CSS Custom Properties for runtime theming
+:root {
+  --primary: #28a9c3;
+  --secondary: #d6ebef;
+  --neutral: #e8f0f2;
+  --hover: #308090;
+  --white: #ffffff;
+  --black: #000000;
+  --bg: #eff7f9;
+  --text-primary: #000000;
+  --text-secondary: #666666;
+  --link: #4259e0;
+  --success: #5dbc4a;
+  --warning: #e09e42;
+  --error: #e22c1c;
+  --btn-primary: #28a9c3;
+  --btn-disable: #cccccc;
+  --border: #e4e4e4;
+}
 
-// $primary: #28A9C3;
-// $secondary: #D6EBEF;
-// $neutral: #E8F0F2;
+// SCSS Variables for compile-time usage
+// $primary: #28a9c3;
+// $secondary: #d6ebef;
+// $neutral: #e8f0f2;
 // $hover: #308090;
-// $white: #FFFFFF;
-// $bg: #EFF7F9;
+// $white: #ffffff;
+// $black: #000000;
+// $bg: #eff7f9;
 // $text-primary: #000000;
 // $text-secondary: #666666;
-// $link: #4259E0;
-// $success: #5DBC4A;
-// $warning: #E09E42;
-// $error: #E22C1C;
-// $btn-primary: #28A9C3;
-// $btn-disable: #CCCCCC;
-// $border: #CCCCCC;
+// $link: #4259e0;
+// $success: #5dbc4a;
+// $warning: #e09e42;
+// $error: #e22c1c;
+// $btn-primary: #28a9c3;
+// $btn-disable: #cccccc;
+// $border: #e4e4e4;
 
-// Colors Variable
-// $primary: var(--primary, #28a9c3);
-// $secondary: var(--secondary, #d6ebef);
-// $btn-primary: var(--btn-primary, #28a9c3);
-// $btn-secondary: var(--btn-secondary, #d6ebef);
-// $btn-disable: var(--btn-disable, #cccccc);
-// $border: var(--border, #cccccc);
-// $hover: var(--hover, #308090);
-// $white: var(--white, #ffffff);
-// $black: var(--black, #000000);
-// $bg: var(--bg, #eff7f9);
-// $text-primary: var(--text-primary, #101114);
-// $text-secondary: var(--text-secondary, #666666);
-// $link-primary: var(--link-primary, #4259e0);
-// $link-secondary: var(--link-secondary, #212121);
-// $success: var(--success, #5dbc4a);
-// $warning: var(--warning, #e09e42);
-// $error: var(--error, #e22c1c);
-// $neutral: var(--neutral, #e8f0f2);
+// Font Family
+$font-family: "Inter", sans-serif;
 
-// Breakpoints for responsive
+// Breakpoints for responsive design
 $breakpoints: (
   xs: 480px,
   sm: 768px,
@@ -50,18 +52,7 @@ $breakpoints: (
   xxl: 1920px,
 );
 
-// @mixin minBreakpoint($breakpoint) {
-//   @media (min-width: map.get($breakpoints, $breakpoint)) {
-//     @content;
-//   }
-// }
-
-// @mixin maxBreakpoint($breakpoint) {
-//   @media (max-width: map.get($breakpoints, $breakpoint)) {
-//     @content;
-//   }
-// }
-
+// Breakpoint mixins for media queries
 @mixin breakpoint($type, $bp1, $bp2: null) {
   @if $type == min {
     @media (min-width: map.get($breakpoints, $bp1)) {

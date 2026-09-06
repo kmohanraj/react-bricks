@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 const columns = [
   { key: "id", label: "ID" },
-  { key: "name", label: "Name" },
+  { key: "name", label: "Name", maxWidth: 300 },
   { key: "age", label: "Age" },  
 ];
 
@@ -53,7 +53,7 @@ export const PaginationRight: Story = {
     data: data,
     columns: columns,
     isPagination: true,
-    isPaginationRight: true
+    paginationPlacement: "right"
   },
 };
 
@@ -63,5 +63,62 @@ export const Sorting: Story = {
     data: data,
     columns: columns,
     isSorting: true,
+  },
+};
+
+export const WithCustomSelector: Story = {
+  args: {
+    data: data,
+    columns: [
+      { key: "id", label: "ID" },
+      { 
+        key: "name", 
+        label: "Name",
+        selector: (value: string) => `👤 ${value}`
+      },
+      { 
+        key: "age", 
+        label: "Age",
+        selector: (value: number) => `${value} years`
+      },
+    ],
+    isPagination: true,
+  },
+};
+
+export const WithActions: Story = {
+  args: {
+    data: data,
+    columns: columns,
+    isAction: true,
+    isPagination: true,
+    isSorting: true,
+  },
+};
+
+export const SlimTable: Story = {
+  args: {
+    data: data,
+    columns: columns,
+    isPagination: true,
+    isSlimTable: true,
+  },
+};
+
+export const NoBorders: Story = {
+  args: {
+    data: data,
+    columns: columns,
+    isPagination: true,
+    isOuterBorderLess: true,
+  },
+};
+
+export const TransparentHeader: Story = {
+  args: {
+    data: data,
+    columns: columns,
+    isPagination: true,
+    isTHeadTransparent: true,
   },
 };

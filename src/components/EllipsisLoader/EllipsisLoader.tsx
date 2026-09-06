@@ -5,13 +5,13 @@ import "./ellipsis-loader.scss";
 
 
 export const EllipsisLoader: FC<TEllipsisLoader> = ({
-  color = "",
+  color,
   size = "sm",
 }) => {
   const loaderClass = clsx(
     "ldsEllipsis",
-    color ? color : null,
-    size ? size : null
+    size,
+    color || "primary"
   );
   return (
     <span className={loaderClass}>
