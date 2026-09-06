@@ -4,136 +4,169 @@ h5 {
   margin: 0;
 }
 
-.modal-popup {
-  background-color: rgb(0, 0, 0, 0.5);
-  display: none;
+/* ==========================
+    OVERLAY
+========================== */
+
+.modal-overlay {
   position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 100%;
-  z-index: 9999;
-  align-items: baseline;
+  inset: 0;
+
+  z-index: 99999;
+
+  display: flex;
   justify-content: center;
+  align-items: flex-start;
 
-  .close-button {
-    cursor: pointer;
-    background: transparent;
-    padding: 0;
-    border: none;
-    width: 1rem;
-    height: 1rem;
-    display: inline-block;
-    &:hover {
-      background: none;
-    }
-    img {
-      margin-left: 0;
-    }
-  }
+  padding-top: 10vh;
 
-  &-content {
-    padding: 2rem;
-    padding-top: 0;
-    border-radius: 0.5rem;
-    color: var(--text-primary);
-    position: relative;
-    background-color: var(--white);
-    overflow-y: auto;
-    overflow-x: hidden;
-    font-family: var(--font-family);
+  visibility: hidden;
+  opacity: 0;
 
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      padding: 30px 0;
-    }
-    &-header:not(h2) {
-      justify-content: flex-end;
-    }
-    &-header:has(h2){
-      justify-content: space-between;
-    }
+  transition: opacity 250ms ease;
+}
 
-    &-body {
-      width: 100%;
-      padding-top: 0.625rem;
-      position: relative;
-      flex: 1 1 auto;
-      padding: 1rem 0;
-    }
+.modal-overlay.show {
+  visibility: visible;
+  opacity: 1;
+}
 
-    &-footer {
-      padding: 2rem 0;
-      display: flex;
-      gap: 20px;
-      justify-content: flex-end;
-      button {
-        width: 100%;
-      }
-    }
-  }
+/* ==========================
+    BACKDROP
+========================== */
 
-  &.show-modal-popup {
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================
+    MODAL
+========================== */
+
+.modal-content {
+  position: relative;
+
+  width: 90%;
+  max-width: 650px;
+
+  background: #fff;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+
+  max-height: 80vh;
+
+  overflow: hidden;
+
+  z-index: 1;
+
+  opacity: 0;
+  transform: translateY(-12px);
+
+  transition:
+    opacity 250ms ease,
+    transform 250ms ease;
+
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.modal-overlay.show .modal-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================
+    HEADER
+========================== */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 20px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  background: #fff;
+
+  flex-shrink: 0;
+
+  &__close {
     display: flex;
-  }
-  &.sticky-header {
-    .modal-popup-content-header {
-      position: sticky;
-      top: 0;
-      background: var(--white);
-      z-index: 10;
-      padding: 30px 0 20px 0;
-    }
-  }
-  &.right-side-slide {
-    justify-content: end;
-    .modal-popup-content {
-      margin-top: 0;
-      border-radius: 0;
-    }
-  }
-
-  .sticky-bottom {
-    position: sticky;
-    bottom: 1.5rem;
-    transform: translateY(3rem);
-    background: var(--white);
-    padding: 1.5rem 3rem;
-    margin: auto -3rem;
-    border-radius: 0 0 0.5rem 0.5rem;
-    z-index: 9;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    border-radius: 0.25rem;
   }
 }
 
-.right-side-slide .modal-popup-content {
-  height: 100vh;
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
 }
 
-.modal-popup-content:not(.right-side-slide .modal-popup-content) {
-  max-height: 70vh;
+.modal-close {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  font-size: 20px;
 }
 
+/* ==========================
+    BODY
+========================== */
 
-@include breakpoint(min, sm) {
-  .modal-popup {
-    .modal-popup-content {
-      margin-top: 6.3125rem;
-      position: relative;
-      background-color: var(--white);
-      width: 100%;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
+.modal-body {
+  flex: 1;
+
+  overflow-y: auto;
+
+  padding: 20px;
+}
+
+/* ==========================
+    FOOTER
+========================== */
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+
+  padding: 16px 20px;
+
+  border-top: 1px solid #e5e7eb;
+
+  background: #fff;
+
+  flex-shrink: 0;
+}
+
+/* ==========================
+    MOBILE
+========================== */
+
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding-top: 24px;
   }
-}
 
-@include breakpoint(min, xs) {
-  .modal-popup {
-    .modal-popup-content {
-      padding: 1.875rem;
-      padding-top: 0;
-    }
+  .modal-content {
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 48px);
   }
 }

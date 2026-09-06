@@ -24,10 +24,11 @@ $borderValue: 0.0625rem;
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
-    padding-right: 40px;
+    padding-right: 0;
     padding-left: inherit;
     display: flex;
     align-items: center;
+    gap: 8px;
 
     input {
       position: absolute;
@@ -38,13 +39,13 @@ $borderValue: 0.0625rem;
 
     /* ---- Radio style ---- */
     .checkCircle {
-      position: absolute;
-      top: 50%;
-      right: 0;
+      position: relative;
       height: 24px;
       width: 24px;
-      transform: translateY(-50%);
       border-radius: 50%;
+      border: 2px solid var(--btn-primary);
+      background-color: var(--white);
+      flex-shrink: 0;
     }
 
     input:disabled ~ .checkCircle {
@@ -73,11 +74,13 @@ $borderValue: 0.0625rem;
 
     /* ---- Checkbox style ---- */
     .checkMark {
-      position: absolute;
-      right: 0;
+      position: relative;
       height: 25px;
       width: 25px;
       border-radius: 4px;
+      flex-shrink: 0;
+      border: $borderValue solid var(--btn-primary);
+      background-color: var(--white);
     }
 
     &.left .checkMark {
@@ -109,12 +112,59 @@ $borderValue: 0.0625rem;
     input:checked ~ .checkMark::after {
       display: block;
     }
+
+    /* ---- Switch style ---- */
+    .switchSlider {
+      position: relative;
+      height: 24px;
+      width: 48px;
+      background-color: var(--border);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: background-color 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    input:disabled ~ .switchSlider {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    input:checked ~ .switchSlider {
+      background-color: var(--success);
+      border-color: var(--success);
+    }
+
+    .switchSlider::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      height: 20px;
+      width: 20px;
+      background-color: var(--white);
+      border-radius: 50%;
+      transition: left 0.3s ease;
+    }
+
+    input:checked ~ .switchSlider::after {
+      left: 26px;
+    }
+
+    &.left .switchSlider {
+      right: auto;
+      left: 0;
+    }
+
     &.left {
       display: inline-flex;
-      flex-direction: row;
-      padding-left: 40px;
-      padding-right: inherit;
+      flex-direction: row-reverse;
+      gap: 8px;
       .checkCircle {
+        right: auto;
+        left: 0;
+      }
+      .switchSlider {
         right: auto;
         left: 0;
       }

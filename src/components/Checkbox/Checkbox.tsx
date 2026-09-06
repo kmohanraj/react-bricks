@@ -44,18 +44,13 @@ export const CheckBox: FC<TCheckBox> = ({
 }) => {
 
   const handleOnCheck = (
-    e: React.ChangeEvent<HTMLInputElement> | React.MouseEvent<HTMLSpanElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    // If the event is a mouse event, simulate a change event for onChecked
-    if ("currentTarget" in e && e.currentTarget instanceof HTMLSpanElement) {
-      // Do nothing, as onChecked expects a ChangeEvent<HTMLInputElement>
-    } else {
-      handleOnCheckFn(
-        e as React.ChangeEvent<HTMLInputElement>,
-        isDisabled,
-        onChecked
-      );
-    }
+    handleOnCheckFn(
+      e,
+      isDisabled,
+      onChecked
+    );
   };
 
   const handleOnKeyDown = (e: any) =>
@@ -90,11 +85,9 @@ export const CheckBox: FC<TCheckBox> = ({
           checked={isChecked}
           tabIndex={0}
           name={name}
-          type={type}
+          type={type === "switch" ? "checkbox" : type}
         />
         <span
-          onChange={handleOnCheck}
-          onKeyDown={handleOnKeyDown}
           className={spanClass}
           aria-hidden="true"
         />

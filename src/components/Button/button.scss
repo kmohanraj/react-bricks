@@ -18,7 +18,7 @@
 
   &.small-btn {
     padding-inline: calc(.50rem * 2.5);
-    padding: .50rem;
+    padding: .625rem;
   }
   &:hover {
     transform: scale(0.97);
@@ -39,8 +39,14 @@
   }
   &.ghost {
     border: 1px solid var(--border);
-    color: var(--text-primary);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--text-primary);
+    
+    &:hover {
+      background-color: var(--text-primary);
+      color: var(--white);
+      border-color: var(--text-primary);
+    }
   }
   &.disabled {
     opacity: unset;

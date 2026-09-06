@@ -1,19 +1,18 @@
 {
-  "name": "react-bricks",
-  "description": "",
+  "name": "react-ui-blocks",
+  "description": "A lightweight and customizable React UI component library for building reusable interfaces.",
   "author": {
     "name": "Mohanraj Kandasamy",
-    "email": "mohanksv.89@gmail.com",
-    "url": "https://github.com/kmohanraj"
+    "email": "mohanksv.89@gmail.com"
   },
   "keywords": [
-    "components",
-    "react bricks",
+    "react components",
+    "react blocks",
     "typescript",
-    "react"
+    "react",
+    "UI"
   ],
-  "version": "1.0.7",
-  "private": false,
+  "version": "1.0.6",
   "license": "MIT",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

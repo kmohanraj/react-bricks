@@ -28,10 +28,10 @@ $borderValue: 0.0625rem;
     left: 0;
   }
   &.has-prefix input {
-    padding-left: 3.125rem;
+    padding-left: 40px !important;
   }
   &.has-suffix input {
-    padding-right: 3.125rem;
+    padding-right: 40px !important;
   }
   &.error input {
     border-color: var(--error);
@@ -41,6 +41,14 @@ $borderValue: 0.0625rem;
       // height: 3.75rem;
       height: 58px;
       padding: 0.9375rem 15px 0 15px;
+
+      &.has-prefix {
+        padding-left: 40px !important;
+      }
+
+      &.has-suffix {
+        padding-right: 40px !important;
+      }
     }
   }
 
@@ -60,16 +68,34 @@ $borderValue: 0.0625rem;
       color: var(--text-primary);
       font-family: var(--font-family);
       box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
 
       &:focus {
         outline: none;
         border: $borderValue solid var(--btn-primary);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         & + label {
           top: 0.3125rem;
-          transform: none;
+          left: 15px;
           font-size: 0.75rem;
+          transform: translateY(0);
+          transform-origin: left top;
           letter-spacing: -0.0219rem;
+
+          &.has-prefix {
+            left: 2.5rem;
+          }
         }
+      }
+
+      &:disabled {
+        background-color: var(--neutral);
+        cursor: not-allowed;
+        opacity: 0.6;
       }
     }
 
@@ -82,10 +108,17 @@ $borderValue: 0.0625rem;
       font-family: var(--font-family);
       padding: 1.25rem 15px 0 15px;
       box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      resize: vertical;
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
 
       &:focus {
         outline: none;
         border: $borderValue solid var(--btn-primary);
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
         & + label {
           top: 0.3125rem;
           transform: none;
@@ -93,11 +126,17 @@ $borderValue: 0.0625rem;
           letter-spacing: -0.0219rem;
         }
       }
+
+      &:disabled {
+        background-color: var(--neutral);
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
 
     label {
       position: absolute;
-      left: 0.9375rem;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
       font-family: var(--font-family);
@@ -106,18 +145,25 @@ $borderValue: 0.0625rem;
       transition: all 0.2s ease-out;
       cursor: inherit;
       letter-spacing: -0.0437rem;
+      pointer-events: none;
+      
       &.has-value {
         top: 0.3125rem;
         left: 15px;
-        transform: none !important;
-        -webkit-transform: none !important;
-        letter-spacing: -0.0219rem;
-        transform: scale(0.66);
         font-size: 0.75rem;
+        transform: translateY(0);
+        transform-origin: left top;
+        letter-spacing: -0.0219rem;
       }
+
       &.has-prefix {
-        left: 3.125rem;
+        left: 2.5rem;
       }
+
+      &.has-prefix.has-value {
+        left: 2.5rem;
+      }
+
       &.error {
         color: var(--error);
       }
@@ -148,6 +194,8 @@ $borderValue: 0.0625rem;
     width: 1.125rem;
     height: 1.125rem;
     object-fit: contain;
+    z-index: 1;
+    pointer-events: none;
   }
 
   .suffix-icon {

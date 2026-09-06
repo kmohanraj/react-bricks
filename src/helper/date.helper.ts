@@ -7,8 +7,12 @@ export const toZonedTime = (date: Date, timeZone: string): Date => {
   if (isNaN(date.getTime())) {
     throw new Error("Invalid date");
   }
+  
+  // Default to UTC if timeZone is empty or invalid
+  const validTimeZone = timeZone && timeZone.trim() ? timeZone : "UTC";
+  
   const parts = new Intl.DateTimeFormat("en-US", {
-    timeZone,
+    timeZone: validTimeZone,
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -84,3 +88,20 @@ interface FormatDateOptions {
   date: Date | string; // input date
   isReturnAsDate?: boolean; // true -> JS Date, false -> formatted string
 }
+
+/**
+ * Format a date to DD/MM/YYYY format for display
+ */
+export const formatDateDisplay = (date: Date | string | null): string => {
+  if (!date) return "";
+  
+  const dateObj = typeof date === "string" ? new Date(date) : date;
+  
+  if (isNaN(dateObj.getTime())) return "";
+  
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const year = dateObj.getFullYear();
+  
+  return `${day}/${month}/${year}`;
+};
