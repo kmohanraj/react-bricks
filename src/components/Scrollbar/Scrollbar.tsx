@@ -15,6 +15,7 @@ export const Scrollbar = ({
   width,
   thumbWidth = 8,
   isHideTracks = false,
+  isThumbAlwaysVisible = false,
 }: {
   children: ReactNode;
   direction: "vertical" | "horizontal" | "both";
@@ -22,6 +23,7 @@ export const Scrollbar = ({
   width?: number | string;
   thumbWidth?: number;
   isHideTracks?: boolean;
+  isThumbAlwaysVisible?: boolean;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -215,7 +217,7 @@ export const Scrollbar = ({
         <div
           className={cx("scrollbar-track scrollbar-track-x", {
             "hide-tracks": isHideTracks,
-            "show": isHovering || isDraggingX,
+            "show": isThumbAlwaysVisible || isHovering || isDraggingX,
           })}
           style={{ height: thumbWidth }}
         >
@@ -239,7 +241,7 @@ export const Scrollbar = ({
         <div
           className={cx("scrollbar-track scrollbar-track-y", {
             "hide-tracks": isHideTracks,
-            "show": isHovering || isDraggingY,
+            "show": isThumbAlwaysVisible || isHovering || isDraggingY,
           })}
           style={{ width: thumbWidth }}
         >

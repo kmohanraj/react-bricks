@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import cx from "classnames";
-import { TDataTable } from "../../types/type";
+import { TColumn, TDataTable } from "../../types/type";
 import { useGetDevice } from "../../hooks/useGetDevice";
 import { Image } from "../Image/Image";
 import TableHeader from "./TableHeader";
@@ -30,6 +30,26 @@ const getPaginatedData = <T,>(
 ): T[] =>
   data?.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
+const getColumnMaxWidth = <T,>(
+  column: TColumn<T>,
+  device: "mobile" | "tablet" | "desktop",
+) => {
+  if (
+    typeof column.maxWidth === "string" ||
+    typeof column.maxWidth === "number" ||
+    !column.maxWidth
+  ) {
+    return column.maxWidth;
+  }
+
+  return (
+    column.maxWidth[device] ??
+    column.maxWidth.desktop ??
+    column.maxWidth.tablet ??
+    column.maxWidth.mobile
+  );
+};
+
 export const DataTable = <T extends Record<string, any>>({
   data,
   columns,
@@ -56,6 +76,16 @@ export const DataTable = <T extends Record<string, any>>({
   }>({ key: null, direction: "asc" });
   const [currentPage, setCurrentPage] = useState(1);
   const devise = useGetDevice();
+
+  const resolvedColumns = useMemo(
+    () =>
+      columns.map((column) => ({
+        ...column,
+        maxWidth: getColumnMaxWidth(column, devise),
+      })),
+    [columns, devise],
+  );
+
   const sortedData = useMemo(
     () => getSortedData(data, sortConfig),
     [data, sortConfig],
@@ -108,14 +138,14 @@ export const DataTable = <T extends Record<string, any>>({
           cellSpacing={0}
         >
           <TableHeader
-            columns={columns}
+            columns={resolvedColumns}
             isSorting={isSorting}
             isAction={isAction}
             checkIsSorting={checkIsSorting}
           />
           <TableBody
             paginatedData={paginatedData}
-            columns={columns as never}
+            columns={resolvedColumns}
             isAction={isAction}
             onAction={onAction}
             onEdit={onEdit}

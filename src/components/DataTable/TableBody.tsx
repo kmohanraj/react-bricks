@@ -62,17 +62,25 @@ const TableBody = <T extends Record<string, any>>({
         return (
           <tr key={rowKey}>
             {hasIdColumn && <td>{idx + 1}</td>}
-            {visibleColumns.map((col) => (
-              <td
-                key={String(col.key)}
-                onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
-                className={cx({
-                  "cursor-pointer": onAction || onEdit
-                })}
-              >
-                {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
-              </td>
-            ))}
+            {visibleColumns.map((col) => {
+              const cellMaxWidth =
+                typeof col.maxWidth === "string" || typeof col.maxWidth === "number"
+                  ? col.maxWidth
+                  : undefined;
+
+              return (
+                <td
+                  key={String(col.key)}
+                  onClick={() => (onAction ? onAction?.(row) : onEdit?.(row))}
+                  style={cellMaxWidth ? { maxWidth: cellMaxWidth, width: cellMaxWidth } : undefined}
+                  className={cx({
+                    "cursor-pointer": onAction || onEdit
+                  })}
+                >
+                  {col?.selector ? col.selector(row[col.key], row) : row[col.key]}
+                </td>
+              );
+            })}
             {isAction && (
               <td className={cx("actions", {
                 "cursor-pointer": onAction || onEdit

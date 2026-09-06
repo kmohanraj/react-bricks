@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 
 const columns = [
   { key: "id", label: "ID" },
-  { key: "name", label: "Name" },
+  { key: "name", label: "Name", maxWidth: 300 },
   { key: "age", label: "Age" },  
 ];
 

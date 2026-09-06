@@ -51,7 +51,7 @@ export const Grey: Story = {
 
 export const White: Story = {
   render: (args) => (
-    <div style={{ backgroundColor: "#333", padding: "20px", borderRadius: "4px" }}>
+    <div style={{ backgroundColor: "#333", padding: "10px", borderRadius: "4px" }}>
       <EllipsisLoader {...args} />
     </div>
   ),

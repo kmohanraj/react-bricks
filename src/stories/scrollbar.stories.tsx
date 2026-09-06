@@ -161,6 +161,7 @@ export const VerticalDefault: Story = {
     height: 400,
     thumbWidth: 8,
     isHideTracks: false,
+    isThumbAlwaysVisible: true,
     children: <LongContent />,
   },
 };

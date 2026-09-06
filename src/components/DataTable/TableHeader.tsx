@@ -10,14 +10,24 @@ const TableHeader = <T,>({
 }: TTableHeaderProps<T>) => (
   <thead>
     <tr>
-      {columns.map((col) => (
-        <th key={col.key as Key}>
-          <div className={cx({ sorting: isSorting })}>
-            <span>{col.label}</span>
-            {isSorting && checkIsSorting(col.key)}
-          </div>
-        </th>
-      ))}
+      {columns.map((col) => {
+        const cellMaxWidth =
+          typeof col.maxWidth === "string" || typeof col.maxWidth === "number"
+            ? col.maxWidth
+            : undefined;
+
+        return (
+          <th
+            key={col.key as Key}
+            style={cellMaxWidth ? { maxWidth: cellMaxWidth, width: cellMaxWidth } : undefined}
+          >
+            <div className={cx({ sorting: isSorting })}>
+              <span>{col.label}</span>
+              {isSorting && checkIsSorting(col.key)}
+            </div>
+          </th>
+        );
+      })}
       {isAction && <th>Action</th>}
     </tr>
   </thead>

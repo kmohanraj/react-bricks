@@ -167,6 +167,15 @@ export type TSelect = {
 export type TColumn<T> = {
   key: keyof T;
   label: string;
+  selector?: (column: T[keyof T], row?: T) => ReactNode;
+  maxWidth?:
+    | string
+    | number
+    | {
+        mobile?: string | number;
+        tablet?: string | number;
+        desktop?: string | number;
+      };
 };
 
 export type TDataTable<T> = {
@@ -194,7 +203,7 @@ export type TDataTable<T> = {
 };
 
 export type TTableHeaderProps<T> = {
-  columns: { key: keyof T; label: string }[];
+  columns: TColumn<T>[];
   isSorting: boolean;
   isAction: boolean;
   checkIsSorting: (key: keyof T) => ReactNode;
@@ -202,11 +211,7 @@ export type TTableHeaderProps<T> = {
 
 export type TTableBodyProps<T> = {
   paginatedData: T[];
-  columns: {
-    selector: (column: T, row?: T) => ReactNode;
-    key: keyof T;
-    label: string;
-  }[];
+  columns: TColumn<T>[];
   isAction: boolean;
   isMoreBtn?: boolean;
   onAction?: (data: T) => void;
